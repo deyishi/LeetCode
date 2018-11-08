@@ -9,9 +9,19 @@ namespace LeetCode
 {
     public class FirstTenEasy
     {
-        [Test]
-        public void Test()
+        public int NumJewelsInStones(string J, string S)
         {
+            var jewelsDict = J.ToCharArray();
+            var count = 0;
+            foreach (var c in S)
+            {
+                if (jewelsDict.Contains(c))
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 }
