@@ -66,5 +66,53 @@ namespace LeetCode
 
             return sum;
         }
+
+        [Test]
+        public void NumUniqueEmails()
+        {
+            var t = new[]
+                {"test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com"};
+
+            var r = NumUniqueEmails(t);
+        }
+
+        public int NumUniqueEmails(string[] emails)
+        {
+            if (emails?.Length < 2)
+            {
+                return emails.Length;
+            }
+
+            var dict = new HashSet<string>();
+            foreach (var email in emails)
+            {
+                var split = email.Split('@');
+
+                // Get local name
+                var local = "";
+                foreach (var c in split[0])
+                {
+                    if (c.Equals('+'))
+                    {
+                        break;
+                    }
+
+                    if (!c.Equals('.'))
+                    {
+                        local += c;
+                    }
+                }
+
+                // Get full name
+                var name = local + split[1];
+                if (!dict.Contains(name))
+                {
+                    dict.Add(name);
+                }
+
+            }
+
+            return dict.Count;
+        }
     }
 }
