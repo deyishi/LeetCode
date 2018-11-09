@@ -119,8 +119,8 @@ namespace LeetCode
         [Test]
         public void AreAnagram()
         {
-            var a = "abc";
-            var b = "cba";
+            var a = "xabcd";
+            var b = "cbadx";
 
             var r = AreAnagram(a, b);
         }
@@ -177,6 +177,17 @@ namespace LeetCode
             }
 
             return map.Any() ? new int[0] : result.ToArray();
+        }
+
+        public string ToLowerCase(string str)
+        {
+            var result = "";
+            foreach (var c in str)
+            {
+                result += char.ToLower(c);
+            }
+
+            return result;
         }
     }
 }
