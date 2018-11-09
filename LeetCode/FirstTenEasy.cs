@@ -114,5 +114,69 @@ namespace LeetCode
 
             return dict.Count;
         }
+
+
+        [Test]
+        public void AreAnagram()
+        {
+            var a = "abc";
+            var b = "cba";
+
+            var r = AreAnagram(a, b);
+        }
+
+        public int[] AreAnagram(string s1, string s2)
+        {
+            var result = new List<int>();
+
+            if (s1.Length != s2.Length)
+            {
+                return null;
+            }
+
+            if (string.Equals(s1, s2))
+            {
+                for (var i = 0; i < s2.Length; i++)
+                {
+                    result.Add(i);
+                }
+
+                return result.ToArray();
+            }
+
+            var map = new Dictionary<char, List<int>>();
+
+            var count = 0;
+            foreach (var c in s2)
+            {
+                if (map.ContainsKey(c))
+                {
+                    map[c].Add(count);
+                }
+                else
+                {
+                    map.Add(c, new List<int> {count});
+                }
+
+                count++;
+
+            }
+
+
+            foreach (var t in s1)
+            {
+                if (map.ContainsKey(t))
+                {
+                    result.Add(map[t][0]);
+                    map[t].RemoveAt(0);
+                    if (!map[t].Any())
+                    {
+                        map.Remove(t);
+                    }
+                }
+            }
+
+            return map.Any() ? new int[0] : result.ToArray();
+        }
     }
 }
