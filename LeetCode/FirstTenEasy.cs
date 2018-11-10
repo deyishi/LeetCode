@@ -189,5 +189,142 @@ namespace LeetCode
 
             return result;
         }
+
+        [Test]
+        public void Generate()
+        {
+            var t = Generate(5);
+        }
+
+        public IList<IList<int>> Generate(int numRows)
+        {
+            var result = new List<IList<int>>();
+            if (numRows < 1)
+            {
+                return result;
+            }
+
+            var row = new List<int>();
+
+            for (var i = 0; i< numRows;i++)
+            {
+                row.Insert(0, 1);
+                // 1 to row count -1 is the one row above
+                // count - 1 since we don't need to change the last digit 
+                for (var j  = 1; j < row.Count - 1; j++)
+                {
+                    row[j] = row[j] + row[j + 1];
+                }
+               
+                result.Add(new List<int>(row));
+            }
+
+            return result;
+        }
+
+
+        [Test]
+        public void GetRow()
+        {
+            var t = GetRow(3);
+        }
+
+        public IList<int> GetRow(int numRows)
+        {
+            var result = new List<IList<int>>();
+            if (numRows < 1)
+            {
+                return new List<int> {1};
+            }
+
+            var row = new List<int>();
+
+            for (var i = 0; i <= numRows; i++)
+            {
+                row.Insert(0, 1);
+                // 1 to row count -1 is the one row above
+                // count - 1 since we don't need to change the last digit 
+                for (var j = 1; j < row.Count - 1; j++)
+                {
+                    row[j] = row[j] + row[j + 1];
+                }
+
+                result.Add(new List<int>(row));
+            }
+
+            return result[numRows];
+        }
+
+
+        [Test]
+        public void TwoSum()
+        {
+            var num = new[] {-1, 0};
+            var t = TwoSum(num,-1);
+        }
+
+        public int[] TwoSum(int[] numbers, int target)
+        {
+                if (numbers == null || numbers.Length < 2)
+                {
+                    return null;
+                }
+
+            var leftPointer = 0;
+            var rightPointer = numbers.Length - 1;
+            while (leftPointer <= rightPointer)
+            {
+                var curr = numbers[leftPointer] + numbers[rightPointer];
+                if (curr < target)
+                {
+                    leftPointer++;
+                }
+                else if(curr > target)
+                {
+                    rightPointer--;
+                }
+                else
+                {
+                    return new[] {leftPointer + 1, rightPointer + 1};
+                }
+            }
+
+            return null;
+        }
+
+
+        [Test]
+        public void MissingNumber()
+        {
+            var num = new[] {0};
+            var r = MissingNumber(num);
+        }
+        public int MissingNumber(int[] nums)
+        {
+            if (nums == null || nums.Length < 1)
+            {
+                return 0;
+            }
+
+            for (var i = 0; i < nums.Length; i++) {
+                while (nums[i] != i && nums[i] != nums.Length)
+                {
+                    var swapIndex = Math.Min(nums[i], nums.Length - 1);
+                    var temp = nums[swapIndex];
+                    nums[swapIndex] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] != i)
+                {
+                    return i;
+                }
+            }
+
+            return nums.Length;
+        }
     }
 }
