@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -296,9 +297,10 @@ namespace LeetCode
         [Test]
         public void MissingNumber()
         {
-            var num = new[] {0};
+            var num = new int[3];
             var r = MissingNumber(num);
         }
+
         public int MissingNumber(int[] nums)
         {
             if (nums == null || nums.Length < 1)
@@ -325,6 +327,72 @@ namespace LeetCode
             }
 
             return nums.Length;
+        }
+
+        public int MissingNumberHash(int[] nums)
+        {
+            if (nums == null || nums.Length < 1)
+            {
+                return 0;
+            }
+
+            var map = new HashSet<int>();
+            foreach (var t in nums)
+            {
+                map.Add(t);
+            }
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (!map.Contains(i))
+                {
+                    return i;
+                }
+            }
+
+            return nums.Length;
+
+        }
+
+        [Test]
+        public void ThirdMax()
+        {
+            var t = new int[] {2, 2, 3, 1};
+            var r = ThirdMax(t);
+        }
+
+        public int ThirdMax(int[] nums)
+        {
+            if (nums.Length < 3)
+            {
+                return nums.Max();
+            }
+
+            var maxNums = new int?[3];
+
+            foreach (var t in nums)
+            {
+                if (!maxNums.Contains(t))
+                {
+
+                    if (maxNums[2] == null ||t > maxNums[2])
+                    {
+                        maxNums[0] = maxNums[1];
+                        maxNums[1] = maxNums[2];
+                        maxNums[2] = t;
+                    }else if (maxNums[1] == null || t > maxNums[1])
+                    {
+                        maxNums[0] = maxNums[1];
+                        maxNums[1] = t;
+                    }else if (maxNums[0] == null || t > maxNums[0])
+                    {
+                        maxNums[0] = t;
+                    }
+                }
+            }
+
+            return maxNums[0] ?? maxNums[2].Value;
+
         }
     }
 }
