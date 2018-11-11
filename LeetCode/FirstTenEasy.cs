@@ -5,9 +5,21 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace LeetCode
 {
+    public class TreeNode
+    {
+        public int val;
+        public TreeNode left;
+        public TreeNode right;
+        public TreeNode(int x)
+        {
+            val = x;
+        }
+    }
+
     public class FirstTenEasy
     {
         public int NumJewelsInStones(string J, string S)
@@ -393,6 +405,195 @@ namespace LeetCode
 
             return maxNums[0] ?? maxNums[2].Value;
 
+        }
+
+        public TreeNode Mirror(TreeNode root)
+        {
+             ReverseTree(root);
+
+            return root;
+        }
+
+        public void ReverseTree(TreeNode node)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            var temp = node.right;
+            node.right = node.left;
+            node.left = temp;
+
+            if (node.left != null)
+            {
+                ReverseTree(node.left);
+            }
+
+            if (node.right != null)
+            {
+                ReverseTree(node.right);
+            }
+        }
+
+
+        [Test]
+        public void LengthOfLongestSubstring()
+        {
+            var s = "bbbbb";
+            var r = LengthOfLongestSubstring(s);
+        }
+
+        public int LengthOfLongestSubstring(string s)
+        {
+            if (s?.Length < 1)
+            {
+                return 0;
+            }
+
+            var result = 0;
+            var uniqueSubstring = "";
+            for (var i = 0; i < s.Length; i++)
+            {
+                var repeatedCharIndex = uniqueSubstring.IndexOf(s[i]) + 1;
+                if (repeatedCharIndex > 0)
+                {
+                    uniqueSubstring =
+                        uniqueSubstring.Substring(repeatedCharIndex, uniqueSubstring.Length - repeatedCharIndex);
+                }
+                uniqueSubstring += s[i];
+                result = Math.Max(result, uniqueSubstring.Length);
+
+            }
+
+            return result;
+        }
+
+        [Test]
+        public void ReorderLogFiles()
+        {
+            var s = new[] {"a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo"};
+            var r = ReorderLogFiles(s);
+
+        }
+
+        public string[] ReorderLogFiles(string[] logs)
+        {
+            if (logs == null || logs.Length < 1)
+            {
+                return logs;
+            }
+
+            var letterLog = new List<string>();
+            var numLog = new List<string>();
+            foreach (var s in logs) {
+                if (IsNumLog(s.Split(' ')[1]))
+                {
+                    numLog.Add(s);
+                }
+                else
+                {
+                    letterLog.Add(s);
+                }
+            }
+
+            var sort = letterLog.OrderBy(s => s.Substring(s.IndexOf(' ') + 1, s.Length - (s.IndexOf(' ') + 1))).ToList();
+            sort.AddRange(numLog);
+
+            return sort.ToArray();
+        }
+
+        bool IsNumLog(string str)
+        {
+            foreach (var c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        [Test]
+        public void RangeSumBST()
+        {
+            var t = new TreeNode(10)
+            {
+                left = new TreeNode(15),
+                right = new TreeNode(5)
+            };
+
+            var r = RangeSumBST(t, 7,15);
+        }
+
+        public int RangeSumBST(TreeNode root, int L, int R)
+        {
+            var result = 0;
+            Helper(root, ref result, L, R);
+            return result;
+        }
+
+        public void Helper(TreeNode root, ref int sum, int l, int r)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.val >= l && root.val <= r)
+            {
+                sum += root.val;
+            }
+            Helper(root.left, ref sum, l, r);
+            Helper(root.right, ref sum, l,r);
+        }
+
+        [Test]
+        public void MinAreaRect()
+        {
+            var p = new int[8][];
+            p[0] = new[] { 0,1 };
+            p[1] = new[] { 1,3 };
+            p[2] = new[] { 3,3 };
+            p[3] = new[] { 4,4 };
+            p[4] = new[] { 1,4 };
+            p[5] = new[] { 2,3 };
+            p[6] = new[] { 1,0 };
+            p[7] = new[] { 3, 4 };
+
+            var zs = p.Contains(new[] {3, 4});
+            var t = MinAreaRect(p);
+        }
+
+        public int MinAreaRect(int[][] points)
+        {
+            if (points.Length < 4)
+            {
+                return 0;
+            }
+
+            var set = new HashSet<int>();
+            foreach (var p in points)
+            {
+                set.Add(p[0] * 40001 + p[1]);
+            }
+
+            var result = int.MaxValue;
+            for (var i = 0; i < points.Length; i++)
+            {
+                var p1 = points[i];
+                for (int j = i + 1; j < points.Length; j++)
+                {
+                    var p2 = points[j];
+                    if (p1[0] != p2[0] && p1[1] != p2[1] && set.Contains(p1[0] * 40001 + p2[1]) && set.Contains(p2[0] * 40001 + p1[1]))
+                    {
+                        result = Math.Min(result, Math.Abs(p2[0] - p1[0]) * Math.Abs(p2[1] - p1[1]));
+
+                    }
+                }
+            }
+
+            return result == int.MaxValue ? 0 : result;
         }
     }
 }
