@@ -4,23 +4,18 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
 namespace LeetCode
 {
-    public class TreeNode
-    {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
-        public TreeNode(int x)
-        {
-            val = x;
-        }
-    }
-
-    public class FirstTenEasy
+    /// <summary>
+    /// Start date 11/07/2018.
+    /// End date  11/10/2018.
+    /// Count 15.
+    /// </summary>
+    public class PracticeSet1
     {
         public int NumJewelsInStones(string J, string S)
         {
@@ -234,6 +229,7 @@ namespace LeetCode
 
             return result;
         }
+
 
 
         [Test]

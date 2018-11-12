@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FirstTenEasy.cs" />
+    <Compile Include="DataModel\TreeNode.cs" />
+    <Compile Include="PracticeSet1.cs" />
+    <Compile Include="PracticeSet2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
