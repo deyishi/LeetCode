@@ -325,6 +325,83 @@ namespace LeetCode
             }
 
             return s.Substring(start, maxLength);
+
+
         }
+
+        public bool IsSymmetric(TreeNode root)
+        {
+            if (root == null)
+            {
+                return true;
+            }
+        
+
+            return IsSymmetric(root.left, root.right);
+        }
+
+        public bool IsSymmetric(TreeNode left, TreeNode right)
+        {
+            if (left == null && right==null)
+            {
+                return true;
+            }
+
+            if (left != null && right == null || left == null && right != null || left.val != right.val)
+            {
+                return false;
+            }
+
+            return IsSymmetric(left.left, right.right) && IsSymmetric(left.right, right.left);
+        }
+
+
+        [Test]
+        public void RemoveKdigits()
+        {
+            var num = "9999999999991";
+            var k = 8;
+            var r = RemoveKdigits(num, k);
+        }
+
+        public string RemoveKdigits(string num, int k)
+        {
+            if (string.IsNullOrEmpty(num) || k == 0)
+            {
+                return num;
+            }
+
+            if (num.Length <= k)
+            {
+                return "0";
+            }
+
+            var newLength = num.Length - k;
+            var result = "";
+
+            foreach (var c in num)
+            {
+                while (k > 0 && result.Length > 0 && result[result.Length-1] > c)
+                {
+                    result = result.Substring(0, result.Length - 1);
+                    k--;
+                }
+
+                result += c;
+            }
+
+
+   
+
+            var leadingZeroCount = 0;
+            while (leadingZeroCount < newLength && result[leadingZeroCount] == '0')
+            {
+                leadingZeroCount++;
+            }
+
+
+            return leadingZeroCount == newLength ? "0" : result.Substring(leadingZeroCount, newLength-leadingZeroCount);
+        }
+
     }
 }
