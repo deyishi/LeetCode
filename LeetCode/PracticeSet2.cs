@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -403,5 +404,182 @@ namespace LeetCode
             return leadingZeroCount == newLength ? "0" : result.Substring(leadingZeroCount, newLength-leadingZeroCount);
         }
 
+        [Test]
+        public void Convert()
+        {
+            var s = "PAYPALISHIRING";
+            var n = 3;
+
+            var r = Convert(s, n);
+        }
+        public string Convert(string s, int numRows)
+        {
+            if (string.IsNullOrEmpty(s) || numRows <2)
+            {
+                return s;
+            }
+
+            var rows = new Dictionary<int, string>();
+            var result = "";
+            for (var i = 0; i < numRows; i++)
+            {
+                rows.Add(i, "");
+            }
+
+            var count = 0;
+            var zigZagDown = false;
+            foreach (var c in s)
+            {
+                if (count == numRows -1 || count == 0)
+                {
+                    zigZagDown = !zigZagDown;
+                }
+
+                if (zigZagDown)
+                {
+                    rows[count++] += c;
+                }
+                else
+                {
+                    rows[count--] += c;
+                }
+
+            }
+
+            for (var i = 0; i < numRows; i++)
+            {
+                result += rows[i];
+            }
+            return result;
+        }
+
+        [Test]
+        public void MyAtoi()
+        {
+            var c = "42";
+
+            var r = MyAtoi(c);
+        }
+
+
+        /// <summary>
+        /// Case: +, -, not valid, over limit
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public int MyAtoi(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return 0;
+            }
+
+
+            //Remove white space
+            str = str.Trim();
+
+            long result = 0;
+            var firstC = str[0];
+            var sign = 1;
+            var start = 0;
+            if (firstC == '-' && firstC != '+' && char.IsDigit(firstC))
+            {
+                return 0;
+            }
+
+            if (firstC == '-')
+            {
+                sign = -1;
+                start++;
+            }
+            else if (firstC == '+')
+            {
+                start++;
+            }
+
+            for (var i = start; i < str.Length; i++) {
+                if (!char.IsDigit(str[i]))
+                {
+                    return (int) result * sign;
+                }
+
+                result = result * 10 + str[i] - '0';
+
+                if (result > int.MaxValue)
+                {
+                    return sign == -1 ? int.MinValue : int.MaxValue;
+                }
+            }
+
+
+            return (int) result * sign;
+        }
+
+        [Test]
+        public void MaxArea()
+        {
+            var h = new int[] {1, 8, 6, 2, 5, 4, 8, 3, 7};
+
+            var r = MaxArea(h);
+        }
+
+        public int MaxAreaBF(int[] height)
+        {
+            if (height == null || height.Length < 2 )
+            {
+                return 0;
+            }
+
+            // Get all pairs
+            var result = 0;
+            for (var i = 0; i < height.Length - 1; i++)
+            {
+                var start = height[i];
+
+                for (int j = i + 1; j < height.Length; j++)
+                {
+                    var end = height[j];
+
+                    result = Math.Max(result, Math.Min(start, end) * (j - i));
+                }
+            }
+
+            return result;
+        }
+
+        public int MaxArea(int[] height)
+        {
+            if (height == null || height.Length < 2)
+            {
+                return 0;
+            }
+
+            // Get all pairs
+            var result = 0;
+            var left = 0;
+            var right = height.Length - 1;
+            while (left < right)
+            {
+                var leftEdge = height[left];
+                var rightEdge = height[right];
+                var currArea = (right - left) * Math.Min(leftEdge, rightEdge);
+                result = Math.Max(result, currArea);
+                if (leftEdge > rightEdge)
+                {
+                    right--;
+                }
+                else if (leftEdge < rightEdge)
+                {
+                    left++;
+                }
+                else
+                {
+                    right--;
+                    left++;
+                }
+            }
+
+            return result;
+        }
     }
 }
