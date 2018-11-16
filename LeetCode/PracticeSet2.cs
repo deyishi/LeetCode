@@ -645,5 +645,249 @@ namespace LeetCode
 
             return result;
         }
+
+
+
+        public int ThreeSumClosest(int[] nums, int target)
+        {
+
+            Array.Sort(nums);
+            var result = 0;
+            var diff = int.MaxValue;
+            for (var i = 0; i < nums.Length - 2; i++)
+            {
+                var firstNum = nums[i];
+                var left = i + 1;
+                var right = nums.Length - 1;
+                while (left < right)
+                {
+                    var currSum = firstNum + nums[left] + nums[right];
+                    var currDiff = Math.Abs(currSum - target);
+                    if (currDiff < diff)
+                    {
+                        diff = currDiff;
+                        result = currSum;
+                    }
+
+                    if (currSum < target)
+                    {
+                        left++;
+                    }
+                    else
+                    {
+                        right++;
+                    }
+                }
+
+            }
+
+            return result;
+        }
+
+        [Test]
+        public void FourSum()
+        {
+            var n = new[] {0,0,0,0};
+            var t = 0;
+
+            var r = FourSum(n, t);
+        }
+
+        public IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            var result = new List<IList<int>>();
+
+            if (nums == null || nums.Length < 4)
+            {
+                return result;
+            }
+            Array.Sort(nums);
+            for (var i = 0; i < nums.Length - 3; i++)
+            {
+                var firstNum = nums[i];
+                if (i > 0 && firstNum == nums[i-1])
+                {
+                    continue;
+                }
+
+                for (var j = i+1; j < nums.Length-2;j++)
+                {
+                    var secondNum = nums[j];
+                    if (j > 0 && secondNum == nums[j - 1])
+                    {
+                        continue;
+                    }
+
+                    var left = j + 1;
+                    var right = nums.Length - 1;
+                    while (left < right)
+                    {
+                        var total = firstNum + secondNum + nums[left] + nums[right];
+                        if (total == target)
+                        {
+                            result.Add(new List<int> {firstNum, secondNum, nums[left], nums[right]});
+                            left++;
+                            right--;
+                            while (left < right && nums[left] == nums[left-1])
+                            {
+                                left++;
+                            }
+
+                            while (right > left && nums[right] == nums[right+1])
+                            {
+                                right--;
+                            }
+                        }
+                        else if (total > target)
+                        {
+                            right--;
+                        }
+                        else
+                        {
+                            left++;
+                        }
+                    }
+                }
+            }
+
+
+
+            return result;
+        }
+
+        [Test]
+        public void NextPermutation()
+        {
+            var n = new[] {1, 2, 3};
+
+            NextPermutation(n);
+        }
+
+        public void NextPermutation(int[] nums)
+        {
+            if (nums == null || nums.Length < 1)
+            {
+                return;
+            }
+
+            var n = nums.Length;
+            // VIO = 3
+            var vioIndex = n - 1;
+            while (vioIndex > 0)
+            {
+                if (nums[vioIndex - 1] < nums[vioIndex])
+                {
+                    break;
+                }
+
+                vioIndex--;
+            }
+
+
+
+            if (vioIndex > 0)
+            {
+                vioIndex--;
+                var rightIndex = n - 1;
+                while (rightIndex >= 0 && nums[rightIndex] <= nums[vioIndex])
+                {
+                    rightIndex--;
+                }
+
+                var temp = nums[vioIndex];
+                nums[vioIndex] = nums[rightIndex];
+                nums[rightIndex] = temp;
+                vioIndex++;
+            }
+
+            var end = n - 1;
+            while (end > vioIndex)
+            {
+                var temp = nums[vioIndex];
+                nums[vioIndex] = nums[end];
+                nums[end] = temp;
+                end--;
+                vioIndex++;
+            }
+        }
+
+        public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+        {
+            if (nums1.Length > nums2.Length)
+            {
+                return FindMedianSortedArrays(nums2, nums1);
+            }
+
+            var x = nums1.Length;
+            var y = nums2.Length;
+
+            var low = 0;
+            var high = x;
+            while (low <= high)
+            {
+                // No using length - 1 to make it work for both odd and even.
+                var partitionX = (low + high) / 2;
+
+                // Added plus one to make it work for both odd and even.
+                var partitionY = (x + y + 1) / 2 - partitionX;
+
+                // if partition x has 0 items, use -inf.
+                // if partition x = length of the input array, then there is nothing on the right side, set right x to be +inf.
+                var maxLeftX = partitionX == 0 ? int.MinValue : nums1[partitionX - 1];
+                var minRightX = partitionX == x ? int.MaxValue : nums1[partitionX];
+                var maxLeftY = partitionY == 0 ? int.MinValue : nums2[partitionY - 1];
+                var minRightY = partitionY == y ? int.MaxValue : nums2[partitionY];
+
+                if (maxLeftX <= minRightY && maxLeftY < minRightX)
+                {
+                    // Paritioned two arrays at correct place.
+                    // If even number, average Max left x left y and Min right x right y.
+                    // Max left for odd number.
+                    if ((x + y) % 2 == 0)
+                    {
+                        return ((double)Math.Max(maxLeftX, maxLeftY) + Math.Min(minRightY, minRightX)) / 2;
+                    }
+
+                    return (double)Math.Max(maxLeftX, maxLeftY);
+                }
+
+                if (maxLeftX > minRightY)
+                {
+                    // too many items in partion x
+                    high = partitionX - 1;
+                }
+                else
+                {
+                    // too less items in partion x
+                    low = partitionX + 1;
+                }
+            }
+
+            throw new Exception();
+        }
+
+        public int Rob(int[] nums)
+        {
+
+            //[1,10,3,1]
+            var evenSum = 0;
+            var oddSum = 0;
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    evenSum = Math.Max(evenSum + nums[i], oddSum);
+                }
+                else
+                {
+                    oddSum = Math.Max(oddSum + nums[i], evenSum);
+                }
+
+                Console.WriteLine("i " + i + " nums[i] " + nums[i] + " Even Sum " + evenSum + " Odd Sum " + oddSum);
+            }
+
+            return Math.Max(evenSum, oddSum);
+        }
     }
 }
