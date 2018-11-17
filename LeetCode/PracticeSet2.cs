@@ -811,6 +811,14 @@ namespace LeetCode
             }
         }
 
+        [Test]
+        public void FindMedianSortedArrays()
+        {
+            var a = new[] {1, 2 ,3 ,5 ,6};
+            var b = new[] {2, 2, 3};
+
+            var r = FindMedianSortedArrays(a, b);
+        }
         public double FindMedianSortedArrays(int[] nums1, int[] nums2)
         {
             if (nums1.Length > nums2.Length)
@@ -895,6 +903,8 @@ namespace LeetCode
         {
             var s = "a";
             var p = "a*";
+            var currString = "";
+            var t = currString[currString.Length];
             var r = IsMatch(s, p);
         }
 
@@ -938,5 +948,59 @@ namespace LeetCode
 
             return dp[s.Length, p.Length];
         }
+
+        [Test]
+        public void LetterCombinationsDFS()
+        {
+            var d = "23";
+            var r = LetterCombinations(d);
+        }
+
+        public IList<string> LetterCombinations(string digits)
+        {
+            var result = new List<string>();
+
+            if (string.IsNullOrEmpty(digits))
+            {
+                return result;
+            }
+
+            var dialMap = new Dictionary<char, string[]>
+            {
+                {'1', new string[0]},
+                {'2', new[] {"a", "b", "c"}},
+                {'3', new[] {"d", "e", "f"}},
+                {'4', new[] {"g", "h", "i"}},
+                {'5', new[] {"j", "k", "l"}},
+                {'6', new[] {"m", "n", "o"}},
+                {'7', new[] {"p", "q", "r", "s"}},
+                {'8', new[] {"t", "u", "v"}},
+                {'9', new[] {"w", "x", "y", "z"}},
+                {'0', new[] {" "}},
+            };
+            var currString = "";
+
+            LetterCombinationsDFS(digits, currString, dialMap, result);
+
+            return result;
+        }
+
+        private void LetterCombinationsDFS(string digits, string currString, Dictionary<char, string[]> dialMap, List<string> result)
+        {
+            if (digits.Length == currString.Length)
+            {
+                result.Add(currString);
+            }
+            else
+            {
+                foreach (var c in dialMap[digits[currString.Length]])
+                {
+                    currString += c;
+                    LetterCombinationsDFS(digits, currString, dialMap, result);
+                    currString = currString.Remove(currString.Length - 1);
+                }
+            }
+        }
     }
 }
+
