@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -1001,6 +1002,45 @@ namespace LeetCode
                 }
             }
         }
+
+        [Test]
+        public void ValidMountainArray()
+        {
+            var n = new[] { 3,5,5};
+            var r = ValidMountainArray(n);
+        }
+        public bool ValidMountainArray(int[] A)
+        {
+            if (A == null || A.Length < 3)
+            {
+                return false;
+            }
+
+            var n = A.Length;
+            var i = 0;
+            // Find peak
+            while (i < n -1 && A[i] < A[i + 1])
+            {
+                i++;
+            }
+
+            // i == 0 array is in descending
+            // i == n - 1 array is ascending 
+            if (i == 0 || i == n - 1)
+            {
+                return false;
+            }
+
+            // Star to peak and go down
+            while (i + 1 < n && A[i] > A[i + 1])
+            {
+                i++;
+            }
+
+            // check if reached bottom from peak.
+            return i == n - 1;
+        }
+
     }
 }
 
