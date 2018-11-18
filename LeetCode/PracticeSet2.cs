@@ -1041,6 +1041,29 @@ namespace LeetCode
             return i == n - 1;
         }
 
+        [Test]
+        public void MinDeletionSize()
+        {
+            var a = new string[] {"zzzzz", "dafas", "ghids"};
+            var r = MinDeletionSize(a);
+        }
+        public int MinDeletionSize(string[] A)
+        {
+            var count = 0;
+            var m = A.Length;
+            for (var j = 0; j < A[0].Length; j++)
+            {
+                var i = 0;
+                // Check if column is sorted.
+                while (i + 1 < m && A[i][j] <= A[i + 1][j])
+                {
+                    i++;
+                }
+
+                if (i != m - 1) count++;
+            }
+            return count;
+        }
     }
 }
 
