@@ -1049,21 +1049,55 @@ namespace LeetCode
         }
         public int MinDeletionSize(string[] A)
         {
-            var count = 0;
-            var m = A.Length;
-            for (var j = 0; j < A[0].Length; j++)
+            var cols = A[0].Length;
+            var rows = A.Length;
+            var unsortedColCount = 0;
+            for (var j = 0; j < cols; j++)
             {
                 var i = 0;
-                // Check if column is sorted.
-                while (i + 1 < m && A[i][j] <= A[i + 1][j])
+                while (i + 1 < rows && A[i][j] <= A[i + 1][j])
                 {
                     i++;
                 }
 
-                if (i != m - 1) count++;
+                if (i != rows - 1)
+                {
+                    unsortedColCount++;
+                }
             }
-            return count;
+
+            return unsortedColCount;
         }
+
+        [Test]
+        public void DiStringMatch()
+        {
+
+            var r = DiStringMatch("IIII");
+        }
+
+        public int[] DiStringMatch(string S)
+        {
+            var n = S.Length;
+            var low = 0;
+            var hight = n;
+            var res = new int[n + 1];
+            for (var i = 0; i < n; ++i)
+            {
+                if (S[i] == 'I')
+                {
+                    res[i] = low++;
+                }
+                else
+                {
+                    res[i] = hight--;
+                }
+            }
+
+            res[n] = low;
+            return res;
+        }
+
     }
 }
 
