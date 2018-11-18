@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeetCode.DataModel;
+using NUnit.Framework;
 
 namespace LeetCode
 {
@@ -68,5 +69,31 @@ namespace LeetCode
 
             return head;
         }
+
+        [Test]
+        public void HasCycle()
+        {
+            var node = new ListNode(1) {next = new ListNode(2)};
+            node.next.next = node;
+            var r = HasCycle(node);
+        }
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null || head.next == null)
+            {
+                return false;
+            }
+
+            var walker = head;
+            var runner = head;
+            while (runner.next != null && runner.next.next != null)
+            {
+                walker = walker.next;
+                runner = runner.next.next;
+                if (walker == runner) return true;
+            }
+            return false;
+        }
+
     }
 }

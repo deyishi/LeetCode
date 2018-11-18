@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\ListNode.cs" />
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="LinkedListPracticeSet1.cs" />
     <Compile Include="PracticeSet1.cs" />
