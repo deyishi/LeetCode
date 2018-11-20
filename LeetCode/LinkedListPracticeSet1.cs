@@ -346,12 +346,148 @@ namespace LeetCode
         public void MyLinkedList()
         {
             var linkedList = new MyLinkedList();
-            linkedList.AddAtHead(1);
-            linkedList.AddAtTail(3);
-            linkedList.AddAtIndex(1, 2);  // linked list becomes 1->2->3
-            linkedList.Get(1);            // returns 2
-            linkedList.DeleteAtIndex(1);  // now the linked list is 1->3
-            linkedList.Get(1);            // returns 3
+              // linked list becomes 1->2->3
+            var t = linkedList.GetSize(); // returns 3
         }
+
+        public ListNode MiddleNode(ListNode head)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            var slow = head;
+            var fast = head;
+            while (fast.next != null && fast.next.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            return fast.next != null ? slow.next : slow;
+        }
+
+        [Test]
+        public void RemoveNthFromEnd()
+        {
+            var a = new int[] {1, 2, 3, 4, 5};
+
+            var l = CreateLinkedListFromArray(a);
+
+            var r = RemoveNthFromEndTwo(l, 2);
+        }
+
+        public ListNode RemoveNthFromEnd(ListNode head, int n)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            var size = 0;
+            var curr = head;
+            while (curr != null)
+            {
+                curr = curr.next;
+                size++;
+
+            }
+
+            if (n == size)
+            {
+                return head.next;
+            }
+
+            // Find the node before the node for delete.
+            curr = head;
+            for (var i = 0; i < size -n -1;i++)
+            {
+                curr = curr.next;
+            }
+
+            curr.next = curr.next.next;
+
+            return head;
+        }
+
+
+        /// <summary>
+        /// O(n)
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public ListNode RemoveNthFromEndTwo(ListNode head, int n)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            // In case we need to remove the first element of list.
+            var temp = new ListNode(0) {next = head};
+            var fast = temp;
+            var slow = temp;
+
+            // Left fast moves n step before slow. Use <= here since we added a head node.
+            for (var i = 0; i <= n; i++)
+            {
+                fast = fast.next;
+            }
+
+            // Fast will reach the end n steps before slow. Slow will stop at the n -1 node.
+            // One cycle
+            while (fast != null)
+            {
+                slow = slow.next;
+                fast = fast.next;
+            }
+
+            slow.next = slow.next.next;
+
+            // For case n is the list size, we need to remove first node.
+            // Temp: 0 -> 1 -> 2 -> 3 -> 4 -> 5
+            // Fast:                              F
+            // Slow: S
+
+            return temp.next;
+
+        }
+
+        [Test]
+        public void GenerateParenthesis()
+        {
+            var r = GenerateParenthesis(3);
+        }
+        public IList<string> GenerateParenthesis(int n)
+        {
+            var result = new List<string>();
+
+            GenerateParenthesisHelper(result, "", n, 0, 0 );
+            return result;
+        }
+
+        private void GenerateParenthesisHelper(List<string> result, string curr, int n, int leftPCount, int rightPCount)
+        {
+            // we have closed n parenthesis
+            if (rightPCount == n)
+            {
+                result.Add(curr);
+                return;
+            }
+
+            if (leftPCount < n)
+            {
+                GenerateParenthesisHelper(result, curr + "(", n, leftPCount + 1, rightPCount);
+            }
+
+            if (rightPCount < leftPCount)
+            {
+                GenerateParenthesisHelper(result, curr + ")", n, leftPCount, rightPCount + 1);
+            }
+
+        }
+
     }
 }

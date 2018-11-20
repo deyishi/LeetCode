@@ -27,14 +27,14 @@ namespace LeetCode.DataModel
         /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
         public int Get(int index)
         {
-            if (index + 1 < _size)
+            if (index + 1 > _size)
             {
                 return -1;
             }
 
             var count = index;
             var temp = _head;
-            while (count >= 0)
+            while (count > 0)
             {
                 temp = temp.next;
                 count--;
@@ -82,13 +82,22 @@ namespace LeetCode.DataModel
         /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
         public void AddAtIndex(int index, int val)
         {
-            if (index + 1  < _size)
+            if (index > _size)
             {
                 Console.WriteLine("Given index is greater than the length, the node will not be inserted");
             }
+            else if (index == _size)
+            {
+                AddAtTail(val);
+            }
+            else if (index == 0)
+            {
+                AddAtHead(val);
+            }
             else
             {
-                var count = index;
+                // Find the node before index to insert.
+                var count = index - 1;
                 var temp = _head;
                 while (count > 0)
                 {
@@ -96,7 +105,8 @@ namespace LeetCode.DataModel
                     count--;
                 }
 
-                temp.next = new ListNode(val);
+                var node = new ListNode(val) {next = temp.next};
+                temp.next = node;
                 _size++;
             }
         }
@@ -104,13 +114,14 @@ namespace LeetCode.DataModel
         /** Delete the index-th node in the linked list, if the index is valid. */
         public void DeleteAtIndex(int index)
         {
-            if (index + 1 < _size)
+            if (index + 1 > _size)
             {
-                Console.WriteLine("Given index is greater than the length, the node will not be deleted");
+                Console.WriteLine("Given index is greater than the length.");
             }
             else
             {
-                var count = index;
+                // Find the node before index to delete.
+                var count = index - 1;
                 var temp = _head;
                 while (count > 0)
                 {
@@ -121,7 +132,19 @@ namespace LeetCode.DataModel
                 temp.next = temp.next.next;
                 _size--;
             }
+        }
 
+        public int GetSize()
+        {
+            var curr = _head;
+            var size = 0;
+            while (curr != null)
+            {
+                curr = curr.next;
+                size++;
+            }
+
+            return size;
         }
     }
 }
