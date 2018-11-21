@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using LeetCode.DataModel;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 
 namespace LeetCode
 {
@@ -74,7 +72,7 @@ namespace LeetCode
         [Test]
         public void HasCycle()
         {
-            var node = new ListNode(1) {next = new ListNode(2)};
+            var node = new ListNode(1) { next = new ListNode(2) };
             node.next.next = node;
             var r = HasCycle(node);
         }
@@ -100,15 +98,15 @@ namespace LeetCode
         [Test]
         public void GetIntersectionNode()
         {
-            var a = new[] {1, 2 };
-            var b = new[] {1, 2, 3};
-            var c = new[] {4, 5, 6};
-            var al = CreateLinkedListFromArray(a);
-            var bl = CreateLinkedListFromArray(b);
-            var cl = CreateLinkedListFromArray(c);
+            var a = new[] { 1, 2 };
+            var b = new[] { 1, 2, 3 };
+            var c = new[] { 4, 5, 6 };
+            var al = a.CreateLinkedListFromArray();
+            var bl = b.CreateLinkedListFromArray();
+            var cl = c.CreateLinkedListFromArray();
             al.next.next = cl;
             bl.next.next.next = cl;
-            var r = GetIntersectionNodeTwo(al,bl);
+            var r = GetIntersectionNodeTwo(al, bl);
         }
 
         public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
@@ -175,7 +173,7 @@ namespace LeetCode
         }
 
 
- 
+
 
         public ListNode RemoveElements(ListNode head, int val)
         {
@@ -184,7 +182,7 @@ namespace LeetCode
                 return null;
             }
 
-            var res = new ListNode(0){next = head};
+            var res = new ListNode(0) { next = head };
             var prevNode = res;
             while (head != null)
             {
@@ -262,7 +260,7 @@ namespace LeetCode
         public void LinkedListTest()
         {
             var a = new[] { 1, 2, 3, 3, 2, 1 };
-            var al = CreateLinkedListFromArray(a);
+            var al = a.CreateLinkedListFromArray();
             var r = IsPalindromeTwo(al);
         }
 
@@ -323,30 +321,13 @@ namespace LeetCode
             return i;
         }
 
-        public static ListNode CreateLinkedListFromArray(int[] a)
-        {
-            if (a == null || a.Length < 1)
-            {
-                return null;
-            }
 
-            var head = new ListNode(a[0]);
-            var curr = head;
-           
-            for (var i = 1; i < a.Length; i++)
-            {
-                curr.next = new ListNode(a[i]);
-                curr = curr.next;
-            }
-
-            return head;
-        }
 
         [Test]
         public void MyLinkedList()
         {
             var linkedList = new MyLinkedList();
-              // linked list becomes 1->2->3
+            // linked list becomes 1->2->3
             var t = linkedList.GetSize(); // returns 3
         }
 
@@ -371,9 +352,9 @@ namespace LeetCode
         [Test]
         public void RemoveNthFromEnd()
         {
-            var a = new int[] {1, 2, 3, 4, 5};
+            var a = new int[] { 1, 2, 3, 4, 5 };
 
-            var l = CreateLinkedListFromArray(a);
+            var l = a.CreateLinkedListFromArray();
 
             var r = RemoveNthFromEndTwo(l, 2);
         }
@@ -401,7 +382,7 @@ namespace LeetCode
 
             // Find the node before the node for delete.
             curr = head;
-            for (var i = 0; i < size -n -1;i++)
+            for (var i = 0; i < size - n - 1; i++)
             {
                 curr = curr.next;
             }
@@ -426,7 +407,7 @@ namespace LeetCode
             }
 
             // In case we need to remove the first element of list.
-            var temp = new ListNode(0) {next = head};
+            var temp = new ListNode(0) { next = head };
             var fast = temp;
             var slow = temp;
 
@@ -464,7 +445,7 @@ namespace LeetCode
         {
             var result = new List<string>();
 
-            GenerateParenthesisHelper(result, "", n, 0, 0 );
+            GenerateParenthesisHelper(result, "", n, 0, 0);
             return result;
         }
 
@@ -486,6 +467,142 @@ namespace LeetCode
             {
                 GenerateParenthesisHelper(result, curr + ")", n, leftPCount, rightPCount + 1);
             }
+
+        }
+
+
+        /// <summary>
+        /// Complexity O(knlog(kn)), n is the average length of the lists. K number of list in lists.
+        /// </summary>
+        /// <param name="lists"></param>
+        /// <returns></returns>
+        public ListNode MergeKListsBruteForce(ListNode[] lists)
+        {
+            if (lists == null)
+            {
+                return null;
+            }
+
+            var n = new List<int>();
+            
+            //O(k*n)
+            foreach (var l in lists)
+            {
+                var curr = l;
+                while (curr != null)
+                {
+                    n.Add(curr.val);
+                    curr = curr.next;
+                }
+            }
+
+            var r = n.OrderBy(x => x).ToArray().CreateLinkedListFromArray();
+            return r;
+        }
+
+        [Test]
+        public void MergeKLists()
+        {
+            var a = new ListNode[] {new ListNode(1)
+            {
+                next =  new ListNode(3)
+            }, new ListNode(2), new ListNode(3)};
+
+
+            var l = new int[] {4,123, 12, 1123,3,6};
+
+            var m = new MergeSort();
+
+            m.Sort(l);
+            var r = MergeKLists(a);
+
+        }
+
+        public ListNode MergeKLists(ListNode[] lists)
+        {
+            if (lists == null)
+            {
+                return null;
+            }
+
+            var res = new ListNode(0);
+            var curr = res;
+            ListNode temp;
+            // O(N*K)
+            do
+            {
+                temp = FindMinNode(lists);
+                curr.next = temp;
+                curr = curr.next;
+
+            } while (temp != null);
+
+            return res.next;
+        }
+
+        /// <summary>
+        /// Find the min node and remove it from node lists.
+        /// O(k)
+        /// </summary>
+        /// <param name="lists"></param>
+        /// <returns></returns>
+        public ListNode FindMinNode(ListNode[] lists)
+        {
+            if (lists == null)
+            {
+                return null;
+            }
+
+            var min = int.MaxValue;
+            var index = -1;
+            for (var i = 0; i < lists.Length; i++) {
+                if (lists[i] != null && lists[i].val < min)
+                {
+                    min = lists[i].val;
+                    index = i;
+                }
+            }
+
+            ListNode result = null;
+            if (index != -1)
+            {
+                result = lists[index];
+                // selected min node from the list 
+                lists[index] = lists[index].next;
+            }
+
+            return result;
+        }
+
+        [Test]
+        public void SwapPairs()
+        {
+            var a = new[] {1,2,3};
+            var l = a.CreateLinkedListFromArray();
+
+            var r = SwapPairs(l);
+        }
+
+        public ListNode SwapPairs(ListNode head)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            var result = new ListNode(0) {next = head};
+            var curr = result;
+
+            while (curr.next != null && curr.next.next != null)
+            {
+                var temp = curr.next.next;
+                curr.next.next = temp.next;
+                temp.next = curr.next;
+                curr.next = temp;
+                curr = curr.next.next;
+            }
+
+            return result.next;
 
         }
 
