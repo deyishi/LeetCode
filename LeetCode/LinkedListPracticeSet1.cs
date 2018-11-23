@@ -606,5 +606,58 @@ namespace LeetCode
 
         }
 
+        [Test]
+        public void ReverseKGroup()
+        {
+            var a = new[] { 1, 2, 3, 4, 5}.CreateLinkedListFromArray();
+
+            var r = ReverseKGroup(a, 2);
+        }
+
+
+        public ListNode ReverseKGroup(ListNode head, int k)
+        {
+            if (head == null || head.next == null || k == 0)
+            {
+                return head;
+            }
+
+            // First run
+            // 1 2 3 4 5
+            // count = 0 curr = 1
+            // count = 1 curr = 2
+            // count = 2 curr = 3
+
+            // Second run
+            // 3 4 5
+            // count = 0 curr = 3
+            // count = 1 curr = 4
+            // count = 2 curr = 5
+
+            var count = 0;
+            var curr = head;
+            while (curr != null && count < k)
+            {
+                curr = curr.next;
+                count++;
+            }
+
+            if (count == k)
+            {
+                curr = ReverseKGroup(curr, k);
+                while (count-- > 0)
+                {
+                    var temp = head.next;
+                    head.next = curr;
+                    curr = head;
+                    head = temp;
+                }
+
+                head = curr;
+            }
+
+            return head;
+        }
+
     }
 }
