@@ -254,5 +254,223 @@ namespace LeetCode
 
             return false;
         }
+
+        public bool IsValidSudoku(char[,] board)
+        {
+            if (board == null || board.GetLength(0) != 9 || board.GetLength(1) != 9)
+            {
+                return false;
+            }
+
+            var set = new HashSet<string>();
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 9; j++)
+                {
+                    var num = board[i, j];
+                    if (num != '.')
+                    {
+                        if (!set.Add(num + " in row " + i) || !set.Add(num + " in col " + j) || !set.Add(num + " in block" + i / 3 + j / 3))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        [Test]
+        public void CombinationSum()
+        {
+           var n = new []{10, 1, 2, 7, 6, 1, 5};
+            var t = 8;
+            var r = CombinationSum(n, t);
+        }
+        public IList<IList<int>> CombinationSum(int[] candidates, int target)
+        {
+            var result = new List<IList<int>>();
+
+            if (candidates == null || candidates.Length < 1)
+            {
+                return result;
+            }
+
+            var currCombination = new List<int>();
+            CombinationSumDFS(candidates, result, currCombination, 0, target);
+
+            return result;
+        }
+
+        private void CombinationSumDFS(int[] candidates, List<IList<int>> result, List<int> currCombination, int start, int remain)
+        {
+            if (remain == 0) result.Add(new List<int>(currCombination));
+            else
+            {
+                for (var i = start; i < candidates.Length; i++)
+                {
+                    if (i > start && candidates.ToList().IndexOf(candidates[i]) != i)
+                    {
+                        continue;
+                    }
+
+                    if (remain < 0) return;
+                    currCombination.Add(candidates[i]);
+                    CombinationSumDFS(candidates, result, currCombination, i + 1, remain - candidates[i]); 
+                    currCombination.RemoveAt(currCombination.Count - 1);
+                }
+            }
+        }
+
+        [Test]
+        public void Permute()
+        {
+            var n = new[] {1, 2, 3, 4};
+            var r = PermuteTwo(n);
+        }
+
+        public IList<IList<int>> Permute(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 1)
+            {
+                return result;
+            }
+
+            PermuteHelper(nums, new List<int>(), result);
+            return result;
+        }
+
+        public void PermuteHelper(int[] nums, List<int> curr, List<IList<int>> result)
+        {
+            if (curr.Count == nums.Length)
+            {
+                result.Add(new List<int>(curr));
+                return;
+            }
+
+            foreach (var t in nums)
+            {
+                if (curr.Contains(t))
+                {
+                    continue;
+                }
+
+                curr.Add(t);
+                PermuteHelper(nums, curr, result);
+                curr.RemoveAt(curr.Count - 1);
+            }
+        }
+
+
+        public IList<IList<int>> PermuteTwo(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 1)
+            {
+                return result;
+            }
+
+            PermuteHelperTwo(nums, result, 0);
+            return result;
+        }
+
+        public void PermuteHelperTwo(int[] nums, List<IList<int>> result, int index)
+        {
+            if (index == nums.Length)
+            {
+                result.Add(new List<int>(nums));
+                return;
+            }
+
+            for (int i = index; i < nums.Length; i++)
+            {
+
+                Swap(nums, i, index);
+                PermuteHelperTwo(nums, result, index + 1);
+                Swap(nums, i, index);
+            }
+        }
+
+        private void Swap(int[] nums, int m, int n)
+        {
+            int temp = nums[m];
+            nums[m] = nums[n];
+            nums[n] = temp;
+        }
+
+        [Test]
+        public void PermuteUnique()
+        {
+            var n = new int[] { 1,2,2};
+
+            var r = PermuteUnique(n);
+        }
+        public IList<IList<int>> PermuteUnique(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 1)
+            {
+                return result.ToList();
+            }
+
+            PermuteUniqueHelper(nums, result, 0);
+            return result.ToList();
+        }
+
+        public void PermuteUniqueHelper(int[] nums, List<IList<int>> result, int index)
+        {
+            if (index == nums.Length)
+            {
+                result.Add(new List<int>(nums));
+                return;
+            }
+
+            var alreadySaw = new HashSet<int>();
+            for (int i = index; i < nums.Length; i++)
+            {
+                if (alreadySaw.Contains(nums[i]))
+                {
+                    continue;
+                }
+
+                alreadySaw.Add(nums[i]);
+                Swap(nums, i, index);
+                PermuteUniqueHelper(nums, result, index + 1);
+                Swap(nums, i, index);
+            }
+        }
+
+        public string GetPermutation(int n, int k)
+        {
+            if (n == 0)
+            {
+                return "";
+            }
+
+            if (n == 1)
+            {
+                return n.ToString();
+            }
+            var nums = new int[n];
+            for (var i = 0; i < n; i++)
+            {
+                nums[i] = i + 1;
+            }
+
+            var lastSetPermCount = 1;
+            for (var i = 1; i < n; i++)
+            {
+                lastSetPermCount *= i;
+            }
+
+            var index = nums[k / lastSetPermCount];
+
+            //var nk = k - lastSetPermCount * index;
+            //for (var i = ) {
+            //}
+
+            return "";
+        }
     }
 }

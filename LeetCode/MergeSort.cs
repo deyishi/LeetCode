@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,75 +20,58 @@ namespace LeetCode
     {
         public void Sort(int[] nums)
         {
-            DoMergeSort(nums, 0, nums.Length - 1);
+            var temp = new int[nums.Length];
+            DoMergeSort(nums, 0, nums.Length - 1, temp);
         }
 
-        private void DoMergeSort(int[] nums, int l, int r)
-        {
-            if (l < r)
-            {
-                var mid = (l + r) / 2;
-                DoMergeSort(nums, l, mid);
-                DoMergeSort(nums, mid + 1, r);
 
-                Merge(nums, l, mid, r);
+        private void DoMergeSort(int[] nums, int l, int r, int[] temp)
+        {
+            if (l >= r)
+            {
+                return;
             }
+
+
+            var mid = l + (r - l) / 2;
+            DoMergeSort(nums, l, mid, temp);
+            DoMergeSort(nums, mid + 1, r, temp);
+            Merge(nums, l, mid, r, temp);
 
         }
 
-        private void Merge(int[] nums, int l, int mid, int r)
+        private void Merge(int[] nums, int l, int mid, int r, int[] temp)
         {
-            var leftSubArrayLength = mid - l + 1;
-            var rightSubArrayLength = r - mid;
-
-            var leftSubArray = new int[leftSubArrayLength];
-            var rightSubArray = new int[rightSubArrayLength];
-
-            int i;
-            int j;
-            for (i = 0; i < leftSubArrayLength; i++)
+            var leftIndex = l;
+            var rightIndex = mid + 1;
+            var index = leftIndex;
+            while (leftIndex <= mid && rightIndex <= r)
             {
-                leftSubArray[i] = nums[l + i];
-            }
-
-            for (j=0; j < rightSubArrayLength;j++)
-            {
-                rightSubArray[j] = nums[mid + 1 + j];
-            }
-
-            i = 0;
-            j = 0;
-            var c = l;
-            while (i < leftSubArrayLength && j < rightSubArrayLength)
-            {
-                if (leftSubArray[i] < rightSubArray[j])
+                if (nums[leftIndex] < nums[rightIndex])
                 {
-                    nums[c] = leftSubArray[i];
-                    i++;
+                    temp[index++] = nums[leftIndex++];
                 }
                 else
                 {
-                    nums[c] = rightSubArray[j];
-                    j++;
+                    temp[index++] = nums[rightIndex++];
                 }
-
-                c++;
             }
 
-            while (i < leftSubArrayLength)
+            while (leftIndex <= mid)
             {
-                nums[c] = leftSubArray[i];
-                i++;
-                c++;
+                temp[index++] = nums[leftIndex++];
             }
 
-            while (j < rightSubArrayLength)
+
+            while (rightIndex <= r)
             {
-                nums[c] = rightSubArray[j];
-                j++;
-                c++;
+                temp[index++] = nums[rightIndex++];
             }
 
+            for (var i = l; i <= r; i++)
+            {
+                nums[i] = temp[i];
+            }
         }
     }
 }
