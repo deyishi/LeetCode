@@ -171,43 +171,142 @@ namespace LeetCode
 
         }
 
-        public IList<int> SpiralOrder(int[,] matrix)
+        [Test]
+        public void StrStr()
         {
-            //var res = new List<int>();
-            //if (matrix.GetLength(0) == 0)
-            //{
-            //    return res;
-            //}
+            var h = "hello";
+            var n = "ll";
+            var r = StrStr(h, n);
+        }
 
-            //var rowStart = 0;
-            //var rowEnd = matrix.GetLength(0) -1;
-            //var colStart = 0;
-            //var colEnd = matrix.GetLength(1) - 1;
+        public int StrStr(string haystack, string needle)
+        {
+            if(string.IsNullOrEmpty(haystack) || string.IsNullOrEmpty(needle))
+            {
+                return -1;
+            }
 
-            //while (rowStart<=rowEnd || colStart<=colEnd)
-            //{
-            //    // Go right
-            //    for (var i = colStart; i <= colEnd;i++) {
-            //        res.Add(matrix[rowStart,i]);
-            //    }
+            if (needle.Length > haystack.Length)
+            {
+                return -1;
+            }
 
-            //    rowStart++;
+            for (var i = 0; i < haystack.Length - needle.Length +1; i++)
+            {
+                int j;
+                for (j = 0; j < needle.Length; j++) {
+                    if (haystack[i+j] != needle[j])
+                    {
+                        break;
+                    }
+                }
 
-            //    //Go down
-            //    for (int j = rowStart; j < rowEnd; j++)
-            //    {
-            //        res.Add(matrix[j,colEnd]);
-            //    }
-            //    rowEnd--;
-            //    if (rowStart <= rowEnd)
-            //    {
-            //        for (int j = colEnd; j >= colEnd; j++)
-            //        {
-            //            res.Add(matrix[j, colEnd]);
-            //        }
-            //    }
+                if (j == needle.Length)
+                {
+                    return i;
+                }
+            }
 
-            //}
+            return -1;
+        }
+
+        [Test]
+        public void Subsets()
+        {
+            var n = new[] {1, 2, 3};
+            var r = Subsets(n);
+        }
+
+        public IList<IList<int>> Subsets(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 1)
+            {
+                return result;
+            }
+
+            SubsetsHelper(nums, result, new List<int>(), 0);
+            return result;
+        }
+
+        private void SubsetsHelper(int[] nums, List<IList<int>> result, List<int> curr, int i)
+        {
+            result.Add(new List<int>(curr));
+            for (var j = i; j<nums.Length;j++)
+            {
+                curr.Add(nums[j]);
+                SubsetsHelper(nums, result, curr, j + 1);
+                curr.RemoveAt(curr.Count - 1);
+            }
+        }
+
+        [Test]
+        public void SubsetsWithDup()
+        {
+            var n = new int[] {1, 2, 2};
+
+            var r = SubsetsWithDup(n);
+
+        }
+        public IList<IList<int>> SubsetsWithDup(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null)
+            {
+                return result;
+            }
+
+            Array.Sort(nums);
+            SubsetsWithDupHelper(nums, result, new List<int>(), 0);
+
+            return result;
+        }
+
+        public void SubsetsWithDupHelper(int[] nums, List<IList<int>> result, List<int> curr, int start)
+        {
+            result.Add(new List<int>(curr));
+            for (var i = start; i < nums.Length; i++)
+            {
+                if (i > start && nums[i] == nums[i - 1])
+                {
+                    continue;
+                }
+                curr.Add(nums[i]);
+                SubsetsWithDupHelper(nums, result, curr, i + 1);
+                curr.RemoveAt(curr.Count - 1);
+            }
+        }
+
+        public IList<string> LetterCasePermutation(string s)
+        {
+            var result = new List<string>();
+
+            if (s == null)
+            {
+                return result;
+            }
+
+            LetterCasePermutationHelper(s, result, "", 0);
+            return result;
+        }
+
+        private void LetterCasePermutationHelper(string s, List<string> result, string curr, int index)
+        {
+            if (index == s.Length)
+            {
+                result.Add(curr);
+                return;
+            }
+
+            if (Char.IsDigit(curr[index]))
+            {
+                LetterCasePermutationHelper(s, result, curr + curr[index], index + 1);
+            }
+            else
+            {
+                LetterCasePermutationHelper(s, result, curr + Char.ToUpper(curr[index]), index + 1);
+                LetterCasePermutationHelper(s, result, curr + Char.ToLower(curr[index]), index + 1);
+            }
         }
     }
 }
