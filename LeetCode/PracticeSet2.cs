@@ -241,6 +241,7 @@ namespace LeetCode
         public void LongestPalindrome()
         {
             var s = "aaa";
+            var t = s.Substring(0, 2);
             var r = LongestPalindromeDP(s);
         }
         public string LongestPalindrome(string s)

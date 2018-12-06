@@ -52,6 +52,8 @@
     <Compile Include="DataModel\MyLinkedList.cs" />
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="MathProblemSet.cs" />
+    <Compile Include="Nine Chapter\L1.cs" />
+    <Compile Include="QuickSort.cs" />
     <Compile Include="StackPractice.cs" />
     <Compile Include="WindowConceptPractice.cs" />
     <Compile Include="LinkedListPracticeSet1.cs" />
