@@ -107,6 +107,14 @@ namespace LeetCode.Nine_Chapter
         [Test]
         public void LongestPalindromeSub()
         {
+            int t = 2147483646;
+            var a = new byte[t];
+            //for (var i = 0; i < t; i++ )
+            //{
+            //    a[i] = i;
+            //}
+
+            long e = t + 1;
             var n = "abcd";
             LongestPalindromeSub(n);
         }
@@ -159,6 +167,129 @@ namespace LeetCode.Nine_Chapter
             }
 
             return s.Substring(start, maxLength);
+        }
+
+        public int CountSubstrings(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 0;
+            }
+
+            if (s.Length == 1)
+            {
+                return 1;
+            }
+
+            var n = s.Length;
+            var dp = new bool[n, n];
+            var count = n;
+            for (var i = 0; i < n; i++)
+            {
+                dp[i, i] = true;
+            }
+
+            for (var i = 0; i < n - 1; i++)
+            {
+                if (s[i] == s[i + 1])
+                {
+                    dp[i, i + 1] = true;
+                    count++;
+                }
+            }
+
+            for (var l = 3; l <= n; l++)
+            {
+                for (var i = 0; i < n - l + 1; i++)
+                {
+                    var end = i + l - 1;
+                    if (s[i] == s[end] && dp[i + 1, end - 1])
+                    {
+                        count++;
+                        dp[i, end] = true;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public bool CanPermutePalindrome(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length == 1)
+            {
+                return true;
+            }
+
+            var set = new HashSet<char>();
+            var count = 0;
+            foreach (var c in s)
+            {
+                if (!set.Add(c))
+                {
+                    count++;
+                    set.Remove(c);
+                }
+            }
+            return s.Length - count * 2 <= 1;
+        }
+
+        public int LongestPalindromeSubseq(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 0;
+            }
+
+            if (s.Length == 1)
+            {
+                return 1;
+            }
+
+            //Find P(1)
+            var maxLength = 1;
+            var n = s.Length;
+
+            var dp = new int[n, n];
+            for (var i = 0; i < n; i++)
+            {
+                dp[i, i] = 1;
+            }
+
+            for (var i = 0; i < n - 1; i++)
+            {
+                if (s[i] == s[i + 1])
+                {
+                    dp[i, i + 1] = 2;
+                    maxLength = 2;
+                }
+                else
+                {
+                    dp[i, i + 1] = 1;
+                }
+            }
+
+            for (var l = 3; l <= n; l++)
+            {
+                for (var i = 0; i < n - l + 1; i++)
+                {
+                    var end = i + l - 1;
+                    if (s[i] == s[end])
+                    {
+                        dp[i, end] = dp[i + 1, end - 1] + 2;
+
+                        if (dp[i, end] > maxLength)
+                        {
+                            maxLength = dp[i, end];
+                        }
+                    }
+                    else
+                    {
+                        dp[i, end] = Math.Max(dp[i, end - 1], dp[i + 1, end]);
+                    }
+                }
+            }
+
+            return maxLength;
         }
     }
 }
