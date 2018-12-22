@@ -13,7 +13,7 @@ namespace LeetCode
         [Test]
         public void PreorderTraversal()
         {
-            var t = new int[] {1, 5, 2, 3}.CreateTreeFromArray();
+            var t = new int[] {1, 5, 2, 3}.ToTree();
 
             var r = PreorderTraversal(t);
         }

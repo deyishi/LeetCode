@@ -2,7 +2,7 @@
 {
     public static class ArrayExtension
     {
-        public static ListNode CreateLinkedListFromArray(this int[] a)
+        public static ListNode ToLinkedList(this int[] a)
         {
             if (a == null || a.Length < 1)
             {
@@ -21,7 +21,7 @@
             return head;
         }
 
-        public static TreeNode CreateTreeFromArray(this int[] a)
+        public static TreeNode ToTree(this int[] a)
         {
             if (a == null || a.Length < 1)
             {
@@ -37,6 +37,7 @@
             // Base case for recursion 
             if (i < arr.Length)
             {
+
                 var temp = new TreeNode(arr[i]);
                 root = temp;
 

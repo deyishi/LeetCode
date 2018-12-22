@@ -53,7 +53,9 @@
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="MathProblemSet.cs" />
     <Compile Include="Nine Chapter\L1.cs" />
-    <Compile Include="Nine Chapter\L2.cs" />
+    <Compile Include="Nine Chapter\L2BinarySearch.cs" />
+    <Compile Include="Nine Chapter\L3TwoPointers.CS" />
+    <Compile Include="Nine Chapter\TreeProblems.cs" />
     <Compile Include="QuickSort.cs" />
     <Compile Include="StackPractice.cs" />
     <Compile Include="WindowConceptPractice.cs" />

@@ -101,9 +101,9 @@ namespace LeetCode
             var a = new[] { 1, 2 };
             var b = new[] { 1, 2, 3 };
             var c = new[] { 4, 5, 6 };
-            var al = a.CreateLinkedListFromArray();
-            var bl = b.CreateLinkedListFromArray();
-            var cl = c.CreateLinkedListFromArray();
+            var al = a.ToLinkedList();
+            var bl = b.ToLinkedList();
+            var cl = c.ToLinkedList();
             al.next.next = cl;
             bl.next.next.next = cl;
             var r = GetIntersectionNodeTwo(al, bl);
@@ -260,7 +260,7 @@ namespace LeetCode
         public void LinkedListTest()
         {
             var a = new[] { 1, 2, 3, 3, 2, 1 };
-            var al = a.CreateLinkedListFromArray();
+            var al = a.ToLinkedList();
             var r = IsPalindromeTwo(al);
         }
 
@@ -354,7 +354,7 @@ namespace LeetCode
         {
             var a = new int[] { 1, 2, 3, 4, 5 };
 
-            var l = a.CreateLinkedListFromArray();
+            var l = a.ToLinkedList();
 
             var r = RemoveNthFromEndTwo(l, 2);
         }
@@ -496,7 +496,7 @@ namespace LeetCode
                 }
             }
 
-            var r = n.OrderBy(x => x).ToArray().CreateLinkedListFromArray();
+            var r = n.OrderBy(x => x).ToArray().ToLinkedList();
             return r;
         }
 
@@ -578,7 +578,7 @@ namespace LeetCode
         public void SwapPairs()
         {
             var a = new[] {1,2,3};
-            var l = a.CreateLinkedListFromArray();
+            var l = a.ToLinkedList();
 
             var r = SwapPairs(l);
         }
@@ -609,7 +609,7 @@ namespace LeetCode
         [Test]
         public void ReverseKGroup()
         {
-            var a = new[] { 1, 2, 3, 4, 5}.CreateLinkedListFromArray();
+            var a = new[] { 1, 2, 3, 4, 5}.ToLinkedList();
 
             var r = ReverseKGroup(a, 2);
         }

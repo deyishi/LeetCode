@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 
 namespace LeetCode.Nine_Chapter
 {
-    public class L2
+    public class L2BinarySearch
     {
         [Test]
         public void FindMin()
@@ -410,6 +412,223 @@ namespace LeetCode.Nine_Chapter
             var res = new List<int>();
             for (var i = 0; i < k; i++) res.Add(arr[start + i]);
             return res;
+        }
+
+        public int SearchInsert(int[] A, int target)
+        {
+            if (A == null || A.Length == 0)
+            {
+                return 0;
+            }
+
+            var start = 0;
+            var end = A.Length;
+            while (start + 1 < end -1)
+            {
+                var mid = start  + (end - start)/2;
+                if (A[mid] == target)
+                {
+                    return mid;
+                }
+
+                if (A[mid] < target)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+
+            }
+
+            if (A[start]  >= target)
+            {
+                return start;
+            }
+            if (A[end] >= target)
+            {
+                return end;
+            }
+
+            return end + 1;
+
+        }
+
+        [Test]
+        public void MySqrt()
+        {
+            var r = MySqrt(8);
+        }
+        public int MySqrt(int x)
+        {
+            if (x < 2)
+            {
+                return x;
+            }
+
+            var start = 1;
+            var end = x/2;
+
+            while (start <= end)
+            {
+                var mid = start + (end - start) / 2;
+
+                if (x / mid < mid)
+                {
+                    end = mid-1;
+                }
+                else if(x / mid > mid)
+                {
+                    start = mid + 1;
+                }
+                else
+                {
+                    return mid;
+                }
+            }
+
+            return start - 1;
+        }
+
+        public int[] TwoSum(int[] numbers, int target)
+        {
+            if (numbers == null || numbers.Length < 2)
+            {
+                return null;
+            }
+
+            var start = 0;
+            var end = numbers.Length - 1;
+            while (start < end)
+            {
+                var curr = numbers[start] + numbers[end];
+                if (curr > target)
+                {
+                    end--;
+                }else if (curr < target)
+                {
+                    start++;
+                }
+                else
+                {
+                    return new[] {start+1, end+1};
+                }
+            }
+
+            return null;
+        }
+
+        [Test]
+        public void ClosestValue()
+        {
+            var b = new[] {4, 2, 5, 1, 3};
+            var t = b.ToTree();
+            var r = ClosestValue(t, 3.7);
+        }
+
+        public int ClosestValue(TreeNode root, double target)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+
+            var result = root.val;
+            var curr = root;
+            while (curr != null)
+            {
+                result = Math.Abs(curr.val - target) < Math.Abs(result - target) ? curr.val : result;
+                curr =  target < curr.val ? curr.left : curr.right;
+            }
+
+            return result;
+        }
+        public int[] IntersectionOne(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums2 == null)
+            {
+                return null;
+            }
+            if (nums1.Length > nums2.Length)
+            {
+               return IntersectionOne(nums2, nums1);
+            }
+
+            var set = new HashSet<int>();
+
+            foreach (var t in nums1)
+            {
+                if (nums2.Contains(t))
+                {
+                    set.Add(t);
+                }
+            }
+
+            return set.ToArray();
+        }
+
+        public int[] IntersectionTwo(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums2 == null)
+            {
+                return null;
+            }
+
+            Array.Sort(nums1);
+            Array.Sort(nums2);
+            var i = 0;
+            var j = 0;
+            var result = new HashSet<int>();
+            while (i < nums1.Length && j < nums2.Length)
+            {
+                if (nums1[i] < nums2[j])
+                {
+                    i++;
+                }
+                else if (nums1[i] > nums2[j])
+                {
+                    j++;
+                }
+                else
+                {
+                    result.Add(nums1[i]);
+                    i++;
+                    j++;
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public bool IsPerfectSquare(int num)
+        {
+            if (num < 2)
+            {
+                return true;
+            }
+
+            var start = 2;
+            var end = num / 2;
+            while (start <= end)
+            {
+                long mid = start + (end - start) / 2;
+                if (num/mid == mid)
+                {
+                    return true;
+                }
+
+                if (mid * mid  < num)
+                {
+                    start = (int) mid + 1;
+                }
+                else
+                {
+                    end = (int) mid - 1;
+                }
+            }
+
+            return false;
         }
     }
 }
