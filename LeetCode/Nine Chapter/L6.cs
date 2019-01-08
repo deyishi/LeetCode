@@ -538,6 +538,63 @@ namespace LeetCode.Nine_Chapter
                     matrix[i,0] = 0;
                 }
             }
+
+
+            if (firstRowEmpty)
+            {
+                for (int i = 0; i < c;i++)
+                {
+                    matrix[0, i] = 0;
+                }
+            }
+        }
+
+        [Test]
+        public void SearchMatrix()
+        {
+            var m = new[,] {{1}};
+            var r = SearchMatrix(m, 1);
+        }
+
+        public bool SearchMatrix(int[,] matrix, int target)
+        {
+            if (matrix == null || matrix.GetLength(0) == 0 || matrix.GetLength(1) == 0)
+            {
+                return false;
+            }
+
+            var rows = matrix.GetLength(0);
+            var cols = matrix.GetLength(1);
+            for (var i = 0; i < rows; i++)
+            {
+                // Target is in this row
+                if (target <= matrix[i, cols - 1])
+                {
+                    //Do binary search
+                    var left = 0;
+                    var right = cols - 1;
+                    while (left <= right)
+                    {
+                        var mid = left + (right - left) / 2;
+                        if (matrix[i, mid] == target)
+                        {
+                            return true;
+                        }
+
+                        if (matrix[i, mid] > target)
+                        {
+                            right = mid - 1;
+                        }
+                        else
+                        {
+                            left = mid + 1;
+                        }
+
+                    }
+                }
+            }
+
+            return false;
         }
     }
 
