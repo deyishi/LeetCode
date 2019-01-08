@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayProblem.cs" />
+    <Compile Include="BackTracking.cs" />
     <Compile Include="BinarySearchPractice.cs" />
     <Compile Include="DataModel\ArrayExtension.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
