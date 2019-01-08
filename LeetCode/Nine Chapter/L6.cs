@@ -400,6 +400,39 @@ namespace LeetCode.Nine_Chapter
             }
             return slow;
         }
+
+        public int MinPathSum(int[,] grid)
+        {
+            if (grid == null || grid.GetLength(0) < 1 || grid.GetLength(1) < 1)
+            {
+                return 0;
+            }
+
+            var r = grid.GetLength(0);
+            var c = grid.GetLength(1);
+            var path = new int[r, c];
+
+            path[0, 0] = grid[0, 0];
+            for (var i = 1; i < r; i++)
+            {
+                path[0, i] = path[0, i - 1] + grid[0, i];
+            }
+
+            for (var i = 1; i < r; i++)
+            {
+                path[i, 0] = path[i - 1, 0] + grid[i, 0];
+            }
+
+            for (var i = 1; i < r; i++) {
+                for (var j = 1; j < c; j++)
+                {
+                    path[i, j] = Math.Min(path[i, j - 1], path[i - 1, j]) + grid[i, j];
+                }
+            }
+
+
+            return path[r - 1, c - 1];
+        }
     }
 
 
