@@ -433,6 +433,38 @@ namespace LeetCode.Nine_Chapter
 
             return path[r - 1, c - 1];
         }
+
+        /// <summary>
+        /// Handle '.', '/' and '..'.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string SimplifyPath(string path)
+        {
+            var stack = new Stack<string>();
+            var skip = new HashSet<string> {"..", ".", ""};
+            // Split will skip all the /
+            foreach (var curr in path.Split('/'))
+            {
+                //Remove previous path.
+                if (curr == ".." && stack.Any())
+                {
+                    stack.Pop();
+                }else if (!skip.Contains(curr))
+                {
+                    //Push all the valid path.
+                    stack.Push(curr);
+                }
+            }
+
+            var res = "";
+            foreach (var dir in stack)
+            {
+                res = "/" + dir + res;
+            }
+
+            return string.IsNullOrEmpty(res) ? "/" : res;
+        }
     }
 
 
