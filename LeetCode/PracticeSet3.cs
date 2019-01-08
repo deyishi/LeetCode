@@ -304,7 +304,10 @@ namespace LeetCode
 
         private void CombinationSumDFS(int[] candidates, List<IList<int>> result, List<int> currCombination, int start, int remain)
         {
-            if (remain == 0) result.Add(new List<int>(currCombination));
+            if (remain == 0)
+            {
+                result.Add(new List<int>(currCombination));
+            }
             else
             {
                 for (var i = start; i < candidates.Length; i++)
@@ -316,7 +319,7 @@ namespace LeetCode
 
                     if (remain < 0) return;
                     currCombination.Add(candidates[i]);
-                    CombinationSumDFS(candidates, result, currCombination, i + 1, remain - candidates[i]); 
+                    CombinationSumDFS(candidates, result, currCombination, i + 1, remain - candidates[i]);
                     currCombination.RemoveAt(currCombination.Count - 1);
                 }
             }
