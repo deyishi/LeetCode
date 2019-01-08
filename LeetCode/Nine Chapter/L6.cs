@@ -334,6 +334,72 @@ namespace LeetCode.Nine_Chapter
                 head = head.next.next;
             }
         }
+
+        [Test]
+        public void SortList()
+        {
+            var l = new[] {7, 5, 3, 2, 1}.ToLinkedList();
+            var r = SortList(l);
+        }
+
+        public ListNode SortList(ListNode head)
+        {
+            if (head == null || head.next == null)
+            {
+                return head;
+            }
+
+            ListNode mid = FindMidNode(head);
+            ListNode right = SortList(mid.next);
+            mid.next = null;
+            ListNode left = SortList(head);
+
+            return MergeNode(left, right);
+        }
+
+        private ListNode MergeNode(ListNode left, ListNode right)
+        {
+            var dummy = new ListNode(0);
+            var tail = dummy;
+
+            while (left != null && right != null)
+            {
+                if (left.val < right.val)
+                {
+                    tail.next = left;
+                    left = left.next;
+                }
+                else
+                {
+                    tail.next = right;
+                    right = right.next;
+                }
+
+                tail = tail.next;
+            }
+
+            if (left != null)
+            {
+                tail.next = left;
+            }
+            else
+            {
+                tail.next = right;
+            }
+
+            return dummy.next;
+        }
+
+        private ListNode FindMidNode(ListNode head)
+        {
+            ListNode slow = head, fast = head;
+            while (fast.next != null && fast.next.next != null)
+            {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+            return slow;
+        }
     }
 
 
