@@ -465,6 +465,80 @@ namespace LeetCode.Nine_Chapter
 
             return string.IsNullOrEmpty(res) ? "/" : res;
         }
+
+
+        [Test]
+        public void SetZeros()
+        {
+            var a = new[,] {{1, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+            SetZeroes(a);
+        }
+        public void SetZeroes(int[,] matrix)
+        {
+            if (matrix == null || matrix.GetLength(0) < 1 || matrix.GetLength(1) < 1)
+            {
+                return;
+            }
+
+            // Number of rows equal to col length.
+            // Number of cols equal to row length.
+            var r = matrix.GetLength(0);
+            var c = matrix.GetLength(1);
+
+            var firstRowEmpty = false;
+            var firstColEmpty = false;
+
+            for (int i = 0; i < r; i++)
+            {
+                if (matrix[i,0] == 0)
+                {
+                    firstColEmpty = true;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < c; i++)
+            {
+                if (matrix[0, i] == 0)
+                {
+                    firstRowEmpty = true;
+                    break;
+                }
+            }
+
+
+
+            for (var i = 1; i < r; i++) {
+                for (var j = 1; j < c; j++) {
+                    if (matrix[i,j] == 0)
+                    {
+                        matrix[i, 0] = 0;
+                        matrix[0, j] = 0;
+                    }
+                }
+            }
+
+            for (var i = 1; i < r; i++)
+            {
+                for (var j = 1; j < c; j++)
+                {
+                    if (matrix[0, j] == 0 || matrix[i, 0] == 0)
+                    {
+                        matrix[i, j] = 0;
+                    }
+
+                }
+            }
+
+
+            if (firstColEmpty)
+            {
+                for (int i = 0; i < r; i++)
+                {
+                    matrix[i,0] = 0;
+                }
+            }
+        }
     }
 
 
