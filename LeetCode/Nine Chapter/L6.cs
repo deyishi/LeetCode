@@ -632,6 +632,56 @@ namespace LeetCode.Nine_Chapter
 
             return dummy.next;
         }
+
+
+        [Test]
+        public void SortedListToBst()
+        {
+            var list = new[] {1, 2, 3 ,4 ,5 ,6 ,7}.ToLinkedList();
+            var r = SortedListToBst(list);
+        }
+
+        private ListNode _current;
+
+        private int GetListLength(ListNode head)
+        {
+            int size = 0;
+
+            while (head != null)
+            {
+                size++;
+                head = head.next;
+            }
+
+            return size;
+        }
+
+        public TreeNode SortedListToBst(ListNode head)
+        {
+
+            _current = head;
+            var size = GetListLength(head);
+
+            return SortedListToBstHelper(size);
+        }
+
+        public TreeNode SortedListToBstHelper(int size)
+        {
+            if (size <= 0)
+            {
+                return null;
+            }
+
+            TreeNode left = SortedListToBstHelper(size / 2);
+            TreeNode root = new TreeNode(_current.val);
+            _current = _current.next;
+            TreeNode right = SortedListToBstHelper(size - 1 - size / 2);
+
+            root.left = left;
+            root.right = right;
+
+            return root;
+        }
     }
 
 
