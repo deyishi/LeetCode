@@ -682,6 +682,131 @@ namespace LeetCode.Nine_Chapter
 
             return root;
         }
+
+
+        [Test]
+        public void BstToDoublyList()
+        {
+            var t = new[] {2, 1, 3}.ToTree();
+            var r = BstToDoublyList(t);
+        }
+        public DoublyListNode BstToDoublyList(TreeNode root)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            return DfsInOrder(root);
+        }
+
+        private DoublyListNode DfsInOrder(TreeNode root)
+        {
+
+            Stack<TreeNode> stack = new Stack<TreeNode>();
+            TreeNode curr = root;
+            DoublyListNode head = null;
+            DoublyListNode prev = null;
+            while (curr != null || stack.Any())
+            {
+                while (curr != null)
+                {
+                    stack.Push(curr);
+                    curr = curr.left;
+                }
+
+                curr = stack.Pop();
+                // Link curr to prev.
+                DoublyListNode node = new DoublyListNode(curr.val) {prev = prev};
+                if (head == null)
+                {
+                    head = node;
+                }
+
+                // Link prev to its next.
+                if (prev != null)
+                {
+                    prev.next = node;
+                }
+                prev = node;
+
+                // Continue dfs in-order
+                curr = curr.right;
+                
+            }
+
+            return head;
+        }
+
+        public void Merge(int[] nums1, int m, int[] nums2, int n)
+        {
+            int mLength = m + n - 1;
+            int i = m - 1;
+            int j = n - 1;
+
+            while (mLength > 0)
+            {
+                if (i >= 0 && j >= 0)
+                {
+                    if (nums1[i] > nums2[j])
+                    {
+                        nums1[mLength] = nums1[i];
+                        i--;
+                    }
+                    else
+                    {
+                        nums1[mLength] = nums2[j];
+                        j--;
+                    }
+                }else if (i >= 0)
+                {
+                    nums1[mLength] = nums1[i];
+                    i--;
+                }
+                else
+                {
+                    nums1[mLength] = nums2[j];
+                    j--;
+                }
+
+                mLength--;
+            }
+        }
+
+        public int[] Intersection(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums2 == null)
+            {
+                return null;
+            }
+
+            var set = new HashSet<int>();
+            Array.Sort(nums1);
+            Array.Sort(nums2);
+            var i = 0;
+            var j = 0;
+
+            while (i < nums1.Length && j < nums2.Length)
+            {
+                if (nums1[i] > nums2[j])
+                {
+                    j++;
+                }
+                else if(nums1[i] < nums2[j])
+                {
+                    i++;
+                }
+                else
+                {
+                    set.Add(nums1[i]);
+                    i++;
+                    j++;
+                }
+            }
+
+            return set.ToArray();
+        }
+
     }
 
 
