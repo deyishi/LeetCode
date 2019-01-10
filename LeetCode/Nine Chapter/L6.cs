@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -803,11 +804,20 @@ namespace LeetCode.Nine_Chapter
                     j++;
                 }
             }
-
             return set.ToArray();
         }
 
+
+        public IList<int> GrayCode(int n)
+        {
+            var result = new List<int>();
+            for (int i = 0; i < Math.Pow(2, 4); ++i)
+            {
+                result.Add(i >> 1 ^ i);
+            }
+
+            return result;
+        }
+
     }
-
-
 }
