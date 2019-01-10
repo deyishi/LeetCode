@@ -819,5 +819,46 @@ namespace LeetCode.Nine_Chapter
             return result;
         }
 
+        [Test]
+        public void NumDecoding()
+        {
+            var s = "1001";
+
+            var r = NumDecodings(s);
+        }
+
+        public int NumDecodings(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s[0] == '0')
+            {
+                return 0;
+            }
+            int prev = 1;
+            int curr = 1;
+            for (int i = 2; i <= s.Length; i++)
+            {
+
+                var temp = 0;
+                if (s[i - 1] != '0')
+                {
+                    temp = curr;
+                }
+                else if (s[i - 2] == '0')
+                {
+                    return 0;
+                }
+
+                // Can form a valid two digits.
+                int twoDigits = (s[i - 2] - '0') * 10 + s[i - 1] - '0';
+                if (twoDigits >= 10 && twoDigits <= 26)
+                {
+                    temp += prev;
+                }
+
+                prev = curr;
+                curr = temp;
+            }
+            return curr;
+        }
     }
 }
