@@ -987,8 +987,42 @@ namespace LeetCode.Nine_Chapter
                 }
 
                 root = temp.left;
-
             }
         }
+
+        public void ConnectBinaryTree(TreeLinkNode root)
+        {
+            if (root == null) return;
+            if (root.left != null)
+            {
+                root.left.next = root.right ?? ConnectFindNext(root);
+            }
+
+            if (root.right != null)
+            {
+                root.right.next = ConnectFindNext(root);
+            }
+            ConnectBinaryTree(root.right);
+            ConnectBinaryTree(root.left);
+        }
+
+        private TreeLinkNode ConnectFindNext(TreeLinkNode root)
+        {
+            TreeLinkNode sibling = root.next;
+            while (sibling != null)
+            {
+                if (sibling.left == null && sibling.right == null)
+                {
+                    sibling = sibling.next;
+                }
+                else
+                {
+                    return sibling.left ?? sibling.right;
+                }
+            }
+            return null;
+        }
+
+
     }
 }
