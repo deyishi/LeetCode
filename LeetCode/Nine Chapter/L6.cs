@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LeetCode.DataModel;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace LeetCode.Nine_Chapter
 {
@@ -827,6 +828,7 @@ namespace LeetCode.Nine_Chapter
             var r = NumDecodings(s);
         }
 
+        //DP calculating current string[currentIndex] combinations count by adding string[currentIndex - 1] + string[currentIndex] based on conditions string[currentIndex] or string[currentIndex - 1] is 0. Whether current index form a valid single digit number or valid double digits number with previous digit.
         public int NumDecodings(string s)
         {
             if (string.IsNullOrEmpty(s) || s[0] == '0')
@@ -835,21 +837,21 @@ namespace LeetCode.Nine_Chapter
             }
             int prev = 1;
             int curr = 1;
-            for (int i = 2; i <= s.Length; i++)
+            for (int i = 1; i < s.Length; i++)
             {
 
                 var temp = 0;
-                if (s[i - 1] != '0')
+                if (s[i] != '0')
                 {
                     temp = curr;
                 }
-                else if (s[i - 2] == '0')
+                else if (s[i - 1] == '0')
                 {
                     return 0;
                 }
 
                 // Can form a valid two digits.
-                int twoDigits = (s[i - 2] - '0') * 10 + s[i - 1] - '0';
+                int twoDigits = (s[i - 1] - '0') * 10 + s[i] - '0';
                 if (twoDigits >= 10 && twoDigits <= 26)
                 {
                     temp += prev;
@@ -860,5 +862,52 @@ namespace LeetCode.Nine_Chapter
             }
             return curr;
         }
+
+        [Test]
+        public void RestoreIpAddresses()
+        {
+            var s = "1111";
+
+            var r = RestoreIpAddresses(s);
+        }
+        public IList<string> RestoreIpAddresses(string s)
+        {
+            var result = new List<string>();
+            if (string.IsNullOrEmpty(s) || s.Length <4 || s.Length > 12)
+            {
+                return result;
+            }
+
+            RestoreIpAddressesHelper(result, s, "", 0);
+            return result;
+        }
+
+        private void RestoreIpAddressesHelper(List<string> result, string s, string current, int start)
+        {
+            if (start == 4 && s.Length == 0)
+            {
+                result.Add(current.Substring(1));
+            }else if (start == 4 || s.Length == 0)
+            {
+            }
+            else
+            {
+                // Do 1 digits.
+                RestoreIpAddressesHelper(result, s.Substring(1), current + "." + s.Substring(0, 1), start + 1);
+                if (s[0] != '0' && s.Length > 1)
+                {
+                    // Do 2 digits, is s > 1 and not start 0.
+                    RestoreIpAddressesHelper(result, s.Substring(2), current + "." + s.Substring(0, 2), start + 1);
+
+                    // Do 3, if s < 255.
+                    if (s.Length > 2 && int.Parse(s.Substring(0,3)) <= 255)
+                    {
+                        RestoreIpAddressesHelper(result, s.Substring(3), current + "." + s.Substring(0, 3), start + 1);
+                    }
+                }
+            }
+        }
+
+
     }
 }
