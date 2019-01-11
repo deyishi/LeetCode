@@ -882,27 +882,34 @@ namespace LeetCode.Nine_Chapter
             return result;
         }
 
-        private void RestoreIpAddressesHelper(List<string> result, string s, string current, int start)
+        /// <summary>
+        /// Backtracking:
+        /// return condition when 4 parts of IP address is found and string is used up.
+        /// Do 1.1.1.1 check if used up, if not do 1.1.1.two digits.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="s"></param>
+        /// <param name="current"></param>
+        /// <param name="parts"></param>
+        private void RestoreIpAddressesHelper(List<string> result, string s, string current, int parts)
         {
-            if (start == 4 && s.Length == 0)
+            if (parts == 4 && s.Length == 0)
             {
                 result.Add(current.Substring(1));
-            }else if (start == 4 || s.Length == 0)
-            {
             }
-            else
+            else if(parts != 4 && s.Length != 0)
             {
                 // Do 1 digits.
-                RestoreIpAddressesHelper(result, s.Substring(1), current + "." + s.Substring(0, 1), start + 1);
+                RestoreIpAddressesHelper(result, s.Substring(1), current + "." + s.Substring(0, 1), parts + 1);
                 if (s[0] != '0' && s.Length > 1)
                 {
                     // Do 2 digits, is s > 1 and not start 0.
-                    RestoreIpAddressesHelper(result, s.Substring(2), current + "." + s.Substring(0, 2), start + 1);
+                    RestoreIpAddressesHelper(result, s.Substring(2), current + "." + s.Substring(0, 2), parts + 1);
 
                     // Do 3, if s < 255.
                     if (s.Length > 2 && int.Parse(s.Substring(0,3)) <= 255)
                     {
-                        RestoreIpAddressesHelper(result, s.Substring(3), current + "." + s.Substring(0, 3), start + 1);
+                        RestoreIpAddressesHelper(result, s.Substring(3), current + "." + s.Substring(0, 3), parts + 1);
                     }
                 }
             }
