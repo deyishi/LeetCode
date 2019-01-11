@@ -915,6 +915,80 @@ namespace LeetCode.Nine_Chapter
             }
         }
 
+        [Test]
+        public void Connect()
+        {
+            var t = new TreeLinkNode(1)
+            {
+                left = new TreeLinkNode(2)
+                {
+                    left =new TreeLinkNode(4),
+                    right = new TreeLinkNode(5)
+                },
+                right = new TreeLinkNode(3)
+                {
+                    left = new TreeLinkNode(6),
+                    right = new TreeLinkNode(7)
+                }
+            };
+            Connect(t);
+        }
 
+        public void Connect(TreeLinkNode root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.left != null)
+            {
+                root.left.next = root.right;
+            }
+
+            if (root.next != null &&  root.right != null)
+            {
+                root.right.next = root.next.left;
+            }
+
+            Connect(root.left);
+            Connect(root.right);
+        }
+
+
+        /// <summary>
+        /// Level traversal
+        /// </summary>
+        /// <param name="root"></param>
+        public void ConnectTwo(TreeLinkNode root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            while (root != null)
+            {
+                var temp = root;
+                if (root.left == null)
+                {
+                    break;
+                }
+
+                while (root != null)
+                {
+                    root.left.next = root.right;
+                    if (root.right != null && root.next != null)
+                    {
+                        root.right.next = root.next.left;
+                    }
+
+                    root = root.next;
+                }
+
+                root = temp.left;
+
+            }
+        }
     }
 }
