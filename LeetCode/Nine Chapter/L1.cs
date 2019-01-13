@@ -71,6 +71,7 @@ namespace LeetCode.Nine_Chapter
                     set.Remove(c);
                 }
             }
+
             return s.Length > result * 2 ? result * 2 + 1 : result * 2;
         }
 
@@ -80,16 +81,21 @@ namespace LeetCode.Nine_Chapter
             {
                 return true;
             }
+
             var l = 0;
             var r = s.Length - 1;
             while (l < r)
             {
-                while (!char.IsLetterOrDigit(s[l])){
+                while (!char.IsLetterOrDigit(s[l]))
+                {
                     l++;
                 }
-                while (!char.IsLetterOrDigit(s[r])){
+
+                while (!char.IsLetterOrDigit(s[r]))
+                {
                     r--;
                 }
+
                 Console.WriteLine(l + " " + r);
                 if (char.ToUpper(s[l]) == char.ToUpper(s[r]))
                 {
@@ -101,6 +107,7 @@ namespace LeetCode.Nine_Chapter
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -210,6 +217,7 @@ namespace LeetCode.Nine_Chapter
                     }
                 }
             }
+
             return count;
         }
 
@@ -230,6 +238,7 @@ namespace LeetCode.Nine_Chapter
                     set.Remove(c);
                 }
             }
+
             return s.Length - count * 2 <= 1;
         }
 
@@ -291,5 +300,59 @@ namespace LeetCode.Nine_Chapter
 
             return maxLength;
         }
+
+        [Test]
+        public void MinSubArrayLen()
+        {
+
+            var s = 7;
+            var nums = new[] {2, 3, 1, 2, 4, 3};
+            var r = MinSubArrayLen(s, nums);
+        }
+
+        public int MinSubArrayLen(int s, int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+
+            var result = int.MaxValue;
+            var sum = 0;
+            var j = 0;
+            for (var i = 0; i < nums.Length; i++)
+            {
+                while (sum <= s && j < nums.Length)
+                {
+                    sum += nums[j];
+                    j++;
+                }
+                if (sum >= s && j - i < result)
+                {
+                    result = j - i;
+                }
+                sum -= nums[i - 1];
+            }
+
+            if (result == int.MaxValue)
+            {
+                return 0;
+            }
+
+            return result;
+        }
+
+
+
+        //public int KthSmallest(int[,] matrix, int k)
+        //{
+        //    var dx = new[] {0, 1};
+        //    var dy = new[] {1, 0};
+
+        //    var n = matrix.GetLength(0);
+        //    var m = matrix.GetLength(1);
+
+
+        //}
     }
 }
