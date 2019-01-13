@@ -43,5 +43,56 @@ namespace LeetCode
 
             return triangle[0][0];
         }
+
+        [Test]
+        public void WordBreak()
+        {
+
+            var n = new int[1];
+            var t = n[1];
+            var s = "cars";
+            var w = new[] {"ca", "rz"};
+            var r = WordBreak(s, w);
+        }
+
+        /// <summary>
+        /// Check all the substring of s, see if they are in the words. dp[substring length 2] is true if 0-2 or 0-1 and 1-2 in the words.
+        /// Record the state at 0-1 and check 1-2.
+        /// State[j] and check string[i, i-j], if true then state[i] is true.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="wordDict"></param>
+        /// <returns></returns>
+        public bool WordBreak(string s, IList<string> wordDict)
+        {
+            if (string.IsNullOrEmpty(s) || wordDict == null || wordDict.Count == 0)
+            {
+                return false;
+            }
+
+
+            var set = new HashSet<string>();
+            foreach (var w in wordDict)
+            {
+                set.Add(w);
+            }
+            var dp = new bool[s.Length + 1];
+            dp[0] = true;
+            // I is the substring length.
+            for (int i = 1; i <= s.Length; i++)
+            {
+                for (var j = 0; j < i; j++)
+                {
+                    if (dp[j] && set.Contains(s.Substring(j, i - j)))
+                    {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+
+            return dp[s.Length];
+        }
+
     }
 }

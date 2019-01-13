@@ -7,9 +7,14 @@ using NUnit.Framework;
 
 namespace LeetCode
 {
-    class BitManipulationSet
+    public class BitManipulationSet
     {
-
+        [Test]
+        public void SingleNumber()
+        {
+            var n = new int[] {1, 2, 2 ,2 ,2 ,2, 2,2};
+            var r = SingleNumber(n);
+        }
         /// <summary>
         ///  once: store the number in one
         ///  twice: store the number in two and clear one
