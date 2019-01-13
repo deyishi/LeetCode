@@ -94,5 +94,70 @@ namespace LeetCode
             return dp[s.Length];
         }
 
+        [Test]
+        public void WordBreakTwo()
+        {
+            var s = "catsandog";
+            var w = new[] {"cats", "dog", "sand", "and", "cat"};
+            var t = WordBreakTwo(s, w);
+        }
+
+        public IList<string> WordBreakTwo(string s, IList<string> wordDict)
+        {
+            if (string.IsNullOrEmpty(s) || wordDict == null || wordDict.Count == 0)
+            {
+                return new List<string>();
+            }
+
+            var found = new Dictionary<string, List<string>>();
+
+            var set = new HashSet<string>();
+            foreach (var word in wordDict)
+            {
+                set.Add(word);
+            }
+
+            return WordBreakHelper(s, set, found);
+
+        }
+
+        private List<string> WordBreakHelper(string s, HashSet<string> wordDict, Dictionary<string, List<string>> found)
+        {
+            if (found.ContainsKey(s))
+            {
+                return found[s];
+            }
+
+            //Reaches end
+            if (s.Length == 0)
+            {
+                return null;
+            }
+
+            var res = new List<string>();
+            for (int i = 1; i <= s.Length; i++)
+            {
+                var word = s.Substring(0, i);
+                if (wordDict.Contains(word))
+                {
+                    var partResults = WordBreakHelper(s.Substring(i), wordDict, found);
+
+                    if (partResults == null)
+                    {
+                        res.Add(word);
+                    }
+                    else
+                    {
+                        foreach (var part in partResults)
+                        {
+                            res.Add(word + " " + part);
+                        }
+                    }
+                }
+            }
+
+            found.Add(s, res);
+            return res;
+        }
     }
 }
