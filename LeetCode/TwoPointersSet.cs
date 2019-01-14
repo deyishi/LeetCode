@@ -30,7 +30,7 @@ namespace LeetCode
         /// <returns></returns>
         public int LengthOfLongestSubstring(string s)
         {
-            if(string.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(s))
             {
                 return 0;
             }
@@ -97,7 +97,7 @@ namespace LeetCode
 
             int r = 0;
 
-            for (var l =0; l < s.Length;l++)
+            for (var l = 0; l < s.Length; l++)
             {
                 while (r < s.Length && found < target)
                 {
@@ -111,7 +111,7 @@ namespace LeetCode
 
                 if (found == target)
                 {
-                    if (ansStartIndex == -1 || r-l < ansEndIndex-ansStartIndex)
+                    if (ansStartIndex == -1 || r - l < ansEndIndex - ansStartIndex)
                     {
                         ansEndIndex = r;
                         ansStartIndex = l;
@@ -119,7 +119,7 @@ namespace LeetCode
                 }
 
                 map[s[l]]--;
-                if (map[s[l]] == targetMap[s[l]] -1)
+                if (map[s[l]] == targetMap[s[l]] - 1)
                 {
                     found--;
                 }
@@ -130,7 +130,7 @@ namespace LeetCode
                 return "";
             }
 
-            return s.Substring(ansStartIndex, ansEndIndex-ansStartIndex);
+            return s.Substring(ansStartIndex, ansEndIndex - ansStartIndex);
         }
 
         [Test]
@@ -141,23 +141,20 @@ namespace LeetCode
             var t = FindSubstring(s, word);
         }
 
-        /// <summary>
-        /// Create two dict <string, int> for current substring and target, count each word's occurrence.
-        /// Loop through each substring starting i, check all the words in i by sub(i + currentWordsCount * wordLength, wordLength), currentWordsCount < wordCounts.
-        /// Another loop to loop through each word starting i.
-        /// Three case:
-        /// Current string doesn't have target words.
-        /// Increment counter.
-        /// Current string has too many words.
-        /// When loop when and counter is same as target, record i.
-        /// </summary>
+        //Create two dict<string, int> for current substring and target, count each word's occurrence.
+        //Loop through each substring starting i, check all the words in i by sub(i + currentWordsCount* wordLength, wordLength), currentWordsCount<wordCounts (Another loop to loop through each word starting i.).
+        //Three case:
+        //Current string doesn't have target words.
+        //Increment counter.
+        //  Current string has too many words.
+        //When loop end and counter is same as target, record i.
         /// <param name="s"></param>
         /// <param name="words"></param>
         /// <returns></returns>
         public IList<int> FindSubstring(string s, string[] words)
         {
             var result = new List<int>();
-            if (string.IsNullOrEmpty(s) || words==null || words.Length == 0)
+            if (string.IsNullOrEmpty(s) || words == null || words.Length == 0)
             {
                 return result;
             }
@@ -222,6 +219,60 @@ namespace LeetCode
                 {
                     result.Add(i);
                 }
+            }
+
+            return result;
+        }
+
+        [Test]
+        public void LengthOfLongestSubstringKDistinct()
+        {
+            var s = "bacc";
+            var k = 2;
+
+            var r = LengthOfLongestSubstringKDistinct(s, k);
+        }
+
+        /// <summary>
+        /// Char counter
+        /// Loop through s and set right index and update counter, at every right index check counter if this (l to r) went over, if so reduce l and update counter.
+        /// Record result.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int LengthOfLongestSubstringKDistinct(string s, int k)
+        {
+            if (string.IsNullOrEmpty(s) || k == 0)
+            {
+                return 0;
+            }
+
+            var map = new int[256];
+            var l = 0;
+            var distinct = 0;
+            var result = int.MinValue;
+
+            for (var r = 0; r<s.Length;r++) {
+                if (map[s[r]] == 0)
+                {
+                    distinct++;
+                }
+
+                map[s[r]]++;
+
+                while (distinct > k)
+                {
+                    map[s[l]]--;
+                    if (map[s[l]] == 0)
+                    {
+                        distinct--;
+                    }
+
+                    l++;
+                }
+
+                result = Math.Max(result, r - l + 1);
             }
 
             return result;
