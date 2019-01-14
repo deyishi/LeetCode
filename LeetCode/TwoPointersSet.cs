@@ -132,5 +132,99 @@ namespace LeetCode
 
             return s.Substring(ansStartIndex, ansEndIndex-ansStartIndex);
         }
+
+        [Test]
+        public void FindSubstring()
+        {
+            var s = "barfoothefoobarman";
+            var word = new[] { "word", "good", "best", "word" };
+            var t = FindSubstring(s, word);
+        }
+
+        /// <summary>
+        /// Create two dict <string, int> for current substring and target, count each word's occurrence.
+        /// Loop through each substring starting i, check all the words in i by sub(i + currentWordsCount * wordLength, wordLength), currentWordsCount < wordCounts.
+        /// Another loop to loop through each word starting i.
+        /// Three case:
+        /// Current string doesn't have target words.
+        /// Increment counter.
+        /// Current string has too many words.
+        /// When loop when and counter is same as target, record i.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public IList<int> FindSubstring(string s, string[] words)
+        {
+            var result = new List<int>();
+            if (string.IsNullOrEmpty(s) || words==null || words.Length == 0)
+            {
+                return result;
+            }
+
+            var wordLength = words[0].Length;
+            var wordsCount = words.Length;
+            var windowLength = wordLength * wordsCount;
+
+            if (s.Length < windowLength)
+            {
+                return result;
+            }
+
+            var found = new Dictionary<string, int>();
+            var target = new Dictionary<string, int>();
+            foreach (var word in words)
+            {
+                if (!target.ContainsKey(word))
+                {
+                    target.Add(word, 1);
+                }
+                else
+                {
+                    target[word]++;
+                }
+            }
+
+            for (int i = 0; i <= s.Length - windowLength; i++)
+            {
+                int currentWordsCount;
+                found.Clear();
+                for (currentWordsCount = 0; currentWordsCount < wordsCount; currentWordsCount++)
+                {
+                    var startIndex = i + currentWordsCount * wordLength;
+                    var sub = s.Substring(startIndex, wordLength);
+
+                    // Current string doesn't have target words.
+                    if (!target.ContainsKey(sub))
+                    {
+                        break;
+                    }
+
+
+                    // Add to map.
+                    if (found.ContainsKey(sub))
+                    {
+                        found[sub]++;
+                    }
+                    else
+                    {
+                        found.Add(sub, 1);
+                    }
+
+                    //Current string has too many words.
+                    if (found[sub] > target[sub])
+                    {
+                        break;
+                    }
+                }
+
+                if (currentWordsCount == wordsCount)
+                {
+                    result.Add(i);
+                }
+            }
+
+            return result;
+        }
     }
 }
