@@ -1023,6 +1023,72 @@ namespace LeetCode.Nine_Chapter
             return null;
         }
 
+        [Test]
+        public void FindKthLargest()
+        {
 
+            var t = new[] {1, 9, 5, 7, 6};
+            var r = FindKthLargest(t, 4);
+        }
+
+        /// <summary>
+        /// Partition:
+        /// 1. Use end as a place holder.
+        /// 2. Select a pivotal, find the pivotal index and insert pivotal. (If index number is less than or equal to p, swap and increase pIndex(is the last number that is large than p). It will skip the large ones, which will get swapped later when number smaller than p is found.) 1, 9, 5, 7, 6, after loop 1, 5, 9(p), 7, final swap.
+        /// 3. Index of the Kth largest number is the length  of number - k.
+        /// 4. Find K Index == pivotal position.
+        /// 5. if k index > pivotal, search pivotal + 1 to end.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int FindKthLargest(int[] nums, int k)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+
+            return QuickSelect(nums, 0, nums.Length - 1, k);
+        }
+
+        public int QuickSelect(int[] nums, int start, int end, int k)
+        {
+
+            var p = nums[end];
+
+            var pIndex = start;
+            for (var i = start; i < end; i++)
+            {
+                if (nums[i] <= p)
+                {
+                    Swap(nums, i, pIndex);
+                    pIndex++;
+                }
+            }
+
+            Swap(nums, pIndex, end);
+
+            var kIndex = nums.Length - k;
+            if (kIndex == pIndex)
+            {
+                return nums[pIndex];
+            }
+
+            if (kIndex > pIndex)
+            {
+                return QuickSelect(nums, pIndex + 1, end, k);
+            }
+
+            return QuickSelect(nums, start, pIndex - 1, k);
+        }
+
+
+        public void Swap(int[] nums, int i, int j)
+        {
+            var temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
     }
 }

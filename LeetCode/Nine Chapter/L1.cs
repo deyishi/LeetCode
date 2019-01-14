@@ -322,7 +322,7 @@ namespace LeetCode.Nine_Chapter
             var j = 0;
             for (var i = 0; i < nums.Length; i++)
             {
-                while (sum <= s && j < nums.Length)
+                while (sum < s && j < nums.Length)
                 {
                     sum += nums[j];
                     j++;
@@ -331,7 +331,7 @@ namespace LeetCode.Nine_Chapter
                 {
                     result = j - i;
                 }
-                sum -= nums[i - 1];
+                sum -= nums[i];
             }
 
             if (result == int.MaxValue)

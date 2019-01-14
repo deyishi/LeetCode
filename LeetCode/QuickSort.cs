@@ -14,8 +14,8 @@ namespace LeetCode
         [Test] 
         public void Test()
         {
-            var nums = new[] {11, 4, 6, 7, 12};
-            DoQuickSortTwo(nums, 0, nums.Length - 1);
+            var nums = new[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 };
+            DoQuickSortOne(nums, 0, nums.Length - 1);
         }
 
         public void DoQuickSort(int[] nums, int start, int end)
@@ -47,61 +47,21 @@ namespace LeetCode
             {
                 var left = 0;
                 var right = end;
+                var mid = start + (end - start) / 2;
+                Swap(nums, mid, end);
 
-                var p = nums[(start + end)/ 2];
-
-                while (left <= right)
-                {
-                    while (left <= right && nums[left] < p)
-                    {
-                        left++;
-                    }
-
-                    while (left <= right && nums[right] > p)
-                    {
-                        right--;
-                    }
-
-                    if (left <= right)
-                    {
-                        Swap(nums, left, right);
-                        left++;
-                        right--;
-                    }
-
-                }
-
-                DoQuickSortOne(nums, start, right);
-                DoQuickSortOne(nums, left, end);
-            }
-        }
-
-        public void DoQuickSortTwo(int[] nums, int start, int end)
-        {
-            if (start < end)
-            {
-                var left = 0;
-                var right = end;
-
-                var p = nums[(start + end) / 2];
-
+                var p = nums[end];
                 while (left < right)
                 {
-                    while (nums[left] < p)
+                    if (nums[left++] > p)
                     {
-                        left++;
+                        Swap(nums, --left, --right);
                     }
-
-                    while (nums[right] > p)
-                    {
-                        right--;
-                    }
-
-                    Swap(nums, left, right);
                 }
+                Swap(nums, left, end);
 
-                DoQuickSortTwo(nums, start, left-1);
-                DoQuickSortTwo(nums, left+1, end);
+                DoQuickSortOne(nums, start, left - 1);
+                DoQuickSortOne(nums, left + 1, end);
             }
         }
 
