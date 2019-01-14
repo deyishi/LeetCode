@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayProblem.cs" />
+    <Compile Include="ArraySet.cs" />
     <Compile Include="BackTracking.cs" />
     <Compile Include="BinarySearchPractice.cs" />
     <Compile Include="BitManipulationSet.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="Nine Chapter\TreeProblems.cs" />
     <Compile Include="QuickSort.cs" />
     <Compile Include="StackPractice.cs" />
+    <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
     <Compile Include="WindowConceptPractice.cs" />
     <Compile Include="LinkedListPracticeSet1.cs" />
