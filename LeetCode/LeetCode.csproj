@@ -67,11 +67,11 @@
     <Compile Include="Nine Chapter\L6.cs" />
     <Compile Include="Nine Chapter\TreeProblems.cs" />
     <Compile Include="QuickSort.cs" />
-    <Compile Include="StackPractice.cs" />
+    <Compile Include="StackSet.cs" />
     <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
     <Compile Include="WindowConceptPractice.cs" />
-    <Compile Include="LinkedListPracticeSet1.cs" />
+    <Compile Include="LinkedListSet.cs" />
     <Compile Include="MergeSort.cs" />
     <Compile Include="PracticeSet1.cs" />
     <Compile Include="PracticeSet2.cs" />
