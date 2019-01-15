@@ -69,5 +69,30 @@ namespace LeetCode.Nine_Chapter
             }
         }
 
+        public int RemoveDuplicates(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+
+
+            var i = 1;
+            var noneDuplicateCountInsertPosition = 1; // First number is always none duplicate.
+            while (i < nums.Length)
+            {
+                if (nums[i-1] != nums[i])
+                {
+                    //Insert none duplicate and update noneDuplicateCountInsertPosition
+                    nums[noneDuplicateCountInsertPosition] = nums[i];
+                    noneDuplicateCountInsertPosition++;
+                }
+
+                i++;
+            }
+
+            return noneDuplicateCountInsertPosition;
+        }
+
     }
 }
