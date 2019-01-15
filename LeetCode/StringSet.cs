@@ -70,8 +70,8 @@ namespace LeetCode
         [Test]
         public void ReverseWords()
         {
-            var s = "  1";
-            var r = ReverseWords(s);
+            var s = " 1";
+            var r = ReverseWordsInPlace(s);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace LeetCode
         /// <returns></returns>
         public string ReverseWords(string s)
         {
-            if (string.IsNullOrEmpty(s))
+            if (string.IsNullOrWhiteSpace(s))
             {
                 return "";
             }
@@ -107,6 +107,62 @@ namespace LeetCode
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// In place solution: reverse the whole string, then reverse word. For c
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public string ReverseWordsInPlace(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return "";
+            }
+
+            var a = s.ToCharArray();
+
+            ReverseString(a, 0, s.Length - 1);
+
+            int i = 0;
+            int spaceIndex = 0;
+            while (i < a.Length)
+            {
+                if (a[i] != ' ')
+                {
+                    if (spaceIndex != 0)
+                    {
+                        a[spaceIndex] = ' ';
+                        spaceIndex++;
+                    }
+
+                    int j = i;
+                    while (j < a.Length && a[j] != ' ')
+                    {
+                        a[spaceIndex++] = a[j++];
+                    }
+
+                    ReverseString(a, i, j - 1);
+                    i = j;
+                }
+
+                i++;
+            }
+
+            return new string(a).Remove(i, s.Length - i);
+        }
+
+        public void ReverseString(char[] s, int start, int end)
+        {
+            while (start < end)
+            {
+                var temp = s[start];
+                s[start] = s[end];
+                s[end] = temp;
+                start++;
+                end--;
+            }
         }
     }
 }

@@ -159,5 +159,42 @@ namespace LeetCode
             found.Add(s, res);
             return res;
         }
+
+        /// <summary>
+        /// DP track each index's max and min since number can be negative.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MaxProduct(int[] nums)
+        {
+            int[] max = new int[nums.Length];
+            int[] min = new int[nums.Length];
+
+            min[0] = max[0] = nums[0];
+
+            int result = nums[0];
+            for (int i = 1; i < nums.Length; i++)
+            {
+                var current = nums[i];
+                if (current > 0)
+                {
+                    max[i] = Math.Max(current, max[i - 1] * current);
+                    min[i] = Math.Min(current, min[i - 1] * current);
+                }else if (current < 0)                     
+                {                                          
+                    max[i] = Math.Max(current, min[i - 1] * current);
+                    min[i] = Math.Min(current, max[i - 1] * current);
+                }
+                else
+                {
+                    max[i] = current;
+                    min[i] = current;
+                }
+
+                result = Math.Max(result, max[i]);
+            }
+
+            return result;
+        }
     }
 }
