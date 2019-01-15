@@ -192,5 +192,50 @@ namespace LeetCode
 
             return -1;
         }
+
+        //378. Kth Smallest Element in a Sorted Matrix
+        [Test]
+        public void METHOD()
+        {
+            var matrix = new[,]
+            {
+                {1, 5, 9},
+                {10, 11, 13},
+                {12, 13, 15}
+            };
+                var k = 8;
+            var r = KthSmallest(matrix, k);
+        }
+        public int KthSmallest(int[,] matrix, int k)
+        {
+            var lo = matrix[0, 0];
+            var hi = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1] + 1;
+            while (lo < hi)
+            {
+                var mid = lo + (hi - lo) / 2;
+                var count = 0;
+                var j = matrix.GetLength(1) - 1;
+                for (var i = 0; i < matrix.GetLength(0); i++)
+                {
+                    while (j >= 0 && matrix[i,j] > mid)
+                    {
+                        j--;
+                    }
+
+                    count += j + 1;
+                }
+
+                if (count < k)
+                {
+                    lo = mid + 1;
+                }
+                else
+                {
+                    hi = mid;
+                }
+            }
+
+            return lo;
+        }
     }
 }
