@@ -10,8 +10,9 @@ namespace LeetCode
     class StringSet
     {
         [Test]
-        public void LongestValidParentheses()
+        public void Test()
         {
+            var t = int.Parse("011");
             var s = "(()()";
             var r = LongestValidParentheses(s);
         }
@@ -263,6 +264,32 @@ namespace LeetCode
             // Check last char.
             count += m - i + n - j;
             return count == 1;
+        }
+
+        public int CompareVersion(string version1, string version2)
+        {
+            var v1 = version1.Split('.');
+            var v2 = version2.Split('.');
+            
+            var i = 0;
+            var j = 0;
+            while (i < v1.Length || j < v2.Length)
+            {
+                // Check case like 1 , 1.1. For shorter version string use 0 here.
+                var a  = i < v1.Length ? int.Parse(v1[i]) : 0;
+                var b = j < v2.Length ? int.Parse(v2[j]) : 0;
+
+                var r = a.CompareTo(b);
+                if (r != 0)
+                {
+                    return r;
+                }
+
+                i++;
+                j++;
+            }
+
+            return 0;
         }
     }
 }

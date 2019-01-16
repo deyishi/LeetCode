@@ -9,6 +9,16 @@ namespace LeetCode
 {
     public class ArraySet
     {
+        [Test]
+        public void Test()
+        {
+            var n = new[] { 0, 1, 3, 50, 75 };
+            var s = 0;
+            var e = 99;
+            var r = FindMissingRanges(n, s, e);
+        }
+
+
         public IList<int> SpiralOrder(int[,] matrix)
         {
             var result = new List<int>();
@@ -110,18 +120,10 @@ namespace LeetCode
             return result;
         }
 
-        [Test]
-        public void METHOD()
-        {
-            var n = new[] {0, 1, 3, 50, 75};
-            var s = 0;
-            var e = 99;
-            var r = FindMissingRanges(n, s, e);
-        }
 
         /// <summary>
         /// First range check nums[0]-1 with lower.
-        /// Mid ranges loop through from 1 to n, compare [i - 1] + 1 with [i] -1 to check consecutive number.
+        /// Mid ranges loop through from 1 to n, compare [i - 1] + 1 with [i] -1 to check consecutive number (either missing one, missing a chunk or nothing).
         /// Last range check nums[n - 1]+1 with upper.
         /// </summary>
         /// <param name="nums"></param>
