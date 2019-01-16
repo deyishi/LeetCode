@@ -49,7 +49,7 @@ namespace LeetCode
 
                         if (!locationStack.Any())
                         {
-                            //Ended with a finished a set, update CurrentSetLength for consecutive set length calculation. Case "()()"
+                            //Ended with a finished a set, update CurrentSetLength for consecutive set Length calculation. Case "()()"
                             currentSetCount += matchedLength;
                             result = Math.Max(result, currentSetCount);
                         }
@@ -163,6 +163,106 @@ namespace LeetCode
                 start++;
                 end--;
             }
+        }
+
+
+        [Test]
+        public void IsOneEditDistance()
+        {
+            var a = "";
+            var b = "";
+           var r = IsOneEditDistanceTwoPointer(a,b);
+        }
+
+        /// <summary>
+        /// Check null, check if Length is same.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public bool IsOneEditDistance(string s, string t)
+        {
+            int n = Math.Min(t.Length, s.Length);
+            for (var i = 0; i < n;i++) {
+                if (s[i] != t[i])
+                {
+                    if (s.Length == t.Length)
+                    {
+                        //Replace current char.
+                        return s.Substring(i + 1).Equals(t.Substring(i + 1));
+                    }
+                    if (s.Length < t.Length)
+                    {
+                        //Insert
+                        return s.Substring(i).Equals(t.Substring(i + 1));
+                    }
+
+                    //Delete
+                    return s.Substring(i + 1).Equals(t.Substring(i));
+                }
+            }
+
+            //All previous chars are the same, the only possibility is deleting the end char in the longer one of s and t 
+            return Math.Abs(s.Length - t.Length) == 1;
+        }
+
+        public bool IsOneEditDistanceTwoPointer(string s, string t)
+        {
+            if (s == null || t == null)
+            {
+                return s == t;
+            }
+
+            if (t.Equals(s))
+            {
+                return false;
+            }
+
+            int m = s.Length;
+            int n = t.Length;
+            if (Math.Abs(m - n) > 1)
+            {
+                return false;
+            }
+
+            int i = 0;
+            int j = 0;
+            int count = 0;
+
+            while (i < m && j < n)
+            {
+                if (s[i] == t[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    count++;
+                    if (count > 1)
+                    {
+                        return false;
+                    }
+
+                    if (m == n)
+                    {
+                        i++;
+                        j++;
+                    }
+                    else if (m > n)
+                    {
+                        i++;
+                    }
+                    else
+                    {
+                        j++;
+                    }
+                }
+            }
+
+            // Check last char.
+            count += m - i + n - j;
+            return count == 1;
         }
     }
 }
