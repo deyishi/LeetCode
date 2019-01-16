@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace LeetCode
 {
@@ -107,6 +108,63 @@ namespace LeetCode
             }
 
             return result;
+        }
+
+        [Test]
+        public void METHOD()
+        {
+            var n = new[] {0, 1, 3, 50, 75};
+            var s = 0;
+            var e = 99;
+            var r = FindMissingRanges(n, s, e);
+        }
+
+        /// <summary>
+        /// First range check nums[0]-1 with lower.
+        /// Mid ranges loop through from 1 to n, compare [i - 1] + 1 with [i] -1 to check consecutive number.
+        /// Last range check nums[n - 1]+1 with upper.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="lower"></param>
+        /// <param name="upper"></param>
+        /// <returns></returns>
+        public IList<string> FindMissingRanges(int[] nums, int lower, int upper)
+        {
+            List<string> result = new List<string>();
+            if (nums == null || nums.Length == 0)
+            {
+                AddRange(lower, upper, result);
+                return result;
+            }
+
+            AddRange(lower, (long)nums[0] - 1, result);
+
+            for (var i = 1; i < nums.Length; i++) {
+                AddRange((long)nums[i-1]+1, (long)nums[i] -1, result);
+            }
+            AddRange((long)nums[nums.Length -1] + 1, upper, result);
+
+            return result;
+        }
+
+        public void AddRange(long start, long end, List<string> r)
+        {
+            // Not missing anything
+            if (start > end)
+            {
+                return;
+            }
+
+            // Missing one
+            if (start == end)
+            {
+                r.Add(start + "");
+            }
+            else
+            {
+                // Missing a chunk
+                r.Add(start + "->" + end);
+            }
         }
     }
 }
