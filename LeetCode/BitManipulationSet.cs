@@ -15,7 +15,7 @@ namespace LeetCode
         {
             var n = new int[] {1, 2, 2 ,2 ,2 ,2, 2,2};
             var b = 1101;
-            var r = ReverseBits(b);
+            //var r = ReverseBits(b);
         }
         /// <summary>
         ///  once: store the number in one

@@ -13,9 +13,15 @@ namespace LeetCode
         [Test]
         public void PreorderTraversal()
         {
-            var t = new int[] { 1, 2, 3, 4, 5 }.ToTree();
 
-            var r = UpsideDownBinaryTree(t);
+            var stack = new Stack<int>();
+            stack.Push(0);
+            stack.Push(1);
+            var x = stack.Pop();
+            var t = new int?[] { 7, 3, 15, null,null, 9,20 }.ToTree();
+            var r = new BSTIterator(t);
+            var res = r.Next();
+            res = r.Next();
         }
 
         public IList<int> PreorderTraversal(TreeNode root)
@@ -64,6 +70,38 @@ namespace LeetCode
             root.left = null;            // important
             root.right = null;
             return node;
+        }
+    }
+
+    public class BSTIterator
+    {
+        private Stack<TreeNode> stack = new Stack<TreeNode>();
+        public BSTIterator(TreeNode root)
+        {
+            PushAll(root);
+        }
+
+        /** @return the next smallest number */
+        public int Next()
+        {
+            TreeNode curr = stack.Pop();
+            PushAll(curr.right);
+            return curr.val;
+        }
+
+        /** @return whether we have a next smallest number */
+        public bool HasNext()
+        {
+            return stack.Any();
+        }
+
+        private void PushAll(TreeNode node)
+        {
+            while (node != null)
+            {
+                stack.Push(node);
+                node = node.left;
+            }
         }
     }
 }
