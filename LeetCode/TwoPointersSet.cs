@@ -277,5 +277,41 @@ namespace LeetCode
 
             return result;
         }
+
+        //259. 3Sum Smaller
+        //Sort array.
+        //Loop through array, for each number user two pointers to find a pair that adds to current number is less than target.
+        //Anything from the pair end to the pair start is also less than target.
+        public int ThreeSumSmaller(int[] nums, int target)
+        {
+            var result = 0;
+            if (nums == null || nums.Length < 3)
+            {
+                return result;
+            }
+
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = 0; i < n-2; i++)
+            {
+
+                var l = i+1;
+                var r = n;
+                while (l < r)
+                {
+                    if (nums[l] + nums[r] + nums[i] < target)
+                    {
+                        result += r - l;
+                        l++;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
