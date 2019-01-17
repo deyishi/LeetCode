@@ -73,6 +73,10 @@ namespace LeetCode
         }
     }
 
+    // 173. Binary Search Tree Iterator
+    // Use stack to store left most node and its parents.
+    // Next return left most node and push its right child's left most node to stack.
+    // If stack is not empty, then it has next.
     public class BSTIterator
     {
         private Stack<TreeNode> stack = new Stack<TreeNode>();
