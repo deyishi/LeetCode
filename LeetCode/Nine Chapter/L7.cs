@@ -94,7 +94,11 @@ namespace LeetCode.Nine_Chapter
             return noneDuplicateCountInsertPosition;
         }
 
-
+        //15. 3Sum
+        //    Sort Array.
+        //    Loop through numbers and use two pointers to find the pair that adds up to current number.
+        //    Return when current number is large than 0 since the numbers behind won't be negative.
+        //    With duplicates, check current number with previous number, in two pointers loop, skip duplicate once a pair is found.
         public IList<IList<int>> ThreeSum(int[] nums)
         {
             var result = new List<IList<int>>();
@@ -145,6 +149,41 @@ namespace LeetCode.Nine_Chapter
                     else
                     {
                         r--;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //611. Valid Triangle Number
+        //    Sort Array.
+        //    Loop through numbers from the end and use two pointers to find the pair that adds up large than current number.
+        //    If a pair is found, all the numbers after that pair start add to the pair end is also large than current number(Since we want to count duplicate use end - start).
+        public int TriangleNumber(int[] nums)
+        {
+            var result = 0;
+            if (nums == null || nums.Length < 3)
+            {
+                return result;
+            }
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = n-1; i >= 2; i--)
+            {
+                var l = 0;
+                var r = i - 1;
+                while (l < r)
+                {
+                    if (nums[l] + nums[r] > nums[i])
+                    {
+                        //All the pairs between l and r are large than nums[i].
+                        result += r - l;
+                        r--;
+                    }
+                    else
+                    {
+                        l++;
                     }
                 }
             }
