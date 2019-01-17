@@ -48,7 +48,13 @@ namespace LeetCode
             return ones;
         }
 
-
+        //190. Reverse Bits
+        //Check 0
+        //shift result to left
+        //n & 1 == 1 check last digit, add to result
+        //n: 1101 -> 0110 -> 0011 -> 0001 -> 0000
+        //r: 0000 -> 0001 -> 0010 -> 0101 -> 1011 
+        //shift n to right
         public uint ReverseBits(uint n)
         {
             if (n == 0)
@@ -71,6 +77,29 @@ namespace LeetCode
                 //Shift n to right, update last digit
                 n >>= 1;
             }
+            return res;
+        }
+
+        //191. Number of 1 Bits
+        //    Count current last bit
+        //    Shift number to right by 1.
+        public int HammingWeight(uint n)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
+            var res = 0;
+            while (n != 0)
+            {
+                if ((n & 1) == 1)
+                {
+                    res++;
+                }
+
+                n >>= 1;
+            }
+
             return res;
         }
     }
