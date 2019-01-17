@@ -94,5 +94,62 @@ namespace LeetCode.Nine_Chapter
             return noneDuplicateCountInsertPosition;
         }
 
+
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length == 0)
+            {
+                return result;
+            }
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = 0; i < n; i++)
+            {
+                if (nums[i] > 0)
+                {
+                    return result;
+                }
+
+                if (i > 0 && nums[i] == nums[i-1])
+                {
+                    continue;
+                }
+
+                var curr = nums[i];
+                var l = i + 1;
+                var r = n - 1;
+                while (l < r)
+                {
+
+                    var sum = nums[l] + nums[r] + curr;
+                    if (sum == 0)
+                    {
+                        result.Add(new List<int> { nums[i], nums[l], nums[r] });
+                        l++;
+                        r--;
+                        while (l < r && nums[l] == nums[l-1])
+                        {
+                            l++;
+                        }
+
+                        while (l < r && nums[r] == nums[r+1])
+                        {
+                            r--;
+                        }
+                    }
+                    else if (sum < 0)
+                    {
+                        l++;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
