@@ -7,15 +7,15 @@ using NUnit.Framework;
 
 namespace LeetCode
 {
-    public class MathProblemSet
+    public class MathSet
     {
         [Test]
-        public void Multiply()
+        public void Test()
         {
-            var num1 = "123";
-            var num2 = "45";
+            var num1 = 1;
+            var num2 = 3;
 
-            var r = Multiply(num1, num2);
+            var r = FractionToDecimal(num1, num2);
         }
 
         public string Multiply(string num1, string num2)
@@ -268,6 +268,59 @@ namespace LeetCode
                 LetterCasePermutationHelper(s, result, curr + Char.ToUpper(curr[index]), index + 1);
                 LetterCasePermutationHelper(s, result, curr + Char.ToLower(curr[index]), index + 1);
             }
+        }
+
+        public string FractionToDecimal(int numerator, int denominator)
+        {
+            if (numerator == 0)
+            {
+                return "0";
+            }
+
+            if (denominator == 0)
+            {
+                return "NaN";
+            }
+
+            var res = new StringBuilder();
+
+            //Handle negative
+            res.Append((numerator < 0) ^ (denominator < 0) ? "-" : "");
+
+            //Handle overflow
+            long num = Math.Abs((long) numerator);
+            long den = Math.Abs((long) denominator);
+
+            res.Append(num / den);
+            num %= den;
+            // No fractional  
+            if (num == 0)
+            {
+                return res.ToString();
+            }
+
+            res.Append(".");
+
+            var map = new Dictionary<long, int> {{num, res.Length}};
+
+            while (num != 0)
+            {
+                num *= 10;
+                res.Append(num / den);
+                num %= den;
+                if (map.ContainsKey(num))
+                {
+                    var index = map[num];
+                    res.Insert(index, "(");
+                    res.Append(")");
+                    return res.ToString();
+                }
+
+                map.Add(num, res.Length);
+            }
+
+            // No repeating decimal
+            return res.ToString();
         }
     }
 }

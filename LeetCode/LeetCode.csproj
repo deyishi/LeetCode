@@ -58,7 +58,7 @@
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />
-    <Compile Include="MathProblemSet.cs" />
+    <Compile Include="MathSet.cs" />
     <Compile Include="Nine Chapter\L1.cs" />
     <Compile Include="Nine Chapter\L2BinarySearch.cs" />
     <Compile Include="Nine Chapter\L3TwoPointers.CS" />
@@ -67,7 +67,7 @@
     <Compile Include="Nine Chapter\L6.cs" />
     <Compile Include="Nine Chapter\L7.cs" />
     <Compile Include="Nine Chapter\TreeProblems.cs" />
-    <Compile Include="QuickSort.cs" />
+    <Compile Include="Nine Chapter\QuickSort.cs" />
     <Compile Include="StackSet.cs" />
     <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
