@@ -12,11 +12,12 @@ namespace LeetCode
     {
 
         [Test]
-        public void LengthOfLongestSubstring()
+        public void Test()
         {
             var s = "abcabcbb";
 
-            var r = LengthOfLongestSubstring(s);
+            var n = new[] {3,2,1};
+            var r = PartitionArray(n, 2);
         }
 
         /// <summary>
@@ -276,6 +277,134 @@ namespace LeetCode
             }
 
             return result;
+        }
+
+        //259. 3Sum Smaller
+        //Sort array.
+        //Loop through array, for each number user two pointers to find a pair that adds to current number is less than target.
+        //Anything from the pair end to the pair start is also less than target.
+        public int ThreeSumSmaller(int[] nums, int target)
+        {
+            var result = 0;
+            if (nums == null || nums.Length < 3)
+            {
+                return result;
+            }
+
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = 0; i < n-2; i++)
+            {
+
+                var l = i+1;
+                var r = n-1;
+                while (l < r)
+                {
+                    if (nums[l] + nums[r] + nums[i] < target)
+                    {
+                        result += r - l;
+                        l++;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Two pointers need to track sum and difference.
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int ThreeSumClosest(int[] nums, int target)
+        {
+            if (nums == null || nums.Length < 3)
+            {
+                return 0;
+            }
+
+            var diff = int.MaxValue;
+            var result = 0;
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = 0; i < n - 2; i++)
+            {
+
+                var l = i + 1;
+                var r = n - 1;
+                while (l < r)
+                {
+                    var currSum = nums[l] + nums[r] + nums[i];
+
+                    var currDiff = Math.Abs(currSum - target);
+                    if (diff > currDiff)
+                    {
+                        diff = currDiff;
+                        result = currSum;
+                    }
+                    if (currSum < target)
+                    {
+                        l++;
+                    }
+                    else if (currSum > target)
+                    {
+                        r--;
+                    }
+                    else
+                    {
+                        return result;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //31. Partition Array
+        //Two pointers:
+        //i find the index where n[i] is large or equal k
+        //j find the index where n[j] is less than k
+        //swap
+        //After the loop everything less than k will be at left of i.everything greater than k will be at right of i.
+        public int PartitionArray(int[] nums, int k)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+
+            int l = 0;
+            int r = nums.Length - 1;
+            while (l <= r)
+            {
+                //Find one doesn't belong to left.
+                while (l <= r && nums[l] <k)
+                {
+                    l++;
+                }
+
+                //Find the one doesn't belong to right among the ones doesn't belong to left..
+                while (l<=r && nums[r] >= k)
+                {
+                    r--;
+                }
+
+                if (l <= r)
+                {
+                    int temp = nums[l];
+                    nums[l] = nums[r];
+                    nums[r] = temp;
+                    l++;
+                    r--;
+                }
+            }
+
+            return l;
         }
     }
 }
