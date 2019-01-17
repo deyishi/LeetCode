@@ -296,12 +296,46 @@ namespace LeetCode
             {
 
                 var l = i+1;
-                var r = n;
+                var r = n-1;
                 while (l < r)
                 {
                     if (nums[l] + nums[r] + nums[i] < target)
                     {
                         result += r - l;
+                        l++;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public int ThreeSumClosest(int[] nums, int target)
+        {
+            if (nums == null || nums.Length < 3)
+            {
+                return 0;
+            }
+
+            var result = int.MaxValue;
+            Array.Sort(nums);
+            var n = nums.Length;
+            for (var i = 0; i < n - 2; i++)
+            {
+
+                var l = i + 1;
+                var r = n-1;
+                while (l < r)
+                {
+                    var diff = nums[l] + nums[r] + nums[i] - target;
+
+                    result = Math.Min(result, Math.Abs(diff));
+                    if (nums[l] + nums[r] + nums[i] < target)
+                    {
                         l++;
                     }
                     else
