@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace LeetCode
         {
             var t = int.Parse("011");
             var s = "(()()";
-            var r = LongestValidParentheses(s);
+
+            var l = new List<string>{ "12:01", "00:13"};
+            var r = FindMinDifference(l);
         }
 
         public int LongestValidParentheses(string s)
@@ -290,6 +293,44 @@ namespace LeetCode
             }
 
             return 0;
+        }
+
+        public int FindMinDifference(IList<string> timePoints)
+        {
+            var mark = new bool[60 * 24];
+            var max = int.MinValue;
+            var min = int.MaxValue;
+            foreach (var t in timePoints)
+            {
+                var a = t.Split(':');
+                var hours = int.Parse(a[0]);
+                var minutes = int.Parse(a[1]);
+                var currentTime = hours * 60 + minutes;
+                if (mark[currentTime])
+                {
+                    return 0;
+                }
+
+                min = Math.Min(currentTime, min);
+                max = Math.Max(currentTime, max);
+                mark[currentTime] = true;
+            }
+
+            //Check first point, it can go either way. max to min we use total - max + min.
+            var minDiff = Math.Min(max - min, 1440 - max + min);
+            var prev = min;
+
+            //search between min + 1 and max time point.
+            for (var i = min + 1; i <= max; i++)
+            {
+                if (mark[i])
+                {
+                    minDiff = Math.Min(minDiff, i - prev);
+                    prev = i;
+                }
+            }
+
+            return minDiff;
         }
     }
 }
