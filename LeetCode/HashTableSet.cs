@@ -12,10 +12,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var a = new[]
-                {"root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)", "root 4.txt(efgh)"};
+            var a = "AAAAAAAAAAAA";
 
-            var r = FindDuplicate(a);
+            var r = FindRepeatedDnaSequences(a);
         }
         public IList<IList<string>> FindDuplicate(string[] paths)
         {
@@ -72,6 +71,22 @@ namespace LeetCode
             }
 
             return result;
+        }
+
+        public IList<string> FindRepeatedDnaSequences(string s)
+        {
+            var result = new HashSet<string>();
+            var set = new HashSet<string>();
+            for (var i = 0; i < s.Length - 9; i++)
+            {
+                var sub = s.Substring(i, 10);
+                if (!set.Add(sub))
+                {
+                    result.Add(sub);
+                }
+            }
+
+            return result.ToList();
         }
     }
 }
