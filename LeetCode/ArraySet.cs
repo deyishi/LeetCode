@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -169,6 +170,11 @@ namespace LeetCode
             }
         }
 
+        //163. Missing Ranges
+        //Create helper function to merge start and end and add to result.
+        //    Pointer j to track the start for next range at n[i-1]+1 != n[i], j = i.
+        //    Loop through n and use helper function.
+        //    Handle last number using j pointer when loop ends.
         public IList<string> SummaryRanges(int[] nums)
         {
             var result = new List<string>();
@@ -188,6 +194,7 @@ namespace LeetCode
                 j = i;
             }
 
+            //Create range from last merge end with last number.
             AddRange(nums[j], nums[nums.Length -1], result);
 
             return result;
