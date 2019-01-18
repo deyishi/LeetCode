@@ -12,10 +12,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[] { 0, 1, 3, 50, 75 };
+            var n = new[] { 0, 1, 2, 4, 5,6, 7 };
             var s = 0;
             var e = 99;
-            var r = FindMissingRanges(n, s, e);
+            var r = SummaryRanges(n);
         }
 
 
@@ -167,6 +167,30 @@ namespace LeetCode
                 // Missing a chunk
                 r.Add(start + "->" + end);
             }
+        }
+
+        public IList<string> SummaryRanges(int[] nums)
+        {
+            var result = new List<string>();
+            if (nums == null || nums.Length == 0)
+            {
+                return result;
+            }
+
+            // Use j to track the number after last merge end.
+            var j = 0;
+            for (int i = 1; i < nums.Length; i++) {
+                if (nums[i-1]+1 == nums[i])
+                {
+                    continue;
+                }
+                AddRange(nums[j], nums[i-1], result);
+                j = i;
+            }
+
+            AddRange(nums[j], nums[nums.Length -1], result);
+
+            return result;
         }
     }
 }
