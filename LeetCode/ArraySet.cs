@@ -13,10 +13,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[] { 0, 1, 2, 4, 5,6, 7 };
+            var n = new[] { 3, 30, 34, 5, 9 };
             var s = 0;
             var e = 99;
-            var r = SummaryRanges(n);
+            var r = LargestNumber(n);
         }
 
 
@@ -198,6 +198,31 @@ namespace LeetCode
             AddRange(nums[j], nums[nums.Length -1], result);
 
             return result;
+        }
+
+        public string LargestNumber(int[] nums)
+        {
+            var n = new List<string>();
+            foreach (var num in nums)
+            {
+                n.Add(num.ToString());
+            }
+
+            // Comparator b - a sorting in descending order.
+            n.Sort((a, b) => (int) (long.Parse(b+ a) - long.Parse(a + b)));
+            StringBuilder sb = new StringBuilder();
+            foreach (var x in n)
+            {
+                sb.Append(x);
+            }
+
+            if (sb[0] == '0')
+            {
+                return "0";
+            }
+
+            //remove leading 0
+            return sb.ToString();
         }
     }
 
