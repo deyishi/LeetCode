@@ -58,6 +58,7 @@
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />
+    <Compile Include="HashTableSet.cs" />
     <Compile Include="MathSet.cs" />
     <Compile Include="Nine Chapter\L1.cs" />
     <Compile Include="Nine Chapter\L2BinarySearch.cs" />
