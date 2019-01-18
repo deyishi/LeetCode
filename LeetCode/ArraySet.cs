@@ -216,6 +216,7 @@ namespace LeetCode
                 sb.Append(x);
             }
 
+            //Since a comparator is used in above code, only when all the elements are "0", the first element can be "0".Otherwise, if a string contains one character larger than zero, the first element must be nonzero. Therefore, we only need to consider whether the first string is "0" in a sorted array.
             if (sb[0] == '0')
             {
                 return "0";
