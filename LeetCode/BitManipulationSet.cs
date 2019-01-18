@@ -11,10 +11,11 @@ namespace LeetCode
     public class BitManipulationSet
     {
         [Test]
-        public void SingleNumber()
+        public void Test()
         {
             var n = new int[] {1, 2, 2 ,2 ,2 ,2, 2,2};
-            var r = SingleNumber(n);
+            var b = 1101;
+            //var r = ReverseBits(b);
         }
         /// <summary>
         ///  once: store the number in one
@@ -47,7 +48,59 @@ namespace LeetCode
             return ones;
         }
 
+        //190. Reverse Bits
+        //Check 0
+        //shift result to left
+        //n & 1 == 1 check last digit, add to result
+        //n: 1101 -> 0110 -> 0011 -> 0001 -> 0000
+        //r: 0000 -> 0001 -> 0010 -> 0101 -> 1011 
+        //shift n to right
+        public uint ReverseBits(uint n)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
 
-  
+            uint res = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                //Move result to left
+                res <<= 1;
+
+                //Check n's last digit, add to result.
+                if ((n & 1) == 1)
+                {
+                    res++;
+                }
+
+                //Shift n to right, update last digit
+                n >>= 1;
+            }
+            return res;
+        }
+
+        //191. Number of 1 Bits
+        //    Count current last bit
+        //    Shift number to right by 1.
+        public int HammingWeight(uint n)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
+            var res = 0;
+            while (n != 0)
+            {
+                if ((n & 1) == 1)
+                {
+                    res++;
+                }
+
+                n >>= 1;
+            }
+
+            return res;
+        }
     }
 }
