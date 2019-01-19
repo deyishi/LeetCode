@@ -12,12 +12,23 @@ namespace LeetCode
     public class BackTracking
     {
         [Test]
-        public void Combine()
+        public void Test()
         {
-            var n = 4;
-            var k = 2;
-            var r = Combine(n,k);
+            var s = new char[9][];
+
+            s[0] = new[] { '5', '3', '.', '.', '7', '.', '.', '.', '.' };
+            s[1] = new[] { '6', '.', '.', '1', '9', '5', '.', '.', '.' };
+            s[2] = new[] { '.', '9', '8', '.', '.', '.', '.', '6', '.' };
+            s[3] = new[] { '8', '.', '.', '.', '6', '.', '.', '.', '3' };
+            s[4] = new[] { '4', '.', '.', '8', '.', '3', '.', '.', '1' };
+            s[5] = new[] { '7', '.', '.', '.', '2', '.', '.', '.', '6' };
+            s[6] = new[] { '.', '6', '.', '.', '.', '.', '2', '8', '.' };
+            s[7] = new[] { '.', '.', '.', '4', '1', '9', '.', '.', '5' };
+            s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
+
+            SolveSudoku(s);
         }
+
         public IList<IList<int>> Combine(int n, int k)
         {
             var result = new List<IList<int>>();
@@ -100,6 +111,97 @@ namespace LeetCode
             board[rowIndex, colIndex] = word[i];
 
             return exist;
+        }
+
+        public void SolveSudoku(char[][] board)
+        {
+            if (board == null || board.Length != 9 || board[0].Length != 9)
+            {
+                return;
+            }
+
+            SolveSudokuHelper(board, 0, 0);
+        }
+
+        //Validate board.
+        //Recursion Helper that takes board, row and col. Validation function check all rows, cols and 3 by 3 board.
+        //Exit when board is all finished or cannot find a solution for the empty spot of given row and col.
+        //Start from current row and col search the board for an empty spot.
+        //Loop through 1 to 9 for the empty spot:
+        //1. Find a valid num to put in that spot
+        //2. Make a recursive call using the row and col after that filled spot (This recursive call will check the rest of empty spot with current spot being filled).
+        //3. If recursive call return false, reset the current spot and move on to next possible num for this spot.
+        //4. Loop finish without finding a valid solution. 
+        public bool SolveSudokuHelper(char[][] board, int row, int col)
+        {
+            while (row < 9 && col < 9)
+            {
+                if (board[row][col] == '.')
+                {
+                    break;
+                }
+                if (col == 8)
+                {
+                    //Reached end of row
+                    col = 0;
+                    row++;
+                }
+                else
+                {
+                    col++;
+                }
+            }
+
+            if (row >= 9)
+            {
+                // This row is finished.
+                return true;
+            }
+
+            for (var num = 1; num <= 9; num++)
+            {
+                if (IsValidSudokuChoice(board, row, col, num))
+                {
+                    board[row][col] = (char)(num + '0');
+                    // consider at row end
+                    int newRow = row + col / 8;
+                    // consider at col end
+                    int newCol = (col + 1) % 9;
+                    if (SolveSudokuHelper(board, newRow, newCol))
+                    {
+                        return true;
+                    }
+                    board[row][col] = '.';
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsValidSudokuChoice(char[][] board, int row, int col, int num)
+        {
+            // Check col and row
+            for (var i = 0; i < 9; i++) {
+                if (board[row][i] == num + '0' || board[i][col] == num + '0')
+                {
+                    return false;
+                }
+            }
+            
+            // Check 3 by 3
+            // check point 4,4. Start is 3,3.
+            int rowOffset = (row / 3) * 3;
+            int colOffset = (col / 3) * 3;
+            for (var i = 0; i < 3; i++) {
+                for (var j = 0; j < 3; j++) {
+                    if (board[i + rowOffset][j + colOffset] == num+'0')
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
