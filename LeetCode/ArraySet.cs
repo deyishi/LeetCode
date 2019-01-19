@@ -209,7 +209,7 @@ namespace LeetCode
             }
 
             // Comparator b - a sorting in descending order.
-            n.Sort((a, b) => (int) (long.Parse(b+ a) - long.Parse(a + b)));
+            n.Sort((a, b) => (int) (long.Parse(b + a) - long.Parse(a + b)));
             StringBuilder sb = new StringBuilder();
             foreach (var x in n)
             {

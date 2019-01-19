@@ -14,14 +14,9 @@ namespace LeetCode
         public void PreorderTraversal()
         {
 
-            var stack = new Stack<int>();
-            stack.Push(0);
-            stack.Push(1);
-            var x = stack.Pop();
-            var t = new int?[] { 7, 3, 15, null,null, 9,20 }.ToTree();
-            var r = new BSTIterator(t);
-            var res = r.Next();
-            res = r.Next();
+            var t = new int?[] { 1,2,3,4 }.ToTree();
+            var r = RightSideView(t);
+
         }
 
         public IList<int> PreorderTraversal(TreeNode root)
@@ -70,6 +65,35 @@ namespace LeetCode
             root.left = null;            // important
             root.right = null;
             return node;
+        }
+
+        //199. Binary Tree Right Side View
+        //Check each level from left to right, use size of the list and depth to add to result list.
+        public IList<int> RightSideView(TreeNode root)
+        {
+            var result = new List<int>();
+            if (root == null)
+            {
+                return result;
+            }
+
+            RightSideViewHelper(result, root, 0);
+            return result;
+        }
+
+        public void RightSideViewHelper(List<int> result, TreeNode root, int depth)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (depth == result.Count)
+            {
+                result.Add(root.val);
+            }
+            RightSideViewHelper(result, root.right, depth + 1);
+            RightSideViewHelper(result, root.left, depth + 1);
         }
     }
 
