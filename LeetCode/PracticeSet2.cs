@@ -821,60 +821,7 @@ namespace LeetCode
 
             var r = FindMedianSortedArrays(a, b);
         }
-        public double FindMedianSortedArrays(int[] nums1, int[] nums2)
-        {
-            if (nums1.Length > nums2.Length)
-            {
-                return FindMedianSortedArrays(nums2, nums1);
-            }
-
-            var x = nums1.Length;
-            var y = nums2.Length;
-
-            var low = 0;
-            var high = x;
-            while (low <= high)
-            {
-                // No using length - 1 to make it work for both odd and even.
-                var partitionX = (low + high) / 2;
-
-                // Added plus one to make it work for both odd and even.
-                var partitionY = (x + y + 1) / 2 - partitionX;
-
-                // if partition x has 0 items, use -inf.
-                // if partition x = length of the input array, then there is nothing on the right side, set right x to be +inf.
-                var maxLeftX = partitionX == 0 ? int.MinValue : nums1[partitionX - 1];
-                var minRightX = partitionX == x ? int.MaxValue : nums1[partitionX];
-                var maxLeftY = partitionY == 0 ? int.MinValue : nums2[partitionY - 1];
-                var minRightY = partitionY == y ? int.MaxValue : nums2[partitionY];
-
-                if (maxLeftX <= minRightY && maxLeftY < minRightX)
-                {
-                    // Paritioned two arrays at correct place.
-                    // If even number, average Max left x left y and Min right x right y.
-                    // Max left for odd number.
-                    if ((x + y) % 2 == 0)
-                    {
-                        return ((double)Math.Max(maxLeftX, maxLeftY) + Math.Min(minRightY, minRightX)) / 2;
-                    }
-
-                    return (double)Math.Max(maxLeftX, maxLeftY);
-                }
-
-                if (maxLeftX > minRightY)
-                {
-                    // too many items in partion x
-                    high = partitionX - 1;
-                }
-                else
-                {
-                    // too less items in partion x
-                    low = partitionX + 1;
-                }
-            }
-
-            throw new Exception();
-        }
+       
 
         public int Rob(int[] nums)
         {

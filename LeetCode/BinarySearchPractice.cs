@@ -237,5 +237,64 @@ namespace LeetCode
 
             return lo;
         }
+
+        //4. Median of Two Sorted Arrays
+        //low <= high(inclusive)
+        //Do binary search on the short array.Find a split point midX in X  (low + high /2) then calculate split point midY(X.Length + Y.Length + 1)/2 (+1 to handle even and odd) in Y.
+        //Max of the part left to midX <= Min of the part right to midY(Consider case for one part maybe empty then use int.max or int.min)
+        //Max of the part left to midY <= Min of the part right to midX
+        //Then we find a result, check for odd and even.
+        //If xMax > yMin, then reduce left part by set high = midX -1, else low = midX+1.
+        public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+        {
+
+            if (nums1.Length > nums2.Length)
+            {
+                return FindMedianSortedArrays(nums2, nums1);
+            }
+
+            int x = nums1.Length;
+            int y = nums2.Length;
+            int low = 0;
+            int high = x;
+
+            // Find split point using the short array to reduce complexity.
+            // px + py = (x+y+1)/2
+            while (low <= high)
+            {
+                int midX = (low + (high - low) / 2);
+                int midY = (x + y + 1) / 2 - midX;
+
+                // Consider one partition maybe empty.
+                var xMax = midX == 0 ? int.MinValue : nums1[midX - 1];
+                var yMax = midY == 0 ? int.MinValue : nums2[midY - 1];
+                var xMin = midX == x ? int.MaxValue : nums1[midX];
+                var yMin = midY == y ? int.MaxValue : nums2[midY];
+
+                if (xMax <= yMin && xMin >= yMax)
+                {
+                    // Found, check odd or even
+                    if ((x + y) % 2 == 0)
+                    {
+                        return ((double)Math.Max(xMax, yMax) + Math.Min(xMin, yMin)) / 2;
+                    }
+
+                    return Math.Max(xMax, yMax);
+                }
+
+                if (xMax > yMin)
+                {
+                    //Left part is too big
+                    high = midX - 1;
+
+                }
+                else
+                {
+                    low = midX + 1;
+                }
+            }
+
+            throw new Exception("Not Found");
+        }
     }
 }
