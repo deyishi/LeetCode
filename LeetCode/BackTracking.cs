@@ -178,6 +178,35 @@ namespace LeetCode
             return false;
         }
 
+        // Do not track row and col scan for empty every recursion
+        public bool SolveSudokuHelperTwo(char[][] board)
+        {
+            for (var row  = 0; row < board.Length; row++) {
+                for (var col = 0; col < board[0].Length; col++) {
+                    if (board[row][col] == '.')
+                    {
+                        for (var num = 1; num <= 9; num++)
+                        {
+                            if (IsValidSudokuChoice(board, row, col, num))
+                            {
+                                board[row][col] = (char)(num + '0');
+
+                                if (SolveSudokuHelperTwo(board))
+                                {
+                                    return true;
+                                }
+                                board[row][col] = '.';
+                            }
+                        }
+
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public bool IsValidSudokuChoice(char[][] board, int row, int col, int num)
         {
             // Check col and row

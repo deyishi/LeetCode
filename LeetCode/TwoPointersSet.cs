@@ -406,5 +406,41 @@ namespace LeetCode
 
             return l;
         }
+
+        //42. Trapping Rain Water
+        //    Two pointer to track left and right position.
+        //    Two variable to track current position's max left and max right height.
+        //    Update max left height and max right height when pointer moves, if left is shorter than the right, we know the water level for the left pointer.Otherwise, we know the water level for the right pointer.To calculate water level, use max left or right minutes current position height.
+        public int Trap(int[] height)
+        {
+            if (height == null || height.Length < 3)
+            {
+                return 0;
+            }
+
+            int left = 0;
+            int right = height.Length - 1;
+            int leftMax = 0;
+            int rightMax = 0;
+            int result = 0;
+            while (left < right)
+            {
+                leftMax = Math.Max(leftMax, height[left]);
+                rightMax = Math.Max(rightMax, height[right]);
+                if (left < rightMax)
+                {
+                    result += leftMax - height[left];
+                    left++;
+                }
+                else
+                {
+                    result += rightMax - height[right];
+                    right--;
+                }
+            }
+
+            return result;
+
+        }
     }
 }
