@@ -102,5 +102,31 @@ namespace LeetCode
 
             return res;
         }
+
+        //201. Bitwise AND of Numbers Range
+        //1 1 0
+        //1 0 1
+        //Keep shifting right m and n by 1 to remove last digit difference(odd and even) until they are the same.
+        public int RangeBitwiseAnd(int m, int n)
+        {
+            if (m == n)
+            {
+                return n;
+            }
+            if (n - m == 1)
+            {
+                return n & m;
+            }
+
+            var shift = 0;
+            while (m != n)
+            {
+                m >>= 1;
+                n >>= 1;
+                shift++;
+            }
+
+            return m << shift;
+        }
     }
 }
