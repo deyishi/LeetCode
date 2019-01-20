@@ -13,14 +13,9 @@ namespace LeetCode
         [Test]
         public void BinarySearch()
         {
-            var n = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 12, 12, 12, 12, 12, 15 };
-            var t = 15;
-
-            var l = n.Length - 1;
-            var m = 0;
-            var c = (m - 1 + l) % l;
-            var r = BinarySearch(n, t);
-            var r2 = BinarySearchFindOccurrenceRange(n, t);
+            var n = new int[] {1, 3};
+            var n1 = new[] {2};
+            var r = FindMedianSortedArrays(n, n1);
         }
         public int BinarySearch(int[] nums, int target)
         {
@@ -259,7 +254,7 @@ namespace LeetCode
             int high = x;
 
             // Find split point using the short array to reduce complexity.
-            // px + py = (x+y+1)/2
+            // Inclusive to handle case [1,3], [2], since we split array into empty. 1 is for array with 1 element.
             while (low <= high)
             {
                 int midX = (low + (high - low) / 2);

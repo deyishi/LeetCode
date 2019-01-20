@@ -813,16 +813,6 @@ namespace LeetCode
             }
         }
 
-        [Test]
-        public void FindMedianSortedArrays()
-        {
-            var a = new[] {1, 2 ,3 ,5 ,6};
-            var b = new[] {2, 2, 3};
-
-            var r = FindMedianSortedArrays(a, b);
-        }
-       
-
         public int Rob(int[] nums)
         {
 
@@ -845,16 +835,6 @@ namespace LeetCode
             }
 
             return Math.Max(evenSum, oddSum);
-        }
-
-        [Test]
-        public void IsMatch()
-        {
-            var s = "a";
-            var p = "a*";
-            var currString = "";
-            var t = currString[currString.Length];
-            var r = IsMatch(s, p);
         }
 
         public bool IsMatch(string s, string p)
@@ -896,13 +876,6 @@ namespace LeetCode
             }
 
             return dp[s.Length, p.Length];
-        }
-
-        [Test]
-        public void LetterCombinationsDFS()
-        {
-            var d = "23";
-            var r = LetterCombinations(d);
         }
 
         public IList<string> LetterCombinations(string digits)
@@ -951,12 +924,6 @@ namespace LeetCode
             }
         }
 
-        [Test]
-        public void ValidMountainArray()
-        {
-            var n = new[] { 3,5,5};
-            var r = ValidMountainArray(n);
-        }
         public bool ValidMountainArray(int[] A)
         {
             if (A == null || A.Length < 3)
@@ -989,12 +956,6 @@ namespace LeetCode
             return i == n - 1;
         }
 
-        [Test]
-        public void MinDeletionSize()
-        {
-            var a = new string[] {"zzzzz", "dafas", "ghids"};
-            var r = MinDeletionSize(a);
-        }
         public int MinDeletionSize(string[] A)
         {
             var cols = A[0].Length;
@@ -1015,13 +976,6 @@ namespace LeetCode
             }
 
             return unsortedColCount;
-        }
-
-        [Test]
-        public void DiStringMatch()
-        {
-
-            var r = DiStringMatch("IIII");
         }
 
         public int[] DiStringMatch(string S)
