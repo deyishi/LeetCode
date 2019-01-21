@@ -16,8 +16,8 @@ namespace LeetCode
         {
             var s = "abcabcbb";
 
-            var n = new[] {2, 0, 2, 1, 1, 0};
-            SortColors(n);
+            var n = new[] {2,0,1};
+            SortKColors(n,2);
         }
 
         /// <summary>
@@ -445,15 +445,19 @@ namespace LeetCode
 
         public void SortColors(int[] nums)
         {
-            // Left and right pointer to track 0 and 2 position.
-            // Loop through nums using i, at n[i] put 0 to left of 0 pointer, 2 to the right of 2 pointer.
-            // After move 2, check the swapped number, so we don't increment i.
+            // Two pointers l, r to track where to add 0 and 2. l = 0, r = nums.Length -1
+            // While loop go through numbers using i.
+            // At n[i]:
+            // 0 swap n[i] with n[l] and i++ l++.
+            // 1 i++ no action, all 1s will end up in the mid between 1 and 2.
+            // 2 swap n[i] with n[r] and r++, no i++ since we want to check the number swapped to i again incase it is 0.
+            // Loop ends when i <= r, since everything after r should be sorted.
 
             int i = 0;
             int left = 0;
             int right = nums.Length - 1;
 
-            while (i < nums.Length)
+            while (i <= right)
             {
 
                 if (nums[i] == 0)
@@ -461,16 +465,63 @@ namespace LeetCode
                     Swap(nums, i, left);
                     left++;
                     i++;
-                }else if (nums[i] == 1)
+                }
+                else if (nums[i] == 1)
                 {
                     i++;
                 }
                 else
                 {
-                    Swap(nums,i,right);
+                    Swap(nums, i, right);
                     right--;
                 }
             }
+        }
+
+        public void SortKColors(int[] nums, int k)
+        {
+            if (nums == null || nums.Length == 0 || k == 1)
+            {
+                return;
+            }
+
+            SortKColorsHelper(nums, 0, nums.Length - 1, 1, k);
+        }
+
+        public void SortKColorsHelper(int [] nums, int start, int end, int colorFrom, int colorTo)
+        {
+            if (colorFrom == colorTo)
+            {
+                return;
+            }
+
+            if (start >= end)
+            {
+                return;
+            }
+
+            int l = start;
+            int r = end;
+            int midColor = (colorFrom + colorTo) / 2;
+            int i = l;
+            while (i <= r)
+            {
+                if (nums[i] < midColor)
+                {
+                    Swap(nums, l++, i++);
+                }
+                else if (nums[i] > midColor)
+                {
+                    Swap(nums, i, r--);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            SortKColorsHelper(nums, start, l - 1, colorFrom, midColor - 1);
+            SortKColorsHelper(nums, r, end, midColor + 1, colorTo);
         }
 
 
