@@ -170,5 +170,76 @@ namespace LeetCode
 
             return result;
         }
+
+        public int Rob(int[] nums)
+        {
+            //[1,10,3,1]
+            var evenSum = 0;
+            var oddSum = 0;
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    evenSum = Math.Max(evenSum + nums[i], oddSum);
+                }
+                else
+                {
+                    oddSum = Math.Max(oddSum + nums[i], evenSum);
+                }
+            }
+
+            return Math.Max(evenSum, oddSum);
+        }
+        // Use dp to track i-2 + current (steal from i-2 house plus current) and i-1 (steal from previous house).
+        public int RobTwo(int[] nums)
+        {
+            if (nums == null)
+            {
+                return 0;
+            }
+
+            if (nums.Length == 1)
+            {
+                return nums[0];
+            }
+
+            var dp = new int[nums.Length];
+            dp[0] = nums[0];
+            dp[1] = Math.Max(nums[0], nums[1]);
+            var max = dp[1];
+            for (int i = 2; i < nums.Length; i++)
+            {
+                dp[i] = Math.Max(dp[i - 2] + nums[i], dp[i - 1]);
+                max = Math.Max(dp[i], max);
+            }
+
+            return max;
+        }
+
+        public int RobTwoOptimized(int[] nums)
+        {
+            if (nums == null)
+            {
+                return 0;
+            }
+
+            if (nums.Length == 1)
+            {
+                return nums[0];
+            }
+
+            int prevMax = 0; // Max to the two house ago (i-2)
+            int currMax = 0; // Max to last stolen house (i-1)
+            foreach (var t in nums)
+            {
+                var temp = currMax;
+                currMax = Math.Max(prevMax + t, currMax);
+                prevMax = temp;
+            }
+
+            return currMax;
+        }
+
     }
 }
