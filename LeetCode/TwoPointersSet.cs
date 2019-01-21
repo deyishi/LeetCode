@@ -16,8 +16,8 @@ namespace LeetCode
         {
             var s = "abcabcbb";
 
-            var n = new[] {3,2,1};
-            var r = PartitionArray(n, 2);
+            var n = new[] {2, 0, 2, 1, 1, 0};
+            SortColors(n);
         }
 
         /// <summary>
@@ -441,6 +441,44 @@ namespace LeetCode
 
             return result;
 
+        }
+
+        public void SortColors(int[] nums)
+        {
+            // Left and right pointer to track 0 and 2 position.
+            // Loop through nums using i, at n[i] put 0 to left of 0 pointer, 2 to the right of 2 pointer.
+            // After move 2, check the swapped number, so we don't increment i.
+
+            int i = 0;
+            int left = 0;
+            int right = nums.Length - 1;
+
+            while (i < nums.Length)
+            {
+
+                if (nums[i] == 0)
+                {
+                    Swap(nums, i, left);
+                    left++;
+                    i++;
+                }else if (nums[i] == 1)
+                {
+                    i++;
+                }
+                else
+                {
+                    Swap(nums,i,right);
+                    right--;
+                }
+            }
+        }
+
+
+        public void Swap(int[] nums, int i, int j)
+        {
+            var temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
         }
     }
 }
