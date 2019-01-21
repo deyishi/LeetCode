@@ -8,16 +8,6 @@ namespace LeetCode.DataModel
 {
     public class Trie
     {
-        private class TrieNode
-        {
-            public Dictionary<char, TrieNode> Children;
-            public bool IsWordEnd;
-            public TrieNode()
-            {
-                Children = new Dictionary<char, TrieNode>();
-            }
-        }
-
         private readonly TrieNode _root;
         public Trie()
         {

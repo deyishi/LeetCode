@@ -10,14 +10,6 @@ namespace LeetCode
     class DynamicProgrammingSet
     {
 
-        [Test]
-        public void MinimumTotal()
-        {
-            var t = new List<IList<int>>()
-                {new List<int> {2}, new List<int> {3, 4}, new List<int> {6, 5, 7}, new List<int> {4, 1, 8, 3}};
-            var r = MinimumTotal(t);
-        }
-
 
         /// <summary>
         ///       1
@@ -44,16 +36,6 @@ namespace LeetCode
             return triangle[0][0];
         }
 
-        [Test]
-        public void WordBreak()
-        {
-
-            var n = new int[1];
-            var t = n[1];
-            var s = "cars";
-            var w = new[] {"ca", "rz"};
-            var r = WordBreak(s, w);
-        }
 
         /// <summary>
         /// Check all the substring of s, see if they are in the words. dp[substring length 2] is true if 0-2 or 0-1 and 1-2 in the words.
@@ -92,14 +74,6 @@ namespace LeetCode
             }
 
             return dp[s.Length];
-        }
-
-        [Test]
-        public void WordBreakTwo()
-        {
-            var s = "catsandog";
-            var w = new[] {"cats", "dog", "sand", "and", "cat"};
-            var t = WordBreakTwo(s, w);
         }
 
         public IList<string> WordBreakTwo(string s, IList<string> wordDict)
