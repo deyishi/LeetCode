@@ -154,8 +154,9 @@ namespace LeetCode
                 {
                     max[i] = Math.Max(current, max[i - 1] * current);
                     min[i] = Math.Min(current, min[i - 1] * current);
-                }else if (current < 0)                     
-                {                                          
+                }
+                else if (current < 0)
+                {
                     max[i] = Math.Max(current, min[i - 1] * current);
                     min[i] = Math.Min(current, max[i - 1] * current);
                 }
@@ -181,11 +182,11 @@ namespace LeetCode
             {
                 if (i % 2 == 0)
                 {
-                    evenSum = Math.Max(evenSum + nums[i], oddSum);
+                    evenSum = Math.Max(oddSum + nums[i], nums[i]);
                 }
                 else
                 {
-                    oddSum = Math.Max(oddSum + nums[i], evenSum);
+                    oddSum = Math.Max(evenSum + nums[i], nums[i]);
                 }
             }
 
@@ -241,5 +242,22 @@ namespace LeetCode
             return currMax;
         }
 
+        public int RobCircle(int[] nums)
+        {
+            if (nums.Length == 1) return nums[0];
+            return Math.Max(RobCircleHelper(nums, 0, nums.Length - 2), RobCircleHelper(nums, 1, nums.Length - 1));
+        }
+
+        public int RobCircleHelper(int[] nums, int lo, int hi)
+        {
+            int include = 0, exclude = 0;
+            for (int j = lo; j <= hi; j++)
+            {
+                int i = include, e = exclude;
+                include = e + nums[j];
+                exclude = Math.Max(e, i);
+            }
+            return Math.Max(include, exclude);
+        }
     }
 }

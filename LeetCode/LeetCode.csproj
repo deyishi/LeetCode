@@ -52,6 +52,8 @@
     <Compile Include="BitManipulationSet.cs" />
     <Compile Include="DataModel\ArrayExtension.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
+    <Compile Include="DataModel\Trie.cs" />
+    <Compile Include="DataModel\TrieNode.cs" />
     <Compile Include="DataModel\WordDictionary.cs" />
     <Compile Include="DataModel\UndirectedGraphNode.cs" />
     <Compile Include="DataModel\ListNode.cs" />

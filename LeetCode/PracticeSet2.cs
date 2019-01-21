@@ -813,29 +813,6 @@ namespace LeetCode
             }
         }
 
-        public int Rob(int[] nums)
-        {
-
-            //[1,10,3,1]
-            var evenSum = 0;
-            var oddSum = 0;
-
-            for (var i = 0; i < nums.Length; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    evenSum = Math.Max(evenSum + nums[i], oddSum);
-                }
-                else
-                {
-                    oddSum = Math.Max(oddSum + nums[i], evenSum);
-                }
-
-                Console.WriteLine("i " + i + " nums[i] " + nums[i] + " Even Sum " + evenSum + " Odd Sum " + oddSum);
-            }
-
-            return Math.Max(evenSum, oddSum);
-        }
 
         public bool IsMatch(string s, string p)
         {
