@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 
 namespace LeetCode
@@ -245,19 +246,46 @@ namespace LeetCode
         public int RobCircle(int[] nums)
         {
             if (nums.Length == 1) return nums[0];
+            // Check starting first house and skip last house. Check skipping second house and finishing last house.
             return Math.Max(RobCircleHelper(nums, 0, nums.Length - 2), RobCircleHelper(nums, 1, nums.Length - 1));
         }
 
-        public int RobCircleHelper(int[] nums, int lo, int hi)
+        public int RobCircleHelper(int[] nums, int start, int end)
         {
-            int include = 0, exclude = 0;
-            for (int j = lo; j <= hi; j++)
+            int rob = 0, notRob = 0;
+            for (int j = start; j <= end; j++)
             {
-                int i = include, e = exclude;
-                include = e + nums[j];
-                exclude = Math.Max(e, i);
+                var temp = Math.Max(notRob, rob);
+                rob = notRob + nums[j];
+                notRob = temp;
             }
-            return Math.Max(include, exclude);
+            return Math.Max(rob, notRob);
+        }
+
+
+        public int Rob(TreeNode root)
+        {
+            var result = RobHelper(root);
+            return Math.Max(result[0], result[1]);
+        }
+
+        public int[] RobHelper(TreeNode root)
+        {
+            if (root == null)
+            {
+                return new int[2];
+            }
+
+            var left = RobHelper(root.left);
+            var right = RobHelper(root.right);
+
+            // Children value.
+            var notRob = Math.Max(left[0], left[1]) + Math.Max(right[0], right[1]);
+
+            // Not rob children value with current value. 
+            var rob = left[0] + right[0] + root.val;
+
+            return new[] {notRob, rob};
         }
     }
 }
