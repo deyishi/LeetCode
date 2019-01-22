@@ -14,8 +14,8 @@ namespace LeetCode
         public void PreorderTraversal()
         {
 
-            var t = new int?[] { 1,2,3,4 }.ToTree();
-            var r = RightSideView(t);
+            var t = new int?[] { 1,2,3,4,5,6 }.ToTree();
+            var r = CountNodes(t);
 
         }
 
@@ -94,6 +94,59 @@ namespace LeetCode
             }
             RightSideViewHelper(result, root.right, depth + 1);
             RightSideViewHelper(result, root.left, depth + 1);
+        }
+
+        public int CountNodes(TreeNode root)
+        {
+
+            if (root == null)
+            {
+                return 0;
+            }
+
+            var leftSubTreeHeight = GetLeftTreeHeight(root);
+            var rightSubTreeHeight = GetRightTreeHeight(root);
+
+            if (leftSubTreeHeight == rightSubTreeHeight)
+            {
+                // Full binary tree
+                return (int)Math.Pow(2, leftSubTreeHeight) - 1;
+            }
+
+            return CountNodes(root.left) + CountNodes(root.right) + 1;
+        }
+
+        public int GetLeftTreeHeight(TreeNode node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            int height = 0;
+            while (node != null)
+            {
+                height++;
+                node = node.left;
+            }
+
+            return height;
+        }
+        public int GetRightTreeHeight(TreeNode node)
+        {
+            if (node == null)
+            {
+                return 0;
+            }
+
+            int height = 0;
+            while (node != null)
+            {
+                height++;
+                node = node.right;
+            }
+
+            return height;
         }
     }
 
