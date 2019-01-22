@@ -287,5 +287,49 @@ namespace LeetCode
 
             return new[] {notRob, rob};
         }
+
+        public int MaximalSquare(char[,] matrix)
+        {
+            if (matrix == null || matrix.GetLength(0) == 0|| matrix.GetLength(1) == 0)
+            {
+                return 0;
+            }
+
+            int r = matrix.GetLength(0);
+            int c = matrix.GetLength(1);
+            int[,] dp = new int[r, c];
+            int result = 0;
+
+            // Populate top most row.
+            for (var i = 0; i < c; i++)
+            {
+                dp[0, i] = matrix[0, 1] - '0';
+                result = Math.Max(result, dp[0, i]);
+            }
+
+
+            // Populate left most col.
+            for (var i = 1; i < r; i++)
+            {
+                dp[i, 0] = matrix[i, 0] - '0';
+                result = Math.Max(dp[i, 0], result);
+            }
+
+
+            // dp [i,j] is 1 + checking if [i,j] position's left, right and 45 degree are all 1.
+            for (var i = 1; i < r; i++)
+            {
+                for (var j = 1; j < c; j++)
+                {
+                    if (matrix[i,j] == '1')
+                    {
+                        dp[i, j] = Math.Min(dp[i - 1, j - 1], Math.Min(dp[i - 1, j], dp[i, j - 1])) + 1;
+                        result = Math.Max(dp[i, j], result);
+                    }
+                }
+            }
+
+            return result * result;
+        }
     }
 }
