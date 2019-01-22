@@ -232,5 +232,43 @@ namespace LeetCode
 
             return true;
         }
+
+        public IList<IList<int>> CombinationSum3(int k, int n)
+        {
+            var result = new List<IList<int>>();
+            if (k == 0 || n == 0)
+            {
+                return result;
+            }
+
+            CombinationSum3Helper(n, k, 1, new List<int>(), result);
+            return result;
+        }
+
+        public void CombinationSum3Helper(int target, int k, int start, List<int> path, List<IList<int>> result)
+        {
+            if (target < 0 || path.Count > k)
+            {
+                return;
+            }
+
+            if (path.Count == k && target == 0)
+            {
+                result.Add(new List<int>(path));
+                return;
+            }
+
+            for (var i = start; i <= 9; i++)
+            {
+                if (i > target)
+                {
+                    return;
+                }
+
+                path.Add(i);
+                CombinationSum3Helper(target - i, k, i + 1, path, result);
+                path.RemoveAt(path.Count - 1);
+            }
+        }
     }
 }
