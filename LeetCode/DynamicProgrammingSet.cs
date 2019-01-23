@@ -10,7 +10,14 @@ namespace LeetCode
 {
     class DynamicProgrammingSet
     {
+        [Test]
+        public void Test()
+        {
+            var s = "aaaa";
+            var p = "a*";
 
+            var r = IsMatch(s, p);
+        }
 
         /// <summary>
         ///       1
@@ -330,6 +337,55 @@ namespace LeetCode
             }
 
             return result * result;
+        }
+
+        //10. Regular Expression Matching
+        //dp[s.length + 1, p.length + 1] to track char count.If dp[3, 3] is true, then s[0-2] matches p[0-2].
+        //Assuming p won't start with star, check p[1] to p[n] see if match to s[0] for a*, a*b* or a*b*c*... dp[0,j] == dp[0,j-2]
+        //If current char match, check previous s and p matches, 45 degree up dp[i - 1, j - 1].
+        //If current char '*', ignore char at s[i - 1] if p[j - 2] == '.' or p[j - 2] == s[i - 1], then compare s[0, i - 2] with p[0, j](dp[i, j] = dp[i - 1, j]), else compare two position above treat a* as ''.
+        public bool IsMatch(string s, string p)
+        {
+            // dp[s.length + 1, p.length +1] since we use dp to track char count. If dp[3,3] is true, then s[0-2] matches p[0-2].
+            var dp = new bool[s.Length + 1, p.Length + 1];
+
+            // 0 chars matches to 0 chars
+            dp[0, 0] = true;
+            // Assuming p won't start with star, check p[1] to p[n] see if match to s[0] due to case such as a*, a*b* or a*b*c*... dp[0,j] == dp[0,j-2]
+            for (var i = 1; i < dp.GetLength(1); i++)
+            {
+                if (p[i - 1] == '*')
+                {
+                    dp[0, i] = dp[0, i - 2];
+                }
+            }
+
+            for (var i = 1; i < dp.GetLength(0); i++)
+            {
+                for (var j = 1; j < dp.GetLength(1); j++)
+                {
+                    if (p[j - 1] == s[i - 1] || p[j - 1] == '.')
+                    {    
+                        // If current char match, check previous s and p matches, 45 degree up in the dp grid[i-1,j-1].
+                        dp[i, j] = dp[i - 1, j - 1];
+                    }
+                    else if (p[j - 1] == '*')
+                    {
+                        if (p[j-2] == '.' || p[j-2] == s[i-1])
+                        {
+                            //Ignore char at s[i - 1] if p[j - 2] == '.' or p[j - 2] == s[i - 1], then compare s[0, i - 2] with p[0, j] : dp[i, j] = dp[i - 1, j].
+                            dp[i, j] = dp[i, j - 2] || dp[i - 1, j];
+                        }
+                        else
+                        {
+                            // Can only check two positions up for case like acb, aeb*
+                            dp[i, j] = dp[i, j - 2];
+                        }
+                    }
+                }
+            }
+
+            return dp[s.Length, p.Length];
         }
     }
 }
