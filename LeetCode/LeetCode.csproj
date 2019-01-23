@@ -53,6 +53,7 @@
     <Compile Include="DataModel\ArrayExtension.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
     <Compile Include="DataModel\MyHashMap.cs" />
+    <Compile Include="DataModel\MyHeap.cs" />
     <Compile Include="DataModel\Trie.cs" />
     <Compile Include="DataModel\TrieNode.cs" />
     <Compile Include="DataModel\WordDictionary.cs" />
