@@ -21,11 +21,12 @@ namespace LeetCode.DataModel
         public RandomListNode next, random;
         public RandomListNode(int x) { this.label = x; }
     }
+
     public class DoublyListNode
     {
         int val;
         public DoublyListNode next;
-        public  DoublyListNode prev;
+        public DoublyListNode prev;
         public DoublyListNode(int val)
         {
             this.val = val;

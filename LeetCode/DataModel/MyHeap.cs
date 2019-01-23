@@ -20,6 +20,11 @@ namespace LeetCode.DataModel
         }
     }
 
+    //Heap
+    //Implement binary tree with array: parent = (index - 1) /2, left child = (index * 2) + 1, right child = (index* 2 ) +2.
+    //Push: ensure array size, insert value at n[size], do while loop to check n[size] and its parent, if smaller bubble up, size = parent size.
+    //Pop: return value at n[0], do while loop to check n[0] and its left and right children for smaller one, if smaller bubble down, size = smaller size.
+    //Peek: n[0]
     public class MyHeap
     {
         private int _size;
