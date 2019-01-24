@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="ArraySet.cs" />
     <Compile Include="BackTracking.cs" />
-    <Compile Include="BinarySearchPractice.cs" />
+    <Compile Include="BinarySearchSet.cs" />
     <Compile Include="BitManipulationSet.cs" />
     <Compile Include="DataModel\ArrayExtension.cs" />
     <Compile Include="DataModel\Coordinate.cs" />

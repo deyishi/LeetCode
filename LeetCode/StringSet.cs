@@ -17,7 +17,7 @@ namespace LeetCode
             var s = "(()()";
 
             var l = new List<string>{ "12:01", "00:13"};
-            var r = FindMinDifference(l);
+            var r = IsNumber("e9");
         }
 
         public int LongestValidParentheses(string s)
@@ -331,6 +331,61 @@ namespace LeetCode
             }
 
             return minDiff;
+        }
+
+        public bool IsNumber(string s)
+        {
+            // Remove space
+            s = s.Trim();
+
+            bool decimalPoint = false;
+            bool exponentialSymbol = false;
+            bool numberSeen = false;
+            bool numberAfterE = true; 
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] <= '9' && s[i] >= '0')
+                {
+                    // Saw a number.
+                    numberSeen = true;
+                    numberAfterE = true;
+                }else if (s[i] == '.')
+                {
+                    // E after . or multiple ..
+                    if (exponentialSymbol || decimalPoint)
+                    {
+                        return false;
+                    }
+
+                    decimalPoint = true;
+                }else if (s[i] == 'e')
+                {
+                    // multiple ee or number before after e
+                    if (exponentialSymbol || !numberSeen)
+                    {
+                        return false;
+                    }
+                    // Saw exponential symbol.
+                    numberAfterE = false;
+                    exponentialSymbol = true;
+                }
+                else if(s[i] == '-' || s[i] == '+')
+                {
+                    // Either first of number can have sign or the place after e.
+                    if (i != 0 && s[i-1] != 'e')
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            //Needs to make sure there are numbers and if there are e then number after e.
+            return numberSeen && numberAfterE;
         }
     }
 }
