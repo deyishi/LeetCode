@@ -288,8 +288,8 @@ namespace LeetCode
             res.Append((numerator < 0) ^ (denominator < 0) ? "-" : "");
 
             //Handle overflow
-            long num = Math.Abs((long) numerator);
-            long den = Math.Abs((long) denominator);
+            long num = Math.Abs( numerator);
+            long den = Math.Abs( denominator);
 
             res.Append(num / den);
             num %= den;
@@ -321,6 +321,37 @@ namespace LeetCode
 
             // No repeating decimal
             return res.ToString();
+        }
+
+        //223. Rectangle Area
+        //Sum of two rectangles' area minutes overlapped region.
+        //    Use long to avoid overflow.
+        //    To calculate overlapped, we need to check bottom left corner and top righter corner of the overlapped area.
+        //    Height: Max(A, E), Min(C, G)
+        //With: Max(B, F) Min(D, H)
+        //B---D  F---H
+        //|   |  |   |
+        //A---C  E---G
+
+        public int ComputeArea(int A, int B, int C, int D, int E, int F, int G, int H)
+        {
+            long r1 = (C - A) * (D -B);
+            long r2 = (G - E) * (H - F);
+
+            long heightStart = Math.Max(A, E);
+            long heightEnd = Math.Min(C, G);
+            long h = heightEnd - heightStart;
+            long widthStart = Math.Max(B, F);
+            long widthEnd = Math.Min(D, H);
+            long w = widthEnd - widthStart;
+            long overlap = 0;
+            // overlap
+            if (h > 0  && w > 0)
+            {
+                overlap = h * w;
+            }
+
+            return (int) (r1 + r2 - overlap);
         }
     }
 }

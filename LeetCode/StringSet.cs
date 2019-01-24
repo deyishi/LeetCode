@@ -71,13 +71,6 @@ namespace LeetCode
         }
 
 
-        [Test]
-        public void ReverseWords()
-        {
-            var s = " 1";
-            var r = ReverseWordsInPlace(s);
-        }
-
         /// <summary>
         /// Split string by space.
         /// Loop from the last word and append to string builder.
@@ -167,15 +160,6 @@ namespace LeetCode
                 start++;
                 end--;
             }
-        }
-
-
-        [Test]
-        public void IsOneEditDistance()
-        {
-            var a = "";
-            var b = "";
-           var r = IsOneEditDistanceTwoPointer(a,b);
         }
 
         /// <summary>
@@ -333,6 +317,13 @@ namespace LeetCode
             return minDiff;
         }
 
+        //65. Valid Number
+        //Remove space
+        //Number exist, number exist after e, e exist, decimal point exist.
+        //    Cannot have.after or multiple .
+        //    Cannot have e without number exist or multiple e
+        //+ or - sign must either be before any number or be placed after e.
+        //    Return if there are number and if there are e then also check number after e.
         public bool IsNumber(string s)
         {
             // Remove space
@@ -352,7 +343,7 @@ namespace LeetCode
                     numberAfterE = true;
                 }else if (s[i] == '.')
                 {
-                    // E after . or multiple ..
+                    // Cannot have . after or multiple .
                     if (exponentialSymbol || decimalPoint)
                     {
                         return false;
@@ -361,7 +352,7 @@ namespace LeetCode
                     decimalPoint = true;
                 }else if (s[i] == 'e')
                 {
-                    // multiple ee or number before after e
+                    // Cannot have e without number exist or multiple e
                     if (exponentialSymbol || !numberSeen)
                     {
                         return false;
