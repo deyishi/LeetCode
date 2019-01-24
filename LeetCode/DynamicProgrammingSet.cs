@@ -13,10 +13,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "aaaa";
-            var p = "a*";
+            var s = "aa";
+            var p = "*";
 
-            var r = IsMatch(s, p);
+            var r = IsMatchWildCard(s, p);
         }
 
         /// <summary>
@@ -292,12 +292,12 @@ namespace LeetCode
             // Not rob children value with current value. 
             var rob = left[0] + right[0] + root.val;
 
-            return new[] {notRob, rob};
+            return new[] { notRob, rob };
         }
 
         public int MaximalSquare(char[,] matrix)
         {
-            if (matrix == null || matrix.GetLength(0) == 0|| matrix.GetLength(1) == 0)
+            if (matrix == null || matrix.GetLength(0) == 0 || matrix.GetLength(1) == 0)
             {
                 return 0;
             }
@@ -328,7 +328,7 @@ namespace LeetCode
             {
                 for (var j = 1; j < c; j++)
                 {
-                    if (matrix[i,j] == '1')
+                    if (matrix[i, j] == '1')
                     {
                         dp[i, j] = Math.Min(dp[i - 1, j - 1], Math.Min(dp[i - 1, j], dp[i, j - 1])) + 1;
                         result = Math.Max(dp[i, j], result);
@@ -360,27 +360,64 @@ namespace LeetCode
                 }
             }
 
-            for (var i = 1; i < dp.GetLength(0); i++)
+            for (var sLength = 1; sLength < dp.GetLength(0); sLength++)
             {
-                for (var j = 1; j < dp.GetLength(1); j++)
+                for (var pLength = 1; pLength < dp.GetLength(1); pLength++)
                 {
-                    if (p[j - 1] == s[i - 1] || p[j - 1] == '.')
-                    {    
-                        // If current char match, check previous s and p matches, 45 degree up in the dp grid[i-1,j-1].
-                        dp[i, j] = dp[i - 1, j - 1];
-                    }
-                    else if (p[j - 1] == '*')
+                    if (p[pLength - 1] == s[sLength - 1] || p[pLength - 1] == '.')
                     {
-                        if (p[j-2] == '.' || p[j-2] == s[i-1])
+                        // If current char match, check previous s and p matches, 45 degree up in the dp grid[i-1,j-1].
+                        dp[sLength, pLength] = dp[sLength - 1, pLength - 1];
+                    }
+                    else if (p[pLength - 1] == '*')
+                    {
+                        if (p[pLength - 2] == '.' || p[pLength - 2] == s[sLength - 1])
                         {
                             //Ignore char at s[i - 1] if p[j - 2] == '.' or p[j - 2] == s[i - 1], then compare s[0, i - 2] with p[0, j] : dp[i, j] = dp[i - 1, j].
-                            dp[i, j] = dp[i, j - 2] || dp[i - 1, j];
+                            dp[sLength, pLength] = dp[sLength, pLength - 2] || dp[sLength - 1, pLength];
                         }
                         else
                         {
                             // Can only check two positions up for case like acb, aeb*
-                            dp[i, j] = dp[i, j - 2];
+                            dp[sLength, pLength] = dp[sLength, pLength - 2];
                         }
+                    }
+                }
+            }
+
+            return dp[s.Length, p.Length];
+        }
+
+        public bool IsMatchWildCard(string s, string p)
+        {
+            var dp = new bool[s.Length + 1, p.Length + 1];
+
+            dp[0, 0] = true;
+
+            for (var i = 1; i < dp.GetLength(1); i++)
+            {
+                if (p[i-1] == '*')
+                {
+                    dp[0,i] = dp[0,i - 1];
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+
+            for (var i = 1; i < dp.GetLength(0); i++)
+            {
+                for (var j = 1; j < dp.GetLength(1); j++)
+                {
+                    if (p[j - 1] == '?' || p[j - 1] == s[i - 1])
+                    {
+                        dp[i, j] = dp[i - 1, j - 1];
+                    }
+                    else if (p[j - 1] == '*')
+                    {
+                        dp[i, j] = dp[i - 1, j] || dp[i, j - 1];
                     }
                 }
             }
