@@ -7,16 +7,10 @@ using NUnit.Framework;
 
 namespace LeetCode
 {
-    public class BinarySearchPractice
+    public class BinarySearchSet
     {
 
-        [Test]
-        public void BinarySearch()
-        {
-            var n = new int[] {1, 3};
-            var n1 = new[] {2};
-            var r = FindMedianSortedArrays(n, n1);
-        }
+
         public int BinarySearch(int[] nums, int target)
         {
             if (nums == null || nums.Length < 1)
@@ -93,12 +87,6 @@ namespace LeetCode
             return new[] {start, end};
         }
 
-        [Test]
-        public void FindMin()
-        {
-            var n = new[] {2, 1};
-            var r = FindMin(n);
-        }
         public int FindMin(int[] nums)
         {
             if (nums == null || nums.Length < 1)
@@ -188,19 +176,6 @@ namespace LeetCode
             return -1;
         }
 
-        //378. Kth Smallest Element in a Sorted Matrix
-        [Test]
-        public void METHOD()
-        {
-            var matrix = new[,]
-            {
-                {1, 5, 9},
-                {10, 11, 13},
-                {12, 13, 15}
-            };
-                var k = 8;
-            var r = KthSmallest(matrix, k);
-        }
         public int KthSmallest(int[,] matrix, int k)
         {
             var lo = matrix[0, 0];
@@ -290,6 +265,31 @@ namespace LeetCode
             }
 
             throw new Exception("Not Found");
+        }
+
+        public IList<int> FindClosestElements(int[] arr, int k, int x)
+        {
+            int l = 0;
+            int r = arr.Length - 1;
+
+            while(l < r)
+            {
+                int mid = l + (r - l) / 2;
+
+                // X is closer to mid then mid + k, then result in the left side.
+                if (x - arr[mid] < arr[mid + k] - x)
+                {
+                    r = mid - 1;
+                }
+                else
+                {
+                    l = mid;
+                }
+            }
+
+            var res = new List<int>();
+            for (var i = 0; i < k; i++) res.Add(arr[l + i]);
+            return res;
         }
     }
 }
