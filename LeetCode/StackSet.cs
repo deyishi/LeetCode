@@ -3,18 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace LeetCode
 {
     public class StackSet
     {
+
+        [Test]
+        public void Test()
+        {
+            var s = "3+2*2";
+            var r = Calculate(s);
+        }
         /// <summary>
         /// Add all none operators to a stack.
-        /// If operator, pop two from stack generate number from operator. Save back sto stack.
+        /// If operator, Pop two from stack generate number from operator. Save back sto stack.
         /// (a, b, c, +, -)
-        /// 1. when +, pop b and c and form new b' and put back to stack (a, b')
-        /// 2. when -, pop b' and a and form new a'
-        /// 3. reach end, pop a' as result.
+        /// 1. when +, Pop b and c and form new b' and put back to stack (a, b')
+        /// 2. when -, Pop b' and a and form new a'
+        /// 3. reach end, Pop a' as result.
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
@@ -52,6 +60,57 @@ namespace LeetCode
             }
 
             return s.Pop();
+        }
+
+
+        //227. Basic Calculator II
+        //Scan the string from left to right, when see * or /, calculate the result and push to stack, else push numbers with sign to stack.After finishing all * and /, we do + and - operation.
+        //    Need to handle multiple digits number, num = num * 10 + c - '0'
+        //Need to keep track of signs
+        public int Calculate(string s)
+        {
+            Stack<int> stack = new Stack<int>();
+            char sign = '+';
+            int num = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                if (char.IsDigit(c))
+                {
+                    // Handle multiple digits number
+                    num = num * 10 + c - '0';
+                }
+                // Store + or - number in the stack and only do calculation on * or /
+                if (c != ' ' && !char.IsDigit(c) || i + 1 == s.Length)
+                {
+                    if (sign == '+')
+                    {
+                        stack.Push(num);
+                    }
+                    else if (sign == '-')
+                    {
+                        stack.Push(-num);
+                    }
+                    else if (sign == '/')
+                    {
+                        stack.Push(stack.Pop() / num);
+                    }
+                    else if (sign == '*')
+                    {
+                        stack.Push(stack.Pop() * num);
+                    }
+                    sign = c;
+                    num = 0;
+                }
+            }
+
+            // Handle - or + operation
+            int res = 0;
+            while (stack.Any())
+            {
+                res += stack.Pop();
+            }
+            return res;
         }
     }
 

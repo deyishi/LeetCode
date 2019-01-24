@@ -332,7 +332,6 @@ namespace LeetCode
         //B---D  F---H
         //|   |  |   |
         //A---C  E---G
-
         public int ComputeArea(int A, int B, int C, int D, int E, int F, int G, int H)
         {
             long r1 = (C - A) * (D -B);
