@@ -328,7 +328,37 @@ namespace LeetCode
 
             return result;
         }
+
+        //Find the positions of two word then record the min distance. 
+        public int ShortestDistance(string[] words, string word1, string word2)
+        {
+            int p1 = -1;
+            int p2 = -1;
+            int distance = int.MaxValue;
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i] == word1)
+                {
+                    p1 = i;
+                }
+
+                if (words[i] == word2)
+                {
+                    p2 = i;
+                }
+
+                if (p1 != -1 && p2 != -1)
+                {
+                    distance = Math.Min(distance, Math.Abs(p1 - p2));
+                }
+            }
+
+            return distance;
+        }
     }
+
+
 
 }
 
