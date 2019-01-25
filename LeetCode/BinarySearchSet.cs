@@ -9,7 +9,19 @@ namespace LeetCode
 {
     public class BinarySearchSet
     {
+        [Test]
+        public void Test()
+        {
+            var m = new int[,] {
+                {1,   4,  7, 11, 15},
+                {2,   5,  8, 12, 19},
+                {3,   6,  9, 16, 22},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30}
+            };
 
+            var r = SearchMatrix(m, 5);
+        }
 
         public int BinarySearch(int[] nums, int target)
         {
@@ -84,7 +96,7 @@ namespace LeetCode
         {
             var start = BinarySearchRangeStart(nums, target);
             var end = BinarySearchRangeStart(nums, target, false);
-            return new[] {start, end};
+            return new[] { start, end };
         }
 
         public int FindMin(int[] nums)
@@ -96,7 +108,7 @@ namespace LeetCode
 
             var n = nums.Length;
             var l = 0;
-            var r = n -1;
+            var r = n - 1;
             while (l <= r)
             {
                 if (nums[l] <= nums[r])
@@ -187,7 +199,7 @@ namespace LeetCode
                 var j = matrix.GetLength(1) - 1;
                 for (var i = 0; i < matrix.GetLength(0); i++)
                 {
-                    while (j >= 0 && matrix[i,j] > mid)
+                    while (j >= 0 && matrix[i, j] > mid)
                     {
                         j--;
                     }
@@ -276,7 +288,7 @@ namespace LeetCode
             int l = 0;
             int r = arr.Length - 1;
 
-            while(l < r)
+            while (l < r)
             {
                 int mid = l + (r - l) / 2;
 
@@ -294,6 +306,32 @@ namespace LeetCode
             var res = new List<int>();
             for (var i = 0; i < k; i++) res.Add(arr[l + i]);
             return res;
+        }
+
+        //From top right corner search down and left.
+        public bool SearchMatrix(int[,] matrix, int target)
+        {
+
+            int r = 0;
+            int c = matrix.GetLength(1) - 1;
+            while (c >= 0 && r < matrix.GetLength(0))
+            {
+
+                if (target < matrix[r, c])
+                {
+                    c--;
+                }
+                else if (target > matrix[r, c])
+                {
+                    r++;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

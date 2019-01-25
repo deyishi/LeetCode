@@ -16,7 +16,6 @@ namespace LeetCode
             var n = new[] {1,2,3,4 };
             var s = 0;
             var e = 99;
-            var r = ProductExceptSelfTwo(n);
         }
 
 
