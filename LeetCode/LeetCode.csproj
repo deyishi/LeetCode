@@ -85,7 +85,7 @@
     <Compile Include="PracticeSet2.cs" />
     <Compile Include="PracticeSet3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecursionPractice.cs" />
+    <Compile Include="RecursionSet.cs" />
     <Compile Include="TreeSet.cs" />
   </ItemGroup>
   <ItemGroup>
