@@ -267,6 +267,10 @@ namespace LeetCode
             throw new Exception("Not Found");
         }
 
+        //658. Find K Closest Elements
+        //Find range A[i] to A[i + k - 1] as the result, use binary search to find i.
+        //    l = 0, r = A.Length - k-1
+        //if x - a[mid] (x closer to start range[mid] ) > a[mid + k] - x(x closer to end range), then a[mid + 1] to a[mid + k] is better than a[mid] to a[mid + k - 1].
         public IList<int> FindClosestElements(int[] arr, int k, int x)
         {
             int l = 0;
