@@ -356,6 +356,19 @@ namespace LeetCode
 
             return distance;
         }
+        public int ShortestWordDistance(string[] words, string word1, string word2)
+        {
+
+            for (var i = 0; i < words.Length; i++)
+            {
+                if (words[i] == word1)
+                {
+                }
+                if (words[i] == word2)
+                {
+                }
+            }
+        }
     }
 
 
