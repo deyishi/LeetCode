@@ -15,7 +15,7 @@ namespace LeetCode
             var num1 = 1;
             var num2 = 3;
 
-            var r = FractionToDecimal(num1, num2);
+            var r = IsUgly(6);
         }
 
         public string Multiply(string num1, string num2)
@@ -351,6 +351,18 @@ namespace LeetCode
             }
 
             return (int) (r1 + r2 - overlap);
+        }
+
+        // Divisible by 2, 3, 5
+        public bool IsUgly(int num)
+        {
+
+            if (num == 1) return true;
+            if (num == 0) return false;
+            while (num % 2 == 0) num = num / 2;
+            while (num % 3 == 0) num = num / 3;
+            while (num % 5 == 0) num = num / 5;
+            return num == 1;
         }
     }
 }
