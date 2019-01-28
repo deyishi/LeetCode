@@ -14,8 +14,8 @@ namespace LeetCode
         public void PreorderTraversal()
         {
 
-            var t = new int?[] { 1,2,3,4,5,6 }.ToTree();
-            var r = CountNodes(t);
+            var t = new int?[] {5, 1, 5, 5, 5, null, 5}.ToTree();
+            var r = CountUnivalSubtrees(t);
 
         }
 
@@ -147,6 +147,43 @@ namespace LeetCode
             }
 
             return height;
+        }
+
+        public int CountUnivalSubtrees(TreeNode root)
+        {
+            var count = 0;
+
+            CountUnivalSubtreesHelper(root, ref count);
+            return count;
+        }
+
+        private bool CountUnivalSubtreesHelper(TreeNode root, ref int count)
+        {
+            if (root == null)
+            {
+                return true;
+            }
+
+            var right = CountUnivalSubtreesHelper(root.right, ref count);
+            var left = CountUnivalSubtreesHelper(root.left, ref count);
+
+            if (right && left)
+            {
+                if (root.right != null && root.val != root.right.val)
+                {
+                    return false;
+                }
+
+                if (root.left != null && root.val != root.left.val)
+                {
+                    return false;
+                }
+
+                count +=1;
+                return true;
+            }
+
+            return false;
         }
     }
 
