@@ -364,5 +364,25 @@ namespace LeetCode
             while (num % 5 == 0) num = num / 5;
             return num == 1;
         }
+
+        public int CountPrimes(int n)
+        {
+            var notPrime = new bool[n];
+
+            var count = 0;
+            for (var i = 2; i < n; i++) {
+                if (!notPrime[i])
+                {
+                    count++;
+                    //Remove all the numbers within n that are multiple of current number.
+                    for (var j = 2; j * i < n; j++)
+                    {
+                        notPrime[i*j] = true;
+                    }
+                }
+            }
+
+            return count;
+        }
     }
 }
