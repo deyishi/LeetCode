@@ -140,10 +140,7 @@ namespace LeetCode
 
             return result.ToList();
         }
-        public int ShortestWordDistance(string[] words, string word1, string word2)
-        {
 
-        }
 
     }
 

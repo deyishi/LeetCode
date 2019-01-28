@@ -1,10 +1,12 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NUnit.Framework.Api;
 
 namespace LeetCode
 {
@@ -13,11 +15,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var t = int.Parse("011");
-            var s = "(()()";
 
-            var l = new List<string>{ "12:01", "00:13"};
-            var r = IsNumber("e9");
+            var a = new string[] { "justification", "justification."};
+            var m = 16;
+            var r = FullJustify(a, 16);
         }
 
         public int LongestValidParentheses(string s)
@@ -378,5 +379,77 @@ namespace LeetCode
             //Needs to make sure there are numbers and if there are e then number after e.
             return numberSeen && numberAfterE;
         }
+        //68. Text Justification
+        //Find how many words can fit into each line.
+        //    Find how many spaces are needed for each line.
+        //    Line length to track word length plus one space and next line start word index.
+        //    Loop through words until line length is over max line length which means we added enough words, then next line start word index should be pointting at the index of this line's last word plus one.
+        //    Add this line's first word. Then find number of separators number by this line start word index minutes next line start word index - 1. ("1.A B 2.C") Line start index is 0, next line start index is 2, 2-0-1, means we need one separator for current line.
+        //    If separator == 0 means this line has only one word, just add the space.
+        //    If next line start index equals words count, means we can fit the rest of the words into this line.
+        //    If separator != 0 and have words remaining, we need to find out how many spaces to put between each word. Use max length - line length (contains words length + 1 space for each word) / separator, this gives a round down count of spaces needed between each word.
+        //    For case that(max length is 16, total words length is 9 with 3 words and 2 separator), we will need 7 spaces.But(16 - 9)/2 is 3, we are missing one space so we need(16-9)%2 to find the remaining spaces and evenly distribute them for each line separator, so first line separator may get 4 then second get 3.
+        public IList<string> FullJustify(string[] words, int maxWidth)
+        {
+            var result = new List<string>();
+
+            var currentLineStartWordIndex = 0;
+            while (currentLineStartWordIndex < words.Length)
+            {
+                var currentLineLength = words[currentLineStartWordIndex].Length;
+                var nextLineStartWordIndex = currentLineStartWordIndex + 1;
+
+                while (nextLineStartWordIndex < words.Length )
+                {
+                    if(currentLineLength + words[nextLineStartWordIndex].Length + 1 > maxWidth) {
+                        break;
+                    }
+                    currentLineLength += words[nextLineStartWordIndex].Length + 1;
+                    nextLineStartWordIndex++;
+                }
+
+                var currentLine = new StringBuilder();
+                currentLine.Append(words[currentLineStartWordIndex]);
+                var separators = nextLineStartWordIndex - currentLineStartWordIndex - 1;
+                if (nextLineStartWordIndex == words.Length || separators == 0)
+                {
+                    for (var i = currentLineStartWordIndex + 1; i < nextLineStartWordIndex; i++)
+                    {
+                        currentLine.Append(" " + words[i]);
+                    }
+
+                    for (var i = currentLine.Length; i < maxWidth; i++)
+                    {
+                        currentLine.Append(" ");
+                    }
+                }
+                else
+                {
+                    var separatorSpaces = (maxWidth - currentLineLength) / separators;
+                    var r = (maxWidth - currentLineLength) % separators;
+
+                    for (var i = currentLineStartWordIndex + 1; i < nextLineStartWordIndex; i++) {
+                        for (var j = separatorSpaces; j > 0; j--)
+                        {
+                            currentLine.Append(" ");
+                        }
+
+                        if (r > 0)
+                        {
+                            currentLine.Append(" ");
+                            r--;
+                        }
+
+                        currentLine.Append(" " + words[i]);
+                    }
+                }
+                result.Add(currentLine.ToString());
+                currentLineStartWordIndex = nextLineStartWordIndex;
+            }
+
+            return result;
+        }
+
+
     }
 }

@@ -356,18 +356,37 @@ namespace LeetCode
 
             return distance;
         }
-        public int ShortestWordDistance(string[] words, string word1, string word2)
+
+        // Loop through words, record p1 for word1, p2 for word2, update distance at each i.
+        // If word1 = word2, then update p2 with last p1, then update p1 with i (when we see word1 the second time, we treat it as word2).
+        public int ShortestWordDistanceWithDuplicates(string[] words, string word1, string word2)
         {
 
+            int p1 = -1;
+            int p2 = -1;
+            int distance = int.MaxValue;
             for (var i = 0; i < words.Length; i++)
             {
                 if (words[i] == word1)
                 {
+                    if (word1 == word2)
+                    {
+                        p2 = p1;
+                    }
+                    p1 = i;
                 }
-                if (words[i] == word2)
+                else if (words[i] == word2)
                 {
+                    p2 = i;
+                }
+
+                if (p1 != -1 && p2 != -1)
+                {
+                    distance = Math.Min(distance, Math.Abs(p1 - p2));
                 }
             }
+
+            return distance;
         }
     }
 
