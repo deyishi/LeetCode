@@ -384,5 +384,23 @@ namespace LeetCode
 
             return count;
         }
+
+        public bool IsStrobogrammatic(string num)
+        {
+            var i = 0;
+            var j = num.Length -1;
+            while (i < num.Length && j >= 0)
+            {
+                if (!"00 11 88 696".Contains(num[i] + "" + num[j]))
+                {
+                    return false;
+                }
+
+                i++;
+                j--;
+            }
+
+            return true;
+        }
     }
 }
