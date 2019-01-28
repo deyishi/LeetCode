@@ -15,7 +15,7 @@ namespace LeetCode
             var num1 = 1;
             var num2 = 3;
 
-            var r = IsUgly(6);
+            var r = FindStrobogrammatic(4);
         }
 
         public string Multiply(string num1, string num2)
@@ -401,6 +401,46 @@ namespace LeetCode
             }
 
             return true;
+        }
+
+        public IList<string> FindStrobogrammatic(int n)
+        {
+
+            return FindStrobogrammaticHelper(n, n);
+        }
+
+        private IList<string> FindStrobogrammaticHelper(int n, int m)
+        {
+            // Even ending
+            if (n == 0)
+            {
+                return new List<string> {""};
+            }
+
+            // Odd ending
+            if (n == 1)
+            {
+                return new List<string>{"0", "1", "8"};
+            }
+
+            var list = FindStrobogrammaticHelper(n - 2, m);
+
+            var res = new List<string>();
+            foreach (var s in list)
+            {
+                //When n == m, it is the last round of the DFS, prevent putting 0 as the start and end of the number.
+                if (n != m)
+                {
+                    res.Add("0" + s + "0");
+                }
+
+                res.Add("1" + s + "1");
+                res.Add("6" + s + "9");
+                res.Add("8" + s + "8");
+                res.Add("9" + s + "6");
+            }
+
+            return res;
         }
     }
 }
