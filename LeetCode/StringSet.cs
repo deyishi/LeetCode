@@ -449,7 +449,34 @@ namespace LeetCode
 
             return result;
         }
+        public IList<IList<string>> GroupStrings(string[] strings)
+        {
+            var map = new Dictionary<string, IList<string>>();
+            foreach (var s in strings)
+            {
+                string key = GetShiftKey(s);
 
+                if (!map.TryGetValue(key, out var list))
+                {
+                    list = new List<string>();
+                    map.Add(key,list);
+                }
+                list.Add(s);
 
+            }
+
+            return map.Values.ToList();
+        }
+
+        private string GetShiftKey(string s)
+        {
+            string shiftKey = "";
+            for (var i = 1; i < s.Length; i++)
+            {
+                 shiftKey += (s[i] - s[i - 1] + 26) % 26;
+            }
+
+            return shiftKey;
+        }
     }
 }
