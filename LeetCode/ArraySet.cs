@@ -388,15 +388,26 @@ namespace LeetCode
 
             return distance;
         }
+
+        public bool CanAttendMeetings(Interval[] intervals)
+        {
+            Array.Sort(intervals, (a, b) => a.start - b.start);
+
+            for (int i = 1; i < intervals.Length; i++)
+            {
+                if (intervals[i].start < intervals[i-1].end)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
-
-
-
 }
 
 public class Interval
 {
-
     public int start;
     public int end;
     public Interval() { start = 0; end = 0; }
