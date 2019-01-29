@@ -478,5 +478,26 @@ namespace LeetCode
 
             return shiftKey;
         }
+
+        public bool IsIsomorphic(string s, string t)
+        {
+            // Map char from s to char from t using two int[256] array.
+            int[] m1 = new int[256];
+            int[] m2 = new int[256];
+
+            // Loop through char of both s and t, compare their value in the map, if they are different then they are not 1 to 1 mapping.
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (m1[s[i]] != m2[t[i]])
+                {
+                    return false;
+                }
+
+                m1[s[i]] = i;
+                m2[t[i]] = i;
+            }
+
+            return true;
+        }
     }
 }
