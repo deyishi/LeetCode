@@ -63,6 +63,7 @@
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\LRUCache.cs" />
+    <Compile Include="Design\Vector2D.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />
     <Compile Include="HashTableSet.cs" />
     <Compile Include="MathSet.cs" />
