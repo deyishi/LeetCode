@@ -403,6 +403,41 @@ namespace LeetCode
 
             return true;
         }
+
+        public int MinMeetingRooms(Interval[] intervals)
+        {
+            int[] start = new int[intervals.Length];
+            int[] end = new int[intervals.Length];
+
+
+            for (int i = 0; i < intervals.Length; i++)
+            {
+                start[i] = intervals[i].start;
+                end[i] = intervals[i].end;
+            }
+
+            Array.Sort(start);
+            Array.Sort(end);
+
+            var lastMeetingEndIndex = 0;
+            var rooms = 0;
+            foreach (var s in start)
+            {
+               
+                if (s < end[lastMeetingEndIndex])
+                {
+                    // Add a room since current meeting starts before last meeting end.
+                    rooms++;
+                }
+                else
+                {
+                    //Current meeting starts after last meeting end, put current meeting into the room used by the last meeting. Move meeting end index to point at the next available room's meeting end.
+                    lastMeetingEndIndex++;
+                }
+            }
+
+            return rooms;
+        }
     }
 }
 
