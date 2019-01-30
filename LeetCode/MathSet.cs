@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 
 namespace LeetCode
@@ -441,6 +442,41 @@ namespace LeetCode
             }
 
             return res;
+        }
+
+        public int NthUglyNumber(int n)
+        {
+            // DP[n]
+            // The next ugly number has to be smallest number among all the existing ugly numbers times (2,3,5) that isn't already in the existing ugly numbers. 
+            // DP[0] = 1, DP[1] = Min(2*(1), 3*(1), 5*(1)) = 2, DP[2] = Min(2*(1,2), 3*(1,2), 5*(1,2)) = 3, DP[2] = (2*(1,2,3), 3*(1,2,3), 5*(1,2,3))
+            // Use a pointer to track where (2,3,5) are going to be multiplied to avoid duplicates or checking all existing numbers.
+
+            int[] dp = new int[n];
+            int p2 = 0, p3 = 0, p5 = 0;
+
+            dp[0] = 1;
+            for (var i = 1; i < n;i++)
+            {
+                dp[i] = Math.Min(dp[p2] * 2, Math.Min(dp[p3] * 3, dp[p5] * 5));
+
+                if (dp[i] == dp[p2] * 2)
+                {
+                    p2++;
+                }
+
+                if (dp[i] == dp[p3] * 3)
+                {
+                    p3++;
+                }
+
+                if (dp[i] == dp[p5] * 5)
+                {
+                    p5++;
+                }
+            }
+
+            return dp[n - 1];
+
         }
     }
 }
