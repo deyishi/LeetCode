@@ -500,7 +500,7 @@ namespace LeetCode
             return true;
         }
 
-        // Use two hash map to check pattern and str one to one match relationship.
+        // Use two hash map patternToWord and wordToPattern to check pattern and str one to one match relationship.
         public bool WordPattern(string pattern, string str)
         {
             var words = str.Split(' ');
