@@ -449,7 +449,7 @@ namespace LeetCode
             // DP[n]
             // The next ugly number has to be smallest number among all the existing ugly numbers times (2,3,5) that isn't already in the existing ugly numbers. 
             // DP[0] = 1, DP[1] = Min(2*(1), 3*(1), 5*(1)) = 2, DP[2] = Min(2*(1,2), 3*(1,2), 5*(1,2)) = 3, DP[2] = (2*(1,2,3), 3*(1,2,3), 5*(1,2,3))
-            // Use a pointer to track where (2,3,5) are going to be multiplied to avoid duplicates or checking all existing numbers.
+            // Use three pointers to track where (2,3,5) are going to be multiplied to avoid duplicates or checking all existing numbers.
 
             int[] dp = new int[n];
             int p2 = 0, p3 = 0, p5 = 0;
@@ -477,6 +477,39 @@ namespace LeetCode
 
             return dp[n - 1];
 
+        }
+
+        //Same idea as Ugly Number 2.
+        //Need an array to track how many times of each prime in primes list has been multiplied to skip duplicate.
+        public int NthSuperUglyNumber(int n, int[] primes)
+        {
+            int[] dp = new int[n];
+
+            dp[0] = 1;
+
+            var tracker = new int[primes.Length];
+
+            for (var i = 1; i < n; i++)
+            {
+                var min = int.MaxValue;
+                for (int j = 0; j < primes.Length; j++)
+                {
+                    min = Math.Min(min, primes[j] * dp[tracker[j]]);
+                }
+
+                dp[i] = min;
+
+                for (int j = 0; j < primes.Length; j++)
+                {
+                    if (dp[i] == primes[j] * dp[tracker[j]])
+                    {
+                        tracker[j]++;
+                    }
+                }
+
+            }
+
+            return dp[n - 1];
         }
     }
 }
