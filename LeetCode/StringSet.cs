@@ -499,5 +499,37 @@ namespace LeetCode
 
             return true;
         }
+
+        // Use two hash map to check pattern and str one to one match relationship.
+        public bool WordPattern(string pattern, string str)
+        {
+            var words = str.Split(' ');
+            if (words.Length != pattern.Length)
+            {
+                return false;
+            }
+
+            var patternToWord = new Dictionary<char, string>();
+            var wordToPattern = new Dictionary<string, char>();
+
+            for (int i = 0; i < pattern.Length; i++)
+            {
+                var c = pattern[i];
+                var word = words[i];
+                if (!patternToWord.ContainsKey(c) && !wordToPattern.ContainsKey(word))
+                {
+                    patternToWord.Add(c, word);
+                    wordToPattern.Add(word, c);
+                }else if (patternToWord.ContainsKey(c) && !patternToWord[c].Equals(word))
+                {
+                    return false;
+                }else if (wordToPattern.ContainsKey(word) && wordToPattern[word] != c)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
