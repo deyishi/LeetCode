@@ -424,5 +424,37 @@ namespace LeetCode
 
             return dp[s.Length, p.Length];
         }
+
+        public int MinCost(int[,] costs)
+        {
+            if (costs == null || costs.GetLength(0) == 0 || costs.GetLength(1) == 0)
+            {
+                return 0;
+            }
+
+            // If painting current house red, total cost is the min of painting previous house the other color plus cost of painting current house red.
+            // Move to next house and update last red house cost with current red house.
+            // In the end, min of current house red, blue or green.
+
+            // paintCurrentRed = min(paintPreviousGreen,paintPreviousBlue) + costs[i+1][0]
+            int lastR = costs[0, 0];
+            int lastG = costs[0, 1];
+            int lastB = costs[0, 2];
+
+            for (int i = 1; i < costs.GetLength(0); i ++)
+            {
+                int currentR = Math.Min(lastB, lastG) + costs[i, 0];
+                int currentG = Math.Min(lastB, lastR) + costs[i, 1];
+                int currentB = Math.Min(lastR, lastG) + costs[i, 2];
+
+                lastR = currentR;
+                lastG = currentG;
+                lastB = currentB;
+            }
+
+            return Math.Min(Math.Min(lastR, lastB), lastG);
+        }
+
+       
     }
 }
