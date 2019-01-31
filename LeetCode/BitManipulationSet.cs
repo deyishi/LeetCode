@@ -13,6 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
+
+            var t = 16 & 15;
             var n = new int[] {1, 2, 2 ,2 ,2 ,2, 2,2};
             var b = 1101;
             //var r = ReverseBits(b);
@@ -127,6 +129,22 @@ namespace LeetCode
             }
 
             return m << shift;
+        }
+
+        public bool IsPowerOfTwo(int n)
+        {
+            // Keep dividing n by 2 or check n & n-1, since power of 2 only has 1 bit.
+            while (n % 2 == 0)
+            {
+                n /= 2;
+            }
+
+            return n == 1;
+        }
+
+        public bool IsPowerOfFour(int n)
+        {
+            return n > 0 && (n & (n - 1)) == 0 && (n - 1) % 3 == 0;
         }
     }
 }
