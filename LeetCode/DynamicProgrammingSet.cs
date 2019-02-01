@@ -455,6 +455,31 @@ namespace LeetCode
             return Math.Min(Math.Min(lastR, lastB), lastG);
         }
 
-       
+        public int NumWays(int n, int k)
+        {
+            if (n == 0)
+            {
+                return 0;
+            }
+
+            if (n == 1)
+            {
+                return 1;
+            }
+
+            var sameColor = k;
+            var diffColor = k * (k - 1);
+
+            for (var i = 2; i < n; i++)
+            {
+                var temp = diffColor;
+                diffColor = (sameColor + diffColor) * (k - 1);
+                sameColor = temp;
+            }
+
+            return sameColor + diffColor;
+        }
+
+
     }
 }
