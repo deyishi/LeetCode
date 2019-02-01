@@ -531,5 +531,31 @@ namespace LeetCode
 
             return true;
         }
+
+        public IList<string> GeneratePossibleNextMoves(string s)
+        {
+            var a = s.ToCharArray();
+            var result = new List<string>();
+            for (var i = 1; i < a.Length; i ++) {
+                if (a[i] == a[i-1])
+                {
+                    if (a[i] == '+')
+                    {
+                        a[i] = a[i - 1] = '-';
+                        result.Add(new string(a));
+                        a[i] = a[i - 1] = '+';
+
+                    }
+                    else
+                    {
+                        a[i] = a[i - 1] = '+';
+                        result.Add(new string(a));
+                        a[i] = a[i - 1] = '-';
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }
