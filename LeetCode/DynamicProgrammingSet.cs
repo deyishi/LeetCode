@@ -479,6 +479,44 @@ namespace LeetCode
 
             return sameColor + diffColor;
         }
+        public int MinDistance(string word1, string word2)
+        {
+            //DP starts at 0 to include empty staring case. So we use word length + 1.
+            var n = word1.Length +1;
+            var m = word2.Length +1;
+
+            //Handle word1 or word2 empty. 
+            var dp = new int[n, m];
+
+            for (int i = 1; i < n; i++)
+            {
+                dp[i, 0] = i;
+            }
+
+            for (int i = 1; i < m; i++)
+            {
+                dp[0,i] = i;
+            }
+
+         
+            for (var i = 1; i < n;i++) {
+                for (var j = 1; j < m; j++) {
+                    if (word1[i-1] == word2[j-1])
+                    {
+                        // No action needed if same.
+                        dp[i, j] = dp[i - 1, j - 1];
+                    }
+                    else
+                    {
+                        // Three actions' state, Replace(i-1,j-1), Insert(i-1, j), Delete (i, j-1)
+                        // Take the action state with least operations
+                        dp[i, j] = Math.Min(dp[i - 1, j - 1], Math.Min(dp[i - 1, j], dp[i, j - 1])) + 1;
+                    }
+                }
+            }
+
+            return dp[n, m];
+        }
 
 
     }
