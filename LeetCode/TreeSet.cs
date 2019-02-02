@@ -15,7 +15,9 @@ namespace LeetCode
         {
 
             var t = new int?[] {5, 1, 5, 5, 5, null, 5}.ToTree();
-            var r = CountUnivalSubtrees(t);
+
+            var a = new int[] {5, 2, 1, 3, 6};
+            var r = VerifyPreorder(a);
 
         }
 
@@ -185,6 +187,33 @@ namespace LeetCode
 
             return false;
         }
+
+        public bool VerifyPreorder(int[] preorder)
+        {
+            // Min to keep track left sub tree node, all the right tree nodes should be large than min.
+            // Stack to keep track sub tree nodes, when p > min, then we are moving from left to right, remove all the left tree nodes.
+
+            int min = int.MinValue;
+            var stack = new Stack<int>();
+            foreach (var p in preorder)
+            {
+                if (p < min)
+                {
+                    return false;
+                }
+
+                while (stack.Any() && p > stack.Peek())
+                {
+                    min = stack.Pop();
+                }
+
+                stack.Push(p);
+            }
+
+            return true;
+
+        }
+
     }
 
     // 173. Binary Search Tree Iterator
@@ -222,4 +251,6 @@ namespace LeetCode
             }
         }
     }
+
+
 }
