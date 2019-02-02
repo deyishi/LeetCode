@@ -17,6 +17,7 @@ namespace LeetCode.DataModel
             heap.Push(10);
             heap.Push(3);
 
+            heap.Peek();
         }
     }
 

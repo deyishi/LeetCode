@@ -26,7 +26,7 @@ namespace LeetCode
             s[7] = new[] { '.', '.', '.', '4', '1', '9', '.', '.', '5' };
             s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
 
-            SolveSudoku(s);
+            GetFactors(8);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -268,6 +268,34 @@ namespace LeetCode
                 path.Add(i);
                 CombinationSum3Helper(target - i, k, i + 1, path, result);
                 path.RemoveAt(path.Count - 1);
+            }
+        }
+        public IList<IList<int>> GetFactors(int n)
+        {
+            var result = new List<IList<int>>();
+            var path = new List<int>();
+            GetFactorsHelper(result, path, n, 2);
+            return result;
+        }
+
+        private void GetFactorsHelper(List<IList<int>> result, List<int> path, int n, int start)
+        {
+            if (n == 1)
+            {
+                if (path.Count > 0)
+                {
+                    result.Add(new List<int>(path));
+                }
+                return;
+            }
+
+            for (var i = start; i <= n; i++) {
+                if (n % i == 0)
+                {
+                    path.Add(i);
+                    GetFactorsHelper(result, path, n / i, i);
+                    path.RemoveAt(path.Count - 1);
+                }
             }
         }
     }
