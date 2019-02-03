@@ -26,7 +26,9 @@ namespace LeetCode
             s[7] = new[] { '.', '.', '.', '4', '1', '9', '.', '.', '5' };
             s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
 
-            GetFactors(8);
+
+            var t = "aaaabb";
+            var r = GeneratePalindromes(t);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -296,6 +298,93 @@ namespace LeetCode
                     GetFactorsHelper(result, path, n / i, i);
                     path.RemoveAt(path.Count - 1);
                 }
+            }
+        }
+
+        public IList<string> GeneratePalindromes(string s)
+        {
+            int odd = 0;
+            var mid = "";
+
+            var result = new List<string>();
+            var list = new List<char>();
+
+
+            var map = new Dictionary<char, int>();
+
+            // Build character count map and count odds
+            foreach (var t in s)
+            {
+                if (!map.ContainsKey(t))
+                {
+                    map.Add(t,1);
+                }
+                else
+                {
+                    map[t]++;
+                }
+
+                odd += map[t] % 2 == 0 ? -1 : 1;
+            }
+
+            if (odd > 1)
+            {
+                return result;
+            }
+
+            // Add half count of each character to list
+            foreach (var set in map)
+            {
+                var key = set.Key;
+                int val = set.Value;
+
+
+                // Set mid char for all permutation if s is odd.
+                if (val % 2 != 0)
+                {
+                    mid += key;
+                }
+
+                for (int i =0; i < val/2; i++)
+                {
+                    list.Add(key);
+                }
+            }
+
+
+            // Generate all the permutation
+            GetPerm(list, mid, new bool[list.Count], new StringBuilder(), result);
+
+            return result;
+        }
+
+        private void GetPerm(List<char> list, string mid, bool[] used, StringBuilder path, List<string> result)
+        {
+
+            // Use all chars
+            if (path.Length == list.Count)
+            {
+                result.Add(path + mid + new string(path.ToString().Reverse().ToArray()));
+                return;
+            }
+
+            for (var i = 0; i < list.Count; i++)
+            {
+                // skip duplicate
+                if (i > 0 && list[i] == list[i-1] && !used[i-1])
+                {
+                    continue;
+                }
+
+                if (!used[i])
+                {
+                    path.Append(list[i]);
+                    used[i] = true;
+                    GetPerm(list, mid, used, path, result);
+                    path.Remove(path.Length - 1, 1);
+                    used[i] = false;
+                }
+
             }
         }
     }
