@@ -2,3 +2,7 @@
 Min heap to keep k numbers instead of max heap to keep all numbers.
 When add, min heap peek, if peek less than current, pop then add.
 Add O(logK), O(klogk)
+
+277. Find the Celebrity
+Find a candidate who knows nobody.
+Check the candidate knows nobody and everybody knows him.
