@@ -15,8 +15,10 @@ namespace LeetCode
         {
 
             var t = 16 & 15;
-            var n = new int[] {1, 2, 2 ,2 ,2 ,2, 2,2};
+            var n = new int[] { 1, 2, 2, 2, 2, 2, 2, 2 };
             var b = 1101;
+
+            t = (6) & -6;
             //var r = ReverseBits(b);
         }
         /// <summary>
@@ -42,7 +44,7 @@ namespace LeetCode
             var twos = 0;
             foreach (var n in nums)
             {
-                
+
                 ones = ones ^ n & ~twos;
                 twos = twos ^ n & ~ones;
             }
@@ -145,6 +147,34 @@ namespace LeetCode
         public bool IsPowerOfFour(int n)
         {
             return n > 0 && (n & (n - 1)) == 0 && (n - 1) % 3 == 0;
+        }
+        public int[] SingleNumberThree(int[] nums)
+        {
+            var result = new int[2];
+            // Eliminate elements appeared twice with XOR, what left will the two single appearance element XOR.
+            var diff = 0;
+            foreach (var n in nums)
+            {
+                diff ^= n;
+            }
+
+           //Get its last set bit
+           diff &= -diff;
+
+            foreach (var n in nums)
+            {
+                if ((diff & n) == 0)  // the bit is not set
+                {
+                    result[0] ^= n;
+                }
+                else
+                {
+                    result[1] ^= n;  // the bit is set
+
+                }
+            }
+
+            return result;
         }
     }
 }
