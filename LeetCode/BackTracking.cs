@@ -28,7 +28,7 @@ namespace LeetCode
 
 
             var t = "aaaabb";
-            var r = GeneratePalindromes(t);
+            var r = NumSquares(12);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -385,6 +385,32 @@ namespace LeetCode
                     used[i] = false;
                 }
 
+            }
+        }
+
+        public IList<IList<int>> NumSquares(int n)
+        {
+            var result = new List<IList<int>>();
+            NumSquares(n, new List<int>(), result);
+            return result;
+        }
+
+        private void NumSquares(int n, List<int> path, List<IList<int>> result)
+        {
+            if (n == 0)
+            {
+                result.Add(new List<int>(path));
+            }
+
+            for (int i = 1; i <= Math.Sqrt(n); i++)
+            {
+                var curr = (int)Math.Pow(i, 2);;
+                if (n >= Math.Pow(i,2))
+                {
+                    path.Add(i);
+                    NumSquares(n - curr, path, result);
+                    path.RemoveAt(path.Count - 1);
+                }
             }
         }
     }

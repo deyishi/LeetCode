@@ -479,6 +479,7 @@ namespace LeetCode
 
             return sameColor + diffColor;
         }
+
         public int MinDistance(string word1, string word2)
         {
             //DP starts at 0 to include empty staring case. So we use word length + 1.
@@ -517,6 +518,25 @@ namespace LeetCode
 
             return dp[n, m];
         }
+        public int NumSquares(int n)
+        {
+            var dp = new int[n + 1];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = int.MaxValue;
+            }
+            dp[0] = 0;
+            for (var i = 0; i <= n; i++)
+            {
+                for (int j = 1; j * j + i <= n; j++)
+                {
+                    dp[i + j * j] = Math.Min(dp[i] + 1, dp[i + j * j]);
+                }
+            }
+
+            return dp[n];
+        }
+
 
 
     }
