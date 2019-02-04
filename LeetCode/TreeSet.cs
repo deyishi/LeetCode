@@ -213,7 +213,26 @@ namespace LeetCode
             return true;
 
         }
+        public TreeNode InorderSuccessor(TreeNode root, TreeNode p)
+        {
+            // If current node is large than p then we look at current.left else go to right since it will be large than current node. Keep going left and right until we find the smallest node that is large than p.
+            TreeNode succ = null;
 
+            while (root != null)
+            {
+                if (root.val > p.val)
+                {
+                    succ = root;
+                    root = root.left;
+                }
+                else
+                {
+                    root = root.right;
+                }
+            }
+
+            return succ;
+        }
     }
 
     // 173. Binary Search Tree Iterator
