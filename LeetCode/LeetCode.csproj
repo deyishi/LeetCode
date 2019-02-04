@@ -58,6 +58,7 @@
     <Compile Include="DataModel\MyQueue.cs" />
     <Compile Include="DataModel\MyStack.cs" />
     <Compile Include="DataModel\NumArray.cs" />
+    <Compile Include="DataModel\Test.cs" />
     <Compile Include="DataModel\Trie.cs" />
     <Compile Include="DataModel\TrieNode.cs" />
     <Compile Include="DataModel\WordDictionary.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="DataModel\ListNode.cs" />
     <Compile Include="DataModel\MyLinkedList.cs" />
     <Compile Include="DataModel\TreeNode.cs" />
+    <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\LRUCache.cs" />
     <Compile Include="Design\Vector2D.cs" />
