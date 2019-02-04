@@ -52,4 +52,48 @@ namespace LeetCode.DataModel
             return result;
         }
     }
+
+    public class ZigzagIteratorTwo
+    {
+        private readonly Queue<int> _queue;
+        public ZigzagIteratorTwo(IList<int> v1, IList<int> v2)
+        {
+            _queue = new Queue<int>();
+
+            var list = new List<IList<int>>
+            {
+                v1, v2
+            };
+
+            var index = 0;
+            var max = 0;
+
+            foreach (var t in list)
+            {
+                max = Math.Max(t.Count, max);
+            }
+
+            while (index < max)
+            {
+                foreach (var t in list)
+                {
+                    if (index < t.Count)
+                    {
+                        _queue.Enqueue(t[index]);
+                    }
+                }
+                index++;
+            }
+        }
+
+        public bool HasNext()
+        {
+            return _queue.Any();
+        }
+
+        public int Next()
+        {
+            return _queue.Dequeue();
+        }
+    }
 }
