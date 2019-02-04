@@ -16,7 +16,7 @@ namespace LeetCode
             var s = "aa";
             var p = "*";
 
-            var r = IsMatchWildCard(s, p);
+            var r = NumSquares(4);
         }
 
         /// <summary>
@@ -526,11 +526,32 @@ namespace LeetCode
                 dp[i] = int.MaxValue;
             }
             dp[0] = 0;
-            for (var i = 0; i <= n; i++)
+            for (var i = 1; i <= n; i++)
             {
-                for (int j = 1; j * j + i <= n; j++)
+                int sqrt = (int)Math.Sqrt(i);
+
+                // If the number is already a perfect square,
+                // then dp[number] can be 1 directly. This is
+                // just a optimization for this DP solution.
+                if (sqrt * sqrt == i)
                 {
-                    dp[i + j * j] = Math.Min(dp[i] + 1, dp[i + j * j]);
+                    dp[i] = 1;
+                }
+                else
+                {
+
+                    // To get the value of dp[n], we should choose the min
+                    // value from:
+                    //     dp[n - 1] + 1,
+                    //     dp[n - 4] + 1,
+                    //     dp[n - 9] + 1,
+                    //     dp[n - 16] + 1
+                    //     and so on...
+                    for (int j = 1; j <= sqrt; j++)
+                    {
+                        int dif = i - j * j;
+                        dp[i] = Math.Min(dp[i], dp[dif] + 1);
+                    }
                 }
             }
 
