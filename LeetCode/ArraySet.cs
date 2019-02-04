@@ -438,6 +438,35 @@ namespace LeetCode
 
             return rooms;
         }
+
+        public void WiggleSort(int[] nums)
+        {
+            for (var i = 1; i < nums.Length; i ++) {
+                if ( i % 2 == 1)
+                {
+                    // Even
+                    if (nums[i-1] > nums[i])
+                    {
+                        WiggleSortSwap(nums, i);
+                    }
+                }
+                else
+                {
+                    //Odd
+                    if (nums[i-1] < nums[i])
+                    {
+                        WiggleSortSwap(nums, i);
+                    }
+                }
+            }
+        }
+
+        private static void WiggleSortSwap(int[] nums, int i)
+        {
+            var temp = nums[i - 1];
+            nums[i - 1] = nums[i];
+            nums[i] = temp;
+        }
     }
 }
 

@@ -518,6 +518,7 @@ namespace LeetCode
 
             return dp[n, m];
         }
+
         public int NumSquares(int n)
         {
             var dp = new int[n + 1];
