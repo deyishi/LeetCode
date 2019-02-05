@@ -13,9 +13,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[] {1,2,3,4 };
+            var n = new[] { 2, 1, 5, 6, 2, 3 };
             var s = 0;
             var e = 99;
+            var r = LargestRectangleAreaDivideConquer(n);
         }
 
 
@@ -466,6 +467,78 @@ namespace LeetCode
             var temp = nums[i - 1];
             nums[i - 1] = nums[i];
             nums[i] = temp;
+        }
+
+        public int LargestRectangleAreaBruteForce(int[] heights)
+        {
+            var result = 0;
+            for (var i = 0; i < heights.Length; i++)
+            {
+                var min = int.MaxValue;
+                for (int j = i; j < heights.Length; j++)
+                {
+                    min = Math.Min(heights[j], min);
+                    result = Math.Max(min * (j - i + 1), result);
+                }
+            }
+
+            return result;
+        }
+
+        public int LargestRectangleAreaDivideConquer(int[] heights)
+        {
+            return LargestRectangleAreaDivideConquerHelper(heights, 0, heights.Length - 1);
+        }
+
+        private int LargestRectangleAreaDivideConquerHelper(int[] heights, int start, int end)
+        {
+            if (start > end)
+            {
+                return 0;
+            }
+
+            var minIndex = start;
+            for (var i = start + 1; i <= end; i++)
+            {
+                if (heights[i] < heights[minIndex])
+                {
+                    minIndex = i;
+                }
+            }
+
+            return Math.Max(heights[minIndex] * (end - start + 1),
+                Math.Max(LargestRectangleAreaDivideConquerHelper(heights, start, minIndex - 1),
+                    LargestRectangleAreaDivideConquerHelper(heights, minIndex + 1, end)));
+        }
+
+        public int LargestRectangleArea(int[] heights)
+        {
+
+            var result = 0;
+            var stack = new Stack<int>();
+            var i = 0;
+            while (i < heights.Length)
+            {
+                if (!stack.Any() || heights[stack.Peek()] <= heights[i])
+                {
+                    stack.Push(i++);
+                }
+                else
+                {
+                    var h = stack.Pop();
+                    var w = stack.Any() ? i - 1 - stack.Peek() : i;
+                    result = Math.Max(result, heights[h] * w);
+                }
+            }
+
+            //Handle a stack didn't get processed due to length 1 array or ascending order array.
+            while (!stack.Any())
+            {
+                var h = stack.Pop();
+                result = Math.Max(result, heights[h] * (h + 1));
+            }
+
+            return result;
         }
     }
 }
