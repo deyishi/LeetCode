@@ -13,10 +13,13 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "aa";
-            var p = "*";
+            var a = new char[,]
+            {
+                {'1', '0', '1', '0', '0'}, {'1', '0', '1', '1', '1'}, {'1', '1', '1', '1', '1'},
+                {'1', '0', '0', '1', '0'}
+            };
 
-            var r = NumSquares(4);
+            var r = MaximalRectangle(a);
         }
 
         /// <summary>
@@ -559,7 +562,60 @@ namespace LeetCode
             return dp[n];
         }
 
+        public int MaximalRectangle(char[,] matrix)
+        {
+            // Height[i] record the current number of continuous of '1' in column i 
+            // Left[i] record the left most row index j which satisfies that for any index k from j to i, height[k] >= height[i]
+            // Right[i] record the right most row index j which satisfies that for any index k from i to j, height[k] >= height[i]
+            // Max area for i is Height[i] * (Right[i] - Left[i] + 1).
+            // Need left boundary (j+1) and right boundary (j-1) to update Left[i] and Right[i].
+            // Default Right[] int.Max. 
+            var m = matrix.GetLength(0);
+            var n = matrix.GetLength(1);
+            var heights = new int[n];
+            var right = new int[n];
+            var left = new int[n];
+            var maxArea = 0;
+            for (var i = 0; i < right.Length; i++)
+            {
+                right[i] = int.MaxValue;
+            }
 
+            // Go through each row
+            for (var i = 0; i < m; i++)
+            {
+                var rb = n - 1;
+                for (int j = n-1; j >= 0; j--)
+                {
+                    if (matrix[i,j] == '1')
+                    {
+                        heights[j]++;
+                        right[j] = Math.Min(right[j], rb);
+                    }
+                    else
+                    {
+                        heights[j] = 0;
+                        right[j] = n - 1;
+                        rb = j - 1;
+                    }
+                }
 
+                var lb = 0;
+                for (var j = 0; j < n;j++) {
+                    if (matrix[i, j] == '1')
+                    {
+                        left[j] = Math.Max(left[j], lb);
+                        maxArea = Math.Max((right[j] - left[j] + 1) * heights[j], maxArea);
+                    }
+                    else
+                    {
+                        left[j] = 0;
+                        lb = j + 1;
+                    }
+                }
+            }
+
+            return maxArea;
+        }
     }
 }
