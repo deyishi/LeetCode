@@ -333,5 +333,39 @@ namespace LeetCode
 
             return false;
         }
+        public int FindDuplicate(int[] nums)
+        {
+            if (nums.Length < 2)
+            {
+                return -1;
+            }
+
+            var left = 0;
+            var right = nums.Length;
+            while (left < right)
+            {
+                var mid = left + (right - left) / 2;
+                var count = 0;
+                foreach (var num in nums)
+                {
+                    if (num <= mid)
+                    {
+                        count++;
+                    }
+                }
+
+                // Duplicate number in the left half.
+                if (count <= mid)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid;
+                }
+            }
+
+            return right;
+        }
     }
 }
