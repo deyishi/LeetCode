@@ -16,9 +16,10 @@ namespace LeetCode
         public void Test()
         {
 
-            var a = new string[] { "justification", "justification."};
-            var m = 16;
-            var r = FullJustify(a, 16);
+            var a = "abcde";
+            var b = "caebd";
+
+            var r = IsScramble(a, b);
         }
 
         public int LongestValidParentheses(string s)
@@ -556,6 +557,52 @@ namespace LeetCode
             }
 
             return result;
+        }
+
+        private Dictionary<string, bool> _scrambleMap = new Dictionary<string, bool>();
+        public bool IsScramble(string s1, string s2)
+        {
+
+            if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2) || s1.Length != s2.Length)
+            {
+                return false;
+            }
+
+            var key = s1 + "#" + s2;
+            if (_scrambleMap.ContainsKey(key))
+            {
+                return _scrambleMap[key];
+            }
+
+            if (s1.Length == 1 && s1.Equals(s2))
+            {
+                return true;
+            }
+
+            if (new string(s1.OrderBy(x => x).ToArray()) != new string(s2.OrderBy(x => x).ToArray()))
+            {
+                return false;
+            }
+
+            var n = s1.Length;
+            for (var i = 1 ; i < s1.Length; i++)
+            {
+                var s1Left = s1.Substring(0, i);
+                var s1Right = s1.Substring(i, n- i);
+                var s2Left = s2.Substring(0, i);
+                var s2Right = s2.Substring(i, n- i);
+                var a = s2.Substring(n - i, i);
+                var b = s2.Substring(0, n - i);
+                if (IsScramble(s1Left, s2Left) && IsScramble(s1Right, s2Right) ||
+                    IsScramble(s1Left,a) && IsScramble(s1Right,b))
+                {
+                    _scrambleMap.Add(key, true);
+                    return true;
+                }
+            }
+
+            _scrambleMap.Add(key, false);
+            return false;
         }
     }
 }
