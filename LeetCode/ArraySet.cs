@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 
 namespace LeetCode
@@ -16,7 +17,15 @@ namespace LeetCode
             var n = new[] { 2, 1, 5, 6, 2, 3 };
             var s = 0;
             var e = 99;
-            var r = LargestRectangleAreaDivideConquer(n);
+
+
+            var m = new int[4][];
+            m[0] = new[] {0, 1, 0};
+            m[1] = new[] {0, 0, 1};
+            m[2] = new[] {1, 1, 1};
+            m[3] = new[] {0, 0, 0};
+
+            GameOfLife(m);
         }
 
 
@@ -539,6 +548,78 @@ namespace LeetCode
             }
 
             return result;
+        }
+
+        private int[,] MooreNeighbor =
+            {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+        private int _die = 2;
+        private int _live = 3;
+        public void GameOfLife(int[][] board)
+        {
+            // Go through the board, mark cell die, live or keep the same based on the rule.
+            for (var i = 0; i < board.Length; i++)
+            {
+                for (var j = 0; j < board[0].Length; j++)
+                {
+                    var liveNeighbors = GetLiveNeighbors(board, i, j);
+                    if (board[i][j] == 0 && liveNeighbors == 3)
+                    {
+                        //Any dead cell with exactly three live neighbors becomes a live cell.
+                        board[i][j] = _live;
+                    }
+                    else if (board[i][j] == 1)
+                    {
+                        if (liveNeighbors == 2 || liveNeighbors == 3)
+                        {
+                            //Any live cell with two or three live neighbors lives on to the next generation.
+                            continue;
+                        }
+
+                        if (liveNeighbors < 2 || liveNeighbors > 3)
+                        {
+                            //Any live cell with  fewer than two live neighbors or more than three live neighbors dies.
+                            board[i][j] = _die;
+                        }
+                    }
+                }
+            }
+
+            // Update the board
+            for (var i = 0; i < board.Length; i++)
+            {
+                for (var j = 0; j < board[0].Length; j++)
+                {
+                    if (board[i][j] == _die)
+                    {
+                        board[i][j] = 0;
+                    }
+
+                    if (board[i][j] == _live)
+                    {
+                        board[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        private int GetLiveNeighbors(int[][] board, int r, int c)
+        {
+            var rows = board.Length;
+            var cols = board[0].Length;
+            var count = 0;
+            for (var i = 0; i < 8; i++)
+            {
+                var row = r + MooreNeighbor[i, 0];
+                var col = c + MooreNeighbor[i, 1];
+
+                // Check live cell or live cell marked to die.
+                if (row >= 0 && col >= 0 && row < rows && col < cols && (board[row][col] == 1 || board[row][col] == _die))
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
     }
 }
