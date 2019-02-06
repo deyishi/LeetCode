@@ -50,6 +50,7 @@
     <Compile Include="BackTracking.cs" />
     <Compile Include="BinarySearchSet.cs" />
     <Compile Include="BitManipulationSet.cs" />
+    <Compile Include="BreadthFirstSearchSet.cs" />
     <Compile Include="DataModel\ArrayExtension.cs" />
     <Compile Include="DataModel\Codec.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
