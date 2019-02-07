@@ -27,8 +27,8 @@ namespace LeetCode
             s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
 
 
-            var t = "aaaabb";
-            var r = NumSquares(12);
+            var t = "++++";
+            var r = CanWin(t);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -412,6 +412,36 @@ namespace LeetCode
                     path.RemoveAt(path.Count - 1);
                 }
             }
+        }
+
+        readonly Dictionary<string, bool> _flipGameMem = new Dictionary<string, bool>();
+        public bool CanWin(string s)
+        {
+            if (string.IsNullOrEmpty(s) || s.Length < 2)
+            {
+                return false;
+            }
+
+            if (_flipGameMem.ContainsKey(s))
+            {
+                return _flipGameMem[s];
+            }
+
+            for (var i = 0; i<s.Length-1;i++) {
+                if (s[i] == '+' && s[i+1] == '+')
+                {
+                    var opponentString = s.Substring(0, i) + "--" + s.Substring(i + 2);
+
+                    // If opponent can't win I win.
+                    if (!CanWin(opponentString))
+                    {
+                        _flipGameMem.Add(s, true);
+                        return true;
+                    }
+                }
+            }
+            _flipGameMem.Add(s, false);
+            return false;
         }
     }
 }
