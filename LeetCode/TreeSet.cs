@@ -233,6 +233,39 @@ namespace LeetCode
 
             return succ;
         }
+
+        public int LongestConsecutive(TreeNode root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+
+            var result = 0;
+            LongestConsecutiveHelper(root, root.val, 0, ref result);
+            return result;
+        }
+
+        private void LongestConsecutiveHelper(TreeNode root, int target, int curr, ref int result)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (target == root.val )
+            {
+                curr++;
+            }
+            else
+            {
+                curr = 1;
+            }
+
+            result = Math.Max(result, curr);
+            LongestConsecutiveHelper(root.left, root.val+1, curr, ref result);
+            LongestConsecutiveHelper(root.right, root.val + 1, curr, ref result);
+        }
     }
 
     // 173. Binary Search Tree Iterator
