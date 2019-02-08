@@ -367,5 +367,34 @@ namespace LeetCode
 
             return right;
         }
+
+        public int LengthOfLIS(int[] nums)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+
+            var dp = new int[nums.Length];
+            dp[0] = 1;
+            var max = 1;
+            for (var i = 1; i < dp.Length; i++)
+            {
+                int currentMax = 0;
+                for (var j = 0; j < i; j++)
+                {
+                    if (nums[i] > nums[j])
+                    {
+                        currentMax = Math.Max(currentMax, dp[j]);
+                    }
+
+                }
+
+                dp[i] = currentMax + 1;
+                max = Math.Max(max, dp[i]);
+            }
+
+            return max;
+        }
     }
 }
