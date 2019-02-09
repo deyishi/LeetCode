@@ -60,6 +60,7 @@
     <Compile Include="DataModel\MyQueue.cs" />
     <Compile Include="DataModel\MyStack.cs" />
     <Compile Include="DataModel\NumArray.cs" />
+    <Compile Include="DataModel\NumMatrix.cs" />
     <Compile Include="DataModel\Trie.cs" />
     <Compile Include="DataModel\TrieNode.cs" />
     <Compile Include="DataModel\ValidWordAbbr.cs" />

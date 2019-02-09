@@ -20,7 +20,8 @@ namespace LeetCode
                 {18, 21, 23, 26, 30}
             };
 
-            var r = SearchMatrix(m, 5);
+            var n = new[] {3, 1, 3, 4, 2};
+            var r = FindDuplicate(n);
         }
 
         public int BinarySearch(int[] nums, int target)
