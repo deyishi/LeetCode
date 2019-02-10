@@ -61,6 +61,7 @@
     <Compile Include="DataModel\MyStack.cs" />
     <Compile Include="DataModel\NumArray.cs" />
     <Compile Include="DataModel\NumMatrix.cs" />
+    <Compile Include="DataModel\SegmentTree.cs" />
     <Compile Include="DataModel\Trie.cs" />
     <Compile Include="DataModel\TrieNode.cs" />
     <Compile Include="DataModel\ValidWordAbbr.cs" />

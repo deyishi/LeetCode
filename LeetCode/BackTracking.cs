@@ -449,6 +449,7 @@ namespace LeetCode
         {
             // Find first and second number, check if they are valid.
             // The length of second number depends on the length of the first number. Max(i,j) <= n - i - j, the third number must have more digits than i or j, whichever has most digits.
+            // Then validate rest of the numbers based on n1 and n2. n3 = n1 + n2, n4 = n2+n3..
             var n = nums.Length;
             for (var i = 1; i <= (n-1)/2;i++) {
                 if (nums[0] == '0' && i > 1)
