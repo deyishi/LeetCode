@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -27,8 +28,8 @@ namespace LeetCode
             s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
 
 
-            var t = "++++";
-            var r = CanWin(t);
+            var a = "120122436";
+            var r = IsAdditiveNumber(a);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -442,6 +443,54 @@ namespace LeetCode
             }
             _flipGameMem.Add(s, false);
             return false;
+        }
+
+        public bool IsAdditiveNumber(string nums)
+        {
+            // Find first and second number, check if they are valid.
+            // The length of second number depends on the length of the first number. Max(i,j) <= n - i - j, the third number must have more digits than i or j, whichever has most digits.
+            var n = nums.Length;
+            for (var i = 1; i <= (n-1)/2;i++) {
+                if (nums[0] == '0' && i > 1)
+                {
+                    return false;
+                }
+                var n1 = long.Parse(nums.Substring(0, i));
+                for (var j = 1; Math.Max(i,j) <= n - i - j; j++) {
+
+                    if (nums[i] == '0' && j > 1)
+                    {
+                       break;
+                    }
+
+                    var n2 = long.Parse(nums.Substring(i, j));
+
+                    if (IsValidAdditiveNumber(n1,n2,i+j,nums))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsValidAdditiveNumber(long n1, long n2, int start, string nums)
+        {
+            if (start == nums.Length)
+            {
+                return true;
+            }
+
+            var next = nums.Substring(start);
+
+            var sum = n1 + n2;
+            if (!next.StartsWith(sum.ToString()))
+            {
+                return false;
+            }
+
+            return IsValidAdditiveNumber(n2, sum, start + sum.ToString().Length, nums);
         }
     }
 }
