@@ -784,10 +784,13 @@ namespace LeetCode
                 {
                     if (t[i-1] == s[j-1])
                     {
+                        // Case rab and rabb, dp[i-1, j-1] count subsequence using [ra] -> [rab], then [b] -> [b] at later index
+                        // dp[i,j-1] count subsequence using [rab] -> [rab], then remove b at later index..
                         dp[i, j] = dp[i-1, j-1] + dp[i, j-1];
                     }
                     else
                     {
+                        //If t[i-1] != s[j-1] doesn't match, we have the same number of distinct subsequence as we had without adding the new char.
                         dp[i, j] = dp[i, j - 1];
                     }
                 }

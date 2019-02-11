@@ -140,6 +140,30 @@ namespace LeetCode
 
             return result.ToList();
         }
+        public int[,] Multiply(int[,] a, int[,] b)
+        {
+
+            var aRows = a.GetLength(0);
+            var aCols = a.GetLength(1);
+            var bCols = b.GetLength(1);
+
+            var r = new int[aRows, bCols];
+            for (int i = 0; i < aRows; i++)
+            {
+                for (int k = 0; k < aCols; k++)
+                {
+                    if (a[i,k] != 0)
+                    {
+                        for (int j = 0; j < bCols; j++)
+                        {
+                            if (b[k,j] != 0) r[i,j] += a[i,k] * b[k,j];
+                        }
+                    }
+                }
+            }
+
+            return r;
+        }
 
 
     }
