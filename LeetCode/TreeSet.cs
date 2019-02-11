@@ -14,10 +14,9 @@ namespace LeetCode
         public void PreorderTraversal()
         {
 
-            var t = new int?[] {5, 1, 5, 5, 5, null, 5}.ToTree();
-
-            var a = new int[] {5, 2, 1, 3, 6};
-            var r = VerifyPreorder(a);
+            var n = 4;
+            var t = new[,] {{1, 0}, {1, 2}, {1, 3}};
+            var r = FindMinHeightTrees(n, t);
 
         }
 
@@ -266,6 +265,80 @@ namespace LeetCode
             LongestConsecutiveHelper(root.left, root.val+1, curr, ref result);
             LongestConsecutiveHelper(root.right, root.val + 1, curr, ref result);
         }
+
+        //Find two ends and move toward middle.
+        public IList<int> FindMinHeightTrees(int n, int[,] edges)
+        {
+            var leaves = new List<int>();
+            if (n < 2)
+            {
+                leaves.Add(0);
+                return leaves;
+            }
+
+            if (n < 3)
+            {
+                leaves.Add(0);
+                leaves.Add(1);
+                return leaves;
+            }
+
+            // Make graph
+            var graph = new Dictionary<int, HashSet<int>>();
+            for (int i = 0; i < edges.GetLength(0); i++)
+            {
+                var key1 = edges[i, 0];
+                var key2 = edges[i, 1];
+                if (graph.ContainsKey(key1))
+                {
+                    graph[key1].Add(key2);
+                }
+                else
+                {
+                    graph.Add(key1, new HashSet<int> { key2 });
+                }
+
+                if (graph.ContainsKey(key2))
+                {
+                    graph[key2].Add(key1);
+                }
+                else
+                {
+                    graph.Add(key2, new HashSet<int> { key1 });
+                }
+            }
+
+            // Find end
+            foreach (var node in graph) {
+                if (node.Value.Count == 1)
+                {
+                    leaves.Add(node.Key);
+                }
+            }
+
+            while (n > 2)
+            {
+                n -= leaves.Count;
+                var newLeaves = new List<int>();
+                foreach (var leaf in leaves)
+                {
+                    foreach (var key in graph[leaf])
+                    {
+                        graph[key].Remove(leaf);
+                        if (graph[key].Count == 1)
+                        {
+                            newLeaves.Add(key);
+                        }
+                    }
+                    graph.Remove(leaf);
+                }
+
+                leaves = newLeaves;
+            }
+
+
+            return leaves;
+        }
     }
 
     // 173. Binary Search Tree Iterator
@@ -303,6 +376,8 @@ namespace LeetCode
             }
         }
     }
+
+
 
 
 }
