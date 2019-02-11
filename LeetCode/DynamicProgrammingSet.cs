@@ -19,7 +19,8 @@ namespace LeetCode
                 {'1', '0', '0', '1', '0'}
             };
 
-            var r = MaximalRectangle(a);
+            var t = new int[] {3, 3, 5, 0, 0, 3, 1, 4};
+            var r = StockThree(t);
         }
 
         /// <summary>
@@ -616,6 +617,129 @@ namespace LeetCode
             }
 
             return maxArea;
+        }
+
+        public int StockOne(int[] prices)
+        {
+            if (prices == null || prices.Length < 1)
+            {
+                return 0;
+            }
+
+            var min = prices[0];
+            var max = 0;
+            for (var i = 1; i < prices.Length; i++)
+            {
+                if (prices[i] < min)
+                {
+                    min = prices[i];
+                }
+                else
+                {
+                    max = Math.Max(prices[i] - min, max);
+                }
+            }
+
+            return max;
+        }
+
+        public int StockTwo(int[] prices)
+        {
+            if (prices == null || prices.Length < 1)
+            {
+                return 0;
+            }
+
+            var profit = 0;
+            for (var i = 1; i < prices.Length; i++)
+            {
+                if (prices[i] > prices[i-1])
+                {
+                    profit += prices[i] - prices[i - 1];
+                }
+            }
+
+            return profit;
+        }
+
+        public int StockThree(int[] prices)
+        {
+            if (prices == null || prices.Length < 1)
+            {
+                return 0;
+            }
+
+            var k = 3;
+            var dp = new int[k, prices.Length];
+
+
+            for (var t = 1; t < k; t++) {
+                for (var d = 1; d<prices.Length;d++)
+                {
+
+                    var noTransaction = dp[t, d - 1];
+
+                    var maxProfitToToday = 0;
+                    for (var cd = 0; cd < d; cd++)
+                    {
+                        maxProfitToToday = Math.Max(prices[d] - prices[cd] + dp[t - 1, cd], maxProfitToToday);
+                    }
+
+                    dp[t, d] = Math.Max(noTransaction, maxProfitToToday);
+                }
+            }
+
+            return dp[k-1, prices.Length-1];
+        }
+
+        public int StockThreeOptimized(int[] prices)
+        {
+            if (prices == null || prices.Length < 1)
+            {
+                return 0;
+            }
+
+            var k = 3;
+            var dp = new int[k, prices.Length];
+
+
+            for (var t = 1; t < k; t++)
+            {
+                var maxDiff = -prices[0];
+                for (var d = 1; d < prices.Length; d++)
+                {
+                    dp[t, d] = Math.Max(dp[t, d - 1], prices[d] + maxDiff);
+                    maxDiff = Math.Max(maxDiff, dp[t - 1, d] - prices[d]);
+                }
+            }
+
+            return dp[k - 1, prices.Length - 1];
+        }
+
+        public int StockWithCooldown(int[] prices)
+        {
+            if (prices == null || prices.Length < 2)
+            {
+                return 0;
+            }
+
+            var day = prices.Length;
+
+            var buy = new int[day];
+            var sell = new int[day];
+
+            buy[0] = -prices[0];
+            buy[1] = Math.Max(-prices[0], -prices[1]);
+            sell[1] = Math.Max(buy[0] + prices[1], 0);
+            for (var i = 2; i < day; i++)
+            {
+                var price = prices[i];
+                buy[i] = Math.Max(buy[i - 1], sell[i - 2] - price);
+                sell[i] = Math.Max(sell[i - 1], buy[i - 1] + price);
+            }
+
+            return sell[day - 1];
+
         }
     }
 }
