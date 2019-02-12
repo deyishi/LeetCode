@@ -52,6 +52,7 @@
     <Compile Include="BitManipulationSet.cs" />
     <Compile Include="BreadthFirstSearchSet.cs" />
     <Compile Include="DataModel\ArrayExtension.cs" />
+    <Compile Include="DataModel\ArrayUnionFind.cs" />
     <Compile Include="DataModel\Codec.cs" />
     <Compile Include="DataModel\Constants.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="StackSet.cs" />
     <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
+    <Compile Include="UnionFindSet.cs" />
     <Compile Include="WindowConceptPractice.cs" />
     <Compile Include="LinkedListSet.cs" />
     <Compile Include="MergeSort.cs" />
