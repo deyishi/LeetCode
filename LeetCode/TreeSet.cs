@@ -392,6 +392,35 @@ namespace LeetCode
 
             return result;
         }
+
+
+        // Recursive MaxPathHelper function and a variable to track global max.
+        // Call helper function with each node. At each node, treat it as the peak of the path and update global max with input node's val + left + right.
+        // Helper function then returns input node's largest path sum, either go into node's left or right child, whoever is bigger, input node's val + Max(left, right).
+        // The node's children's used to helper function can be used form a path, either left or right going upward.
+        private int _pathMax;
+        public int MaxPathSum(TreeNode root)
+        {
+            _pathMax = int.MinValue;
+            MaxPathDown(root);
+            return _pathMax;
+        }
+
+        private int MaxPathDown(TreeNode root)
+        {
+            if (root == null )
+            {
+                return 0;
+            }
+
+            int left = Math.Max(0, MaxPathDown(root.left));
+            int right = Math.Max(0, MaxPathDown(root.right));
+
+            _pathMax = Math.Max(_pathMax, left + right + root.val);
+
+            // return a single child so it can form a path with root.
+            return Math.Max(left, right) + root.val;
+        }
     }
 
     // 173. Binary Search Tree Iterator
