@@ -339,6 +339,59 @@ namespace LeetCode
 
             return leaves;
         }
+
+        // Queue to do level order traversal
+        // HdQueue to track each node's horizontal distance
+        // Map to track each Hd's node.
+        // Min and max to track range of hd in the map to generate result.
+        public IList<IList<int>> VerticalOrder(TreeNode root)
+        {
+            var result = new List<IList<int>>();
+            if (root == null)
+            {
+                return result;
+            }
+
+            var queue = new Queue<TreeNode>();
+            var hdQueue = new Queue<int>();
+            var map = new Dictionary<int, List<int>>();
+            queue.Enqueue(root);
+            hdQueue.Enqueue(0);
+
+            var min = 0;
+            var max = 0;
+            while (queue.Count > 0)
+            {
+                var node = queue.Dequeue();
+                var hd = hdQueue.Dequeue();
+                if (!map.ContainsKey(hd))
+                {
+                    map.Add(hd, new List<int>());
+                }
+                map[hd].Add(node.val);
+
+                if (node.left != null)
+                {
+                    queue.Enqueue(node.left);
+                    hdQueue.Enqueue(hd - 1);
+                    min = Math.Min(min, hd - 1);
+                }
+
+                if (node.right != null)
+                {
+                    queue.Enqueue(node.right);
+                    hdQueue.Enqueue(hd + 1);
+                    max = Math.Max(max, hd + 1);
+                }
+            }
+
+            for (var i = min; i <= max; i++)
+            {
+                result.Add(map[i]);
+            }
+
+            return result;
+        }
     }
 
     // 173. Binary Search Tree Iterator
