@@ -176,5 +176,45 @@ namespace LeetCode
 
             return result;
         }
+
+        public int MaxProduct(string[] words)
+        {
+            // Convert each word into a 32 bit integer which 0 bit corresponds to 'a', 1 bit corresponds to 'b' and so on.
+            // If two words share the same character, then and of their big integer should result != 0.
+
+            var wordIntegers = new int[words.Length];
+            // convert each words into bit integer
+            for (var i = 0; i < words.Length; i++)
+            {
+
+                var word = words[i];
+                var num = 0;
+                foreach (var c in word)
+                {
+                    // | or operator, 1 = 01, 2 = 10, 1|2 = 11. 
+                    // a = 01
+                    // b = 10
+                    // ab = 11
+                    num |= 1 << (c - 'a');
+                }
+
+                wordIntegers[i] = num;
+            }
+
+            var max = 0;
+            for (var i = 0; i < words.Length; i++)
+            {
+                for (int j = 0; j < words.Length; j++)
+                {
+                    if ((wordIntegers[i] & wordIntegers[j]) == 0)
+                    {
+                        max = Math.Max(words[i].Length * words[j].Length, max);
+                    }
+                    
+                }
+            }
+
+            return max;
+        }
     }
 }
