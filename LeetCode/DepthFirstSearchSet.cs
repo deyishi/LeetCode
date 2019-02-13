@@ -13,11 +13,11 @@ namespace LeetCode
 
 
         [Test]
-        public void SumNumbers()
+        public void Test()
         {
 
-            var t = new int[] {1, 2}.ToTree();
-            var r = SumNumbers(t);
+            var t = "ad";
+            var r = GenerateAbbreviations(t);
         }
         /// <summary>
         /// DFS
@@ -108,6 +108,53 @@ namespace LeetCode
             }
 
             return sum;
+        }
+
+        public IList<string> GenerateAbbreviations(string word)
+        {
+            //pos: points to the current character
+            //cur: current string formed
+            //count: how many letters are abbreviated in the current string
+
+            //At each step:
+            //Do not abbreviate
+            //Abbreviate the current letters reset abbreviate count
+
+            // Base case pos == word.Length
+            // Add abbreviation and put it to the result
+            var result = new List<string>();
+            GenerateAbbreviationsHelper(result, word, new StringBuilder(), 0, 0);
+            return result;
+        }
+
+        private void GenerateAbbreviationsHelper(List<string> result, string word, StringBuilder cur, int pos, int count)
+        {
+            if (pos == word.Length)
+            {
+                if (count != 0)
+                {
+                    cur.Append(count);
+                }
+                result.Add(cur.ToString());
+            }
+            else
+            {
+                var unChanged = cur.Length;
+                // Do not abbreviate
+                GenerateAbbreviationsHelper(result, word, cur, pos + 1, count + 1);
+                // Reset cur
+                cur.Length = unChanged;
+
+                // Abbreviate at current pos.
+                if (count != 0)
+                {
+                    cur.Append(count);
+                }
+                cur.Append(word[pos]);
+
+                // Check next abbreviate after abbreviate at current pos.
+                GenerateAbbreviationsHelper(result, word, cur, pos + 1, 0);
+            }
         }
     }
 }
