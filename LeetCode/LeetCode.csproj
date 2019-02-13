@@ -60,6 +60,7 @@
     <Compile Include="DataModel\MyHeap.cs" />
     <Compile Include="DataModel\MyQueue.cs" />
     <Compile Include="DataModel\MyStack.cs" />
+    <Compile Include="DataModel\NestedInteger.cs" />
     <Compile Include="DataModel\NumArray.cs" />
     <Compile Include="DataModel\NumMatrix.cs" />
     <Compile Include="DataModel\SegmentTree.cs" />

@@ -58,5 +58,56 @@ namespace LeetCode
             SumNumbersHelper(root.left, ref sum, path);
             SumNumbersHelper(root.right, ref sum, path);
         }
+        public int DepthSum(IList<NestedInteger> nestedList)
+        {
+            return DepthSumHelper(nestedList, 1);
+        }
+
+        private int DepthSumHelper(IList<NestedInteger> nestedList, int depth)
+        {
+            var sum = 0;
+            foreach (var n in nestedList)
+            {
+                if (n.IsInteger())
+                {
+                    sum += n.GetInteger();
+                }
+                else
+                {
+                    DepthSumHelper(n.GetList(), depth++);
+                }
+            }
+
+            return sum;
+        }
+
+        public int DepthSumInverse(IList<NestedInteger> nestedList)
+        {
+            var previousLevel = 0;
+            var sum = 0;
+            var currList = nestedList;
+            while (currList.Any())
+            {
+                var nextLevel = new List<NestedInteger>();
+
+                foreach (var n in nestedList)
+                {
+                    if (n.IsInteger())
+                    {
+                        previousLevel += n.GetInteger();
+                    }
+                    else
+                    {
+                        nextLevel.AddRange(n.GetList());
+                    }
+                }
+
+                // previous level will get added multiple times.
+                sum += previousLevel;
+                currList = nextLevel;
+            }
+
+            return sum;
+        }
     }
 }
