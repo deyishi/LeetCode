@@ -13,9 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "rabbbit";
-            var t = "rabbit";
-            var r = NumDistinct(s, t);
+            var c = new int[] {1, 2, 5};
+            var r = CoinChange(c, 11);
         }
 
         /// <summary>
@@ -797,6 +796,26 @@ namespace LeetCode
             }
 
             return dp[t.Length, s.Length];
+        }
+
+        public int CoinChange(int[] coins, int amount)
+        {
+            var dp = new int[amount + 1];
+            dp[0] = 0;
+
+            for (var i = 1; i <= amount; i++)
+            {
+                dp[i] = amount + 1;
+                foreach (var c in coins)
+                {
+                    if (c <= i)
+                    {
+                        dp[i] = Math.Min(dp[i], dp[i - c] + 1);
+                    }
+                }
+            }
+
+            return dp[amount] > amount ? -1 : dp[amount];
         }
     }
 }
