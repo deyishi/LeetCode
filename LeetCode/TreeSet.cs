@@ -15,8 +15,8 @@ namespace LeetCode
         {
 
             var n = 4;
-            var t = new[,] {{1, 0}, {1, 2}, {1, 3}};
-            var r = FindMinHeightTrees(n, t);
+            var t = new[] { 1, -1, 5, -2, 3 };
+            var r = MaxSubArrayLen(t, 3);
 
         }
 
@@ -423,6 +423,33 @@ namespace LeetCode
 
             // return a single child so it can form a path with root.
             return Math.Max(left, right) + root.val;
+        }
+
+        public int MaxSubArrayLen(int[] nums, int k)
+        {
+            int sum = 0, max = 0;
+
+            Dictionary<int, int> map = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                sum = sum + nums[i];
+                if (sum == k)
+                {
+                    max = i + 1;
+                }
+                else if (map.ContainsKey(sum-k))
+                {
+                    max = Math.Max(max, i - map[sum - k]);
+                }
+
+                if (!map.ContainsKey(sum))
+                {
+                    map.Add(sum,i);
+                }
+            }
+
+            return max;
         }
     }
 
