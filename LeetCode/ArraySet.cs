@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,8 +16,12 @@ namespace LeetCode
         public void Test()
         {
             var n = new[] { 2, 1, 5, 6, 2, 3 };
-            var s = 0;
-            var e = 99;
+            var s = 2 & 1;
+
+            for (var i = 0; i < 4; i ++)
+            {
+                Debug.WriteLine(i & 1);
+            }
 
 
             var m = new int[4][];
@@ -620,6 +625,69 @@ namespace LeetCode
             }
 
             return count;
+        }
+
+        public int FindKthLargest(int[] nums, int k)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return 0;
+            }
+            return QuickSelectHelper(nums, 0, nums.Length - 1, k);
+        }
+
+        private int QuickSelectHelper(int[] nums, int start, int end, int k)
+        {
+            var pivotalNum = nums[end];
+            var lessThanPIndex = start;
+
+            for (int i = start; i < end; i++)
+            {
+                if (nums[i] <= pivotalNum)
+                {
+                    Swap(nums, i, lessThanPIndex);
+                    lessThanPIndex++;
+                }
+            }
+
+            Swap(nums, lessThanPIndex, end);
+
+            if (lessThanPIndex == nums.Length - k)
+            {
+                return nums[lessThanPIndex];
+            }
+
+            if (lessThanPIndex < nums.Length - k)
+            {
+                return QuickSelectHelper(nums, lessThanPIndex + 1, end, k);
+            }
+
+            return QuickSelectHelper(nums, start, lessThanPIndex - 1, k);
+        }
+
+        public void Swap(int[] nums, int i, int j)
+        {
+            var temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+        }
+
+        public void WiggleSortTwo(int[] nums)
+        {
+            // Sort array
+            // m pointer pointing at median, n pointer point at array end
+            // Remember m and n needs to subtract 1, since it is 1 based.
+            // if i is even put median pointer number, median--
+            // else put n pointer number, n--
+            Array.Sort(nums);
+            var temp = new List<int>(nums);
+            var medianIndex = (nums.Length + 1) / 2 - 1;
+            var end = nums.Length -1;
+            for (var i = 0; i < nums.Length; i++)
+            {
+                //&1 = 1 odd
+                nums[i] = (i & 1) == 1 ? temp[end--] : temp[medianIndex--];
+            }
         }
     }
 }
