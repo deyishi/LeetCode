@@ -11,57 +11,41 @@ namespace LeetCode
     {
         public int NumIslands(char[,] grid)
         {
-            if (grid == null || grid.GetLength(0) == 0 || grid.GetLength(1) == 0)
+            var m = grid.GetLength(0);
+            var n = grid.GetLength(1);
+            var directions = new[,]
             {
-                return 0;
-            }
-
+                {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+            };
+            var visited = new bool[m, n];
             var count = 0;
-
-            var rows = grid.GetLength(0);
-            var columns = grid.GetLength(1);
-            var visited = new bool[rows + 1, columns + 1];
-
-            for (var r = 0; r < rows; r++)
+            for (int r = 0; r < m; r++)
             {
-                for (var c = 0; c < columns; c++)
+                for (int c = 0; c < n; c++)
                 {
-
                     if (!visited[r, c] && grid[r, c] == '1')
                     {
+                        MarkVisited(grid, r, c, visited, directions);
                         count++;
-                        MarkVisited(grid, r, c, visited);
                     }
+
                 }
             }
 
             return count;
         }
 
-        private static void MarkVisited(char[,] grid, int r, int c, bool[,] visited)
+        private void MarkVisited(char[,] grid, int r, int c, bool[,] visited, int[,] directions)
         {
-            var rIndex = new[] { 0, 1, -1, 0 };
-            var cIndex = new[] { 1, 0, 0, -1 };
-            var queue = new Queue<int[,]>();
-            queue.Enqueue(new[,] { { r, c } });
+
             visited[r, c] = true;
-
-            while (queue.Any())
+            for (int i = 0; i < directions.GetLength(0); i++)
             {
-                var curr = queue.Dequeue();
-                for (var k = 0; k < 4; k++)
+                var nr = r + directions[i, 0];
+                var nc = c + directions[i, 1];
+                if (nr >= 0 && nc >= 0 && nr < grid.GetLength(0) && nc < grid.GetLength(1) && !visited[nr, nc] && grid[nr, nc] == '1')
                 {
-                    var row = curr[0, 0] + rIndex[k];
-                    var col = curr[0, 1] + cIndex[k];
-
-                    if (row >= 0 && row < grid.GetLength(0) && col >= 0 && col < grid.GetLength(1) && !visited[row, col])
-                    {
-                        visited[row, col] = true;
-                        if (grid[row, col] == '1')
-                        {
-                            queue.Enqueue(new[,] { { row, col } });
-                        }
-                    }
+                    MarkVisited(grid, nr, nc, visited, directions);
                 }
             }
         }
