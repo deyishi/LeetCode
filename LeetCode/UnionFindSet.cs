@@ -48,5 +48,38 @@ namespace LeetCode
 
             return u.MaxUnion();
         }
+
+        public int CountComponents(int n, int[,] edges)
+        {
+            var r = n;
+            var u = new int[n];
+            for (int i = 0; i < u.Length; i++)
+            {
+                u[i] = i;
+            }
+
+            for (int i = 0; i < edges.GetLength(0); i++)
+            {
+                var root1 = Find(u,edges[i, 0]);
+                var root2 = Find(u, edges[i, 1]);
+                if (root2 != root1)
+                {
+                    u[root1] = root2;
+                    r--;
+                }
+            }
+
+            return r;
+        }
+
+        public int Find(int[] a, int i)
+        {
+            while (a[i] != i)
+            {
+                i = a[i];
+            }
+
+            return a[i];
+        }
     }
 }
