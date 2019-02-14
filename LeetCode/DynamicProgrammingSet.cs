@@ -13,8 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var c = new int[] {1, 2, 5};
-            var r = CoinChange(c, 11);
+            var s = "abacc";
+            var r = MinCut(s);
         }
 
         /// <summary>
@@ -816,6 +816,36 @@ namespace LeetCode
             }
 
             return dp[amount] > amount ? -1 : dp[amount];
+        }
+
+        public int MinCut(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 0;
+            }
+
+            var len = s.Length;
+
+            var pal = new bool[len, len];
+
+            var cut = new int[len];
+            for (var i = 0; i < len;i++)
+            {
+                int min = i;
+                for (var j = 0; j <= i; j++)
+                {
+                    if (s[j] == s[i] && (j + 1 > i - 1 || pal[j + 1,i - 1]))
+                    {
+                        pal[j,i] = true;
+                        min = j == 0 ? 0 : Math.Min(min, cut[j - 1] + 1);
+                    }
+                }
+
+                cut[i] = min;
+            }
+
+            return cut[len - 1];
         }
     }
 }
