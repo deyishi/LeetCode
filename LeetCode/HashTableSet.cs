@@ -173,10 +173,9 @@ namespace LeetCode
             Dictionary<int, int> map = new Dictionary<int, int>();
 
 
-            // For each i, checking 0 to i sum == k, then check [0 to i] sum - k existing in previous sum.
+            // Use HashMap stores the sum of all elements before i as key, and i as value. For each i, check not only the current sum but also (currentSum - previousSu,) to see if there is any that equals k, and update max length.
             // [-2,-1,2,1]
-            // At i = 3, current sum is 0, in the map -3 is mapped to index 1. current sum (0) - k (3) == sum -3 at index 1.
-            // 3 - 1 = 2 as the result.
+            // At i = 3, current sum is 0. current sum 0  - previous sum 3 == K.
             for (var i = 0; i < nums.Length; i++)
             {
                 sum = sum + nums[i];

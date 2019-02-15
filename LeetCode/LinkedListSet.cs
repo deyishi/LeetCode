@@ -69,13 +69,6 @@ namespace LeetCode
             return head;
         }
 
-        [Test]
-        public void HasCycle()
-        {
-            var node = new ListNode(1) { next = new ListNode(2) };
-            node.next.next = node;
-            var r = HasCycle(node);
-        }
         public bool HasCycle(ListNode head)
         {
             if (head == null || head.next == null)
@@ -94,20 +87,6 @@ namespace LeetCode
             return false;
         }
 
-
-        [Test]
-        public void GetIntersectionNode()
-        {
-            var a = new[] { 1, 2 };
-            var b = new[] { 1, 2, 3 };
-            var c = new[] { 4, 5, 6 };
-            var al = a.ToLinkedList();
-            var bl = b.ToLinkedList();
-            var cl = c.ToLinkedList();
-            al.next.next = cl;
-            bl.next.next.next = cl;
-            var r = GetIntersectionNodeTwo(al, bl);
-        }
 
         public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
         {
@@ -171,9 +150,6 @@ namespace LeetCode
 
             return a;
         }
-
-
-
 
         public ListNode RemoveElements(ListNode head, int val)
         {
@@ -256,13 +232,6 @@ namespace LeetCode
             return true;
         }
 
-        [Test]
-        public void LinkedListTest()
-        {
-            var a = new[] { 1, 2, 3, 3, 2, 1 };
-            var al = a.ToLinkedList();
-            var r = IsPalindromeTwo(al);
-        }
 
         public bool IsPalindromeTwo(ListNode head)
         {
@@ -320,17 +289,6 @@ namespace LeetCode
 
             return i;
         }
-
-
-
-        [Test]
-        public void MyLinkedList()
-        {
-            var linkedList = new MyLinkedList();
-            // linked list becomes 1->2->3
-            var t = linkedList.GetSize(); // returns 3
-        }
-
         public ListNode MiddleNode(ListNode head)
         {
             if (head == null)
@@ -347,16 +305,6 @@ namespace LeetCode
             }
 
             return fast.next != null ? slow.next : slow;
-        }
-
-        [Test]
-        public void RemoveNthFromEnd()
-        {
-            var a = new int[] { 1, 2, 3, 4, 5 };
-
-            var l = a.ToLinkedList();
-
-            var r = RemoveNthFromEndTwo(l, 2);
         }
 
         public ListNode RemoveNthFromEnd(ListNode head, int n)
@@ -436,11 +384,6 @@ namespace LeetCode
 
         }
 
-        [Test]
-        public void GenerateParenthesis()
-        {
-            var r = GenerateParenthesis(3);
-        }
         public IList<string> GenerateParenthesis(int n)
         {
             var result = new List<string>();
@@ -500,24 +443,6 @@ namespace LeetCode
             return r;
         }
 
-        [Test]
-        public void MergeKLists()
-        {
-            var a = new ListNode[] {new ListNode(1)
-            {
-                next =  new ListNode(3)
-            }, new ListNode(2), new ListNode(3)};
-
-
-            var l = new int[] {4,123, 12, 1123,3,6};
-
-            var m = new MergeSort();
-
-            m.Sort(l);
-            var r = MergeKLists(a);
-
-        }
-
         public ListNode MergeKLists(ListNode[] lists)
         {
             if (lists == null)
@@ -574,15 +499,6 @@ namespace LeetCode
             return result;
         }
 
-        [Test]
-        public void SwapPairs()
-        {
-            var a = new[] {1,2,3};
-            var l = a.ToLinkedList();
-
-            var r = SwapPairs(l);
-        }
-
         public ListNode SwapPairs(ListNode head)
         {
             if (head == null)
@@ -605,15 +521,6 @@ namespace LeetCode
             return result.next;
 
         }
-
-        [Test]
-        public void ReverseKGroup()
-        {
-            var a = new[] { 1, 2, 3, 4, 5}.ToLinkedList();
-
-            var r = ReverseKGroup(a, 2);
-        }
-
 
         public ListNode ReverseKGroup(ListNode head, int k)
         {
@@ -658,12 +565,6 @@ namespace LeetCode
 
             return head;
         }
-        [Test]
-        public void InsertionSortList()
-        {
-            var h = new[] { 3, 2, 5, 1 }.ToLinkedList();
-            var r = InsertionSortList(h);
-        }
 
         /// <summary>
         /// Create a new list.
@@ -697,6 +598,32 @@ namespace LeetCode
             }
 
             return dummy.next;
+        }
+
+        public ListNode OddEvenList(ListNode head)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            ListNode odd = head;
+            ListNode even = head.next;
+            ListNode evenHead = even; 
+
+            // Link all the odd together and even together, in the end link end of the odd with even head.
+            // While even != null && even.next != null as stop point, since we will end on even.
+            while (even != null && even.next != null)
+            {
+                odd.next = odd.next.next;
+                even.next = even.next.next;
+                odd = odd.next;
+                even = even.next;
+            }
+
+            odd.next = evenHead;
+
+            return head;
         }
     }
 }
