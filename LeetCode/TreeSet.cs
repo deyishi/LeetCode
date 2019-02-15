@@ -11,13 +11,10 @@ namespace LeetCode
     public class TreeSet
     {
         [Test]
-        public void PreorderTraversal()
+        public void Test()
         {
-
-            var n = 4;
-            var t = new[] { 1, -1, 5, -2, 3 };
-            var r = MaxSubArrayLen(t, 3);
-
+            var t = "9,#";
+            var r = IsValidSerialization(t);
         }
 
         public IList<int> PreorderTraversal(TreeNode root)
@@ -423,6 +420,36 @@ namespace LeetCode
 
             // return a single child so it can form a path with root.
             return Math.Max(left, right) + root.val;
+        }
+
+        public bool IsValidSerialization(string preorder)
+        {
+            var nodes = preorder.Split(',');
+            var diff = 1;
+
+            // All non-null nodes have 2 leaves and 1 root.
+            // All null nodes have 0 leaves and 1 root.
+            // For each node, we decrease diff by 1, because the node provides a root.
+            // If the node is not null, we increase diff by 2, because the node provides two leaves.
+            // In the end, diff should be negative (more nodes than needed, 9###), diff shouldn't be positive (not enough nodes, 9#), diff should be 0.
+
+            foreach (var p in nodes)
+            {
+
+                // More nodes than needed. 9,#,#,#
+                if (--diff < 0)
+                {
+                    return false;
+                }
+
+                // When we see a non-null, we update diff by 2.
+                if (p != "#")
+                {
+                    diff += 2;
+                }
+            }
+
+            return diff == 0;
         }
     }
 
