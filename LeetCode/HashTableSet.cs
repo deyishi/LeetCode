@@ -164,6 +164,39 @@ namespace LeetCode
 
             return r;
         }
+
+        public int MaxSubArrayLen(int[] nums, int k)
+        {
+            int sum = 0, max = 0;
+
+            // Use a map to track sum at a index.
+            Dictionary<int, int> map = new Dictionary<int, int>();
+
+
+            // For each i, checking 0 to i sum == k, then check [0 to i] sum - k existing in previous sum.
+            // [-2,-1,2,1]
+            // At i = 3, current sum is 0, in the map -3 is mapped to index 1. current sum (0) - k (3) == sum -3 at index 1.
+            // 3 - 1 = 2 as the result.
+            for (var i = 0; i < nums.Length; i++)
+            {
+                sum = sum + nums[i];
+                if (sum == k)
+                {
+                    max = i + 1;
+                }
+                else if (map.ContainsKey(sum - k))
+                {
+                    max = Math.Max(max, i - map[sum - k]);
+                }
+
+                if (!map.ContainsKey(sum))
+                {
+                    map.Add(sum, i);
+                }
+            }
+
+            return max;
+        }
     }
 
 }

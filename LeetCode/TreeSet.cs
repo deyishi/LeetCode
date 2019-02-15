@@ -424,33 +424,6 @@ namespace LeetCode
             // return a single child so it can form a path with root.
             return Math.Max(left, right) + root.val;
         }
-
-        public int MaxSubArrayLen(int[] nums, int k)
-        {
-            int sum = 0, max = 0;
-
-            Dictionary<int, int> map = new Dictionary<int, int>();
-
-            for (var i = 0; i < nums.Length; i++)
-            {
-                sum = sum + nums[i];
-                if (sum == k)
-                {
-                    max = i + 1;
-                }
-                else if (map.ContainsKey(sum-k))
-                {
-                    max = Math.Max(max, i - map[sum - k]);
-                }
-
-                if (!map.ContainsKey(sum))
-                {
-                    map.Add(sum,i);
-                }
-            }
-
-            return max;
-        }
     }
 
     // 173. Binary Search Tree Iterator
