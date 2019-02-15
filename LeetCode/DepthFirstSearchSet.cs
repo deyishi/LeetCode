@@ -156,5 +156,60 @@ namespace LeetCode
                 GenerateAbbreviationsHelper(result, word, cur, pos + 1, 0);
             }
         }
+
+        private Dictionary<string, List<string>> _flightGraph;
+        private int _tickets;
+
+        public IList<string> FindItinerary(string[,] tickets)
+        {
+            _flightGraph = new Dictionary<string, List<string>>();
+            _tickets = tickets.GetLength(0);
+            // Form graph
+            for (int i = 0; i < _tickets; i++)
+            {
+
+                if (!_flightGraph.ContainsKey(tickets[i,0]))
+                {
+                    _flightGraph.Add(tickets[i, 0], new List<string>());
+                }
+
+                _flightGraph[tickets[i, 0]].Add(tickets[i, 1]);
+            }
+
+            foreach (var list in _flightGraph.Values)
+            {
+                list.Sort();
+            }
+
+            return GetPath("JFK");
+        }
+
+        private IList<string> GetPath(string start)
+        {
+            if (_flightGraph.ContainsKey(start) && _flightGraph[start].Count > 0)
+            {
+                var destinations = _flightGraph[start];
+                for (int i = 0; i < destinations.Count; i++)
+                {
+                    var destination = destinations[i];
+                    destinations.RemoveAt(i);
+                    _tickets--;
+
+                    var best = GetPath(destination);
+                    destinations.Insert(i, destination);
+                    _tickets++;
+
+                    if (best != null)
+                    {
+                        best.Insert(0, start);
+                        return best;
+                    }
+                }
+
+                return null;
+            }
+
+            return _tickets == 0 ? new List<string> {start} : null;
+        }
     }
 }
