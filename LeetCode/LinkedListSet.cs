@@ -625,5 +625,65 @@ namespace LeetCode
 
             return head;
         }
+
+        public RandomListNode CopyRandomList(RandomListNode head)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            //In place copy
+            CopyNext(head);
+            CopyRandomNode(head);
+            return ExtractCopiedNode(head);
+        }
+
+        private RandomListNode ExtractCopiedNode(RandomListNode head)
+        {
+            RandomListNode r = head.next;
+            while (head != null)
+            {
+                // 1 -> Copy 1 -> 2 -> Copy 2
+                var temp = head.next;
+                head.next = temp.next;
+                head = head.next;
+                if (temp.next != null)
+                {
+                    temp.next = temp.next.next;
+                }
+            }
+
+            return r;
+        }
+
+        private void CopyRandomNode(RandomListNode head)
+        {
+            while (head != null)
+            {
+                if (head.next.random != null)
+                {
+                    // OriginalNode.random.next is its copy
+                    // Replace CopiedNode's Random to the copy
+                    head.next.random = head.random.next;
+                }
+
+                head = head.next.next;
+            }
+        }
+
+        private void CopyNext(RandomListNode head)
+        {
+            while (head != null)
+            {
+                var copyNode = new RandomListNode(head.label)
+                {
+                    next = head.next,
+                    random = head.random
+                };
+                head.next = copyNode;
+                head = head.next.next;
+            }
+        }
     }
 }

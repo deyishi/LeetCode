@@ -298,6 +298,12 @@ namespace LeetCode.Nine_Chapter
             var newHead = head.next;
             while (head != null)
             {
+                //1 -> Copy 1 - > 2 -> Copy 2
+                // Temp = Copy 1
+                // Head = 1
+                // Head.next = Temp.next 1 -> 2
+                // Head = Head.next head = 2
+                // Temp.next = Temp.next.next Copy 1 -> Copy 2
                 var temp = head.next;
                 head.next = temp.next;
                 head = head.next;
