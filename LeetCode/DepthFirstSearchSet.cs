@@ -157,59 +157,65 @@ namespace LeetCode
             }
         }
 
-        private Dictionary<string, List<string>> _flightGraph;
+        private Dictionary<string, List<string>> _routes;
         private int _tickets;
 
         public IList<string> FindItinerary(string[,] tickets)
         {
-            _flightGraph = new Dictionary<string, List<string>>();
+            _routes = new Dictionary<string, List<string>>();
             _tickets = tickets.GetLength(0);
-            // Form graph
+
             for (int i = 0; i < _tickets; i++)
             {
-
-                if (!_flightGraph.ContainsKey(tickets[i,0]))
+                var from = tickets[i, 0];
+                var to = tickets[i, 1];
+                if (!_routes.ContainsKey(from))
                 {
-                    _flightGraph.Add(tickets[i, 0], new List<string>());
+                    _routes.Add(from, new List<string>());
                 }
 
-                _flightGraph[tickets[i, 0]].Add(tickets[i, 1]);
+                _routes[from].Add(to);
             }
 
-            foreach (var list in _flightGraph.Values)
+            foreach (var r in _routes.Values)
             {
-                list.Sort();
+                r.Sort();
             }
 
-            return GetPath("JFK");
+            return FindRoute("JFK");
         }
 
-        private IList<string> GetPath(string start)
+        private IList<string> FindRoute(string from)
         {
-            if (_flightGraph.ContainsKey(start) && _flightGraph[start].Count > 0)
+            if (_routes.ContainsKey(from) && _routes[from].Count > 0)
             {
-                var destinations = _flightGraph[start];
+                var destinations = _routes[from];
                 for (int i = 0; i < destinations.Count; i++)
                 {
                     var destination = destinations[i];
                     destinations.RemoveAt(i);
                     _tickets--;
+                    var bestRoute = FindRoute(destination);
 
-                    var best = GetPath(destination);
-                    destinations.Insert(i, destination);
-                    _tickets++;
-
-                    if (best != null)
+                    if (bestRoute != null)
                     {
-                        best.Insert(0, start);
-                        return best;
+                        bestRoute.Insert(0, from);
+                        return bestRoute;
                     }
+
+                    _tickets++;
+                    destinations.Insert(i, destination);
                 }
 
                 return null;
             }
 
-            return _tickets == 0 ? new List<string> {start} : null;
+            if (_tickets == 0)
+            {
+                return new List<string>{from};
+            }
+
+            return null;
         }
     }
 }
