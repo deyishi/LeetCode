@@ -107,37 +107,29 @@ namespace LeetCode
                 return -1;
             }
 
-            var n = nums.Length;
             var l = 0;
-            var r = n - 1;
-            while (l <= r)
+            var r = nums.Length - 1;
+            while (l < r)
             {
-                if (nums[l] <= nums[r])
+                if (nums[l] <= nums[r] )
                 {
-                    return l;
+                    return nums[l];
                 }
 
-                var m = l + (r - l) / 2;
+                var mid = l + (r - l) / 2;
 
-                var mn = (m + 1) % n;
-                var mp = (m - 1 + n) % n;
-                if (nums[m] <= nums[mn] && nums[m] <= nums[mp])
+                if (nums[l] <= nums[mid])
                 {
-                    return m;
-                }
-
-                if (nums[m] <= nums[r])
-                {
-                    r = m - 1;
+                    l = mid + 1;
                 }
                 else
                 {
-                    l = m + 1;
+                    r = mid;
                 }
             }
 
-            // Array not sorted.
-            return -1;
+           
+            return nums[l];
         }
 
         public int SearchCircularSortedArray(int[] nums, int target)
