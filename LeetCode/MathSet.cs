@@ -528,5 +528,115 @@ namespace LeetCode
             if (m >= 3) return 8;
             return 8;
         }
+
+        public int MaxPoints(Point[] points)
+        {
+            if (points == null || points.Length == 0)
+            {
+                return 0;
+            }
+            if (points.Length < 3)
+            {
+                return points.Length;
+            }
+            var max = 0;
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                for (int j = i + 1; j < points.Length; j++)
+                {
+                    bool slope = true;
+                    long dx = points[i].x - points[j].x;
+                    long dy = points[i].y - points[j].y;
+                    long commonRatio = 0;
+                    // Parallel to x, no slope. 
+                    if (dx == 0)
+                    {
+                        slope = false;
+                    }
+                    else
+                    {
+                        commonRatio = dx * points[i].y - dy * points[i].x;
+                    }
+
+                    int count = 0;
+                    for (var k = 0; k < points.Length; k++)
+                    {
+                        if (slope)
+                        {
+                            if (commonRatio == dx * points[k].y - dy * points[k].x)
+                            {
+                                count++;
+                            }
+                        }
+                        else if (points[k].x == points[i].x)
+                        {
+                            count++;
+                        }
+                    }
+
+                    max = Math.Max(count, max);
+                }
+            }
+            return max;
+
+        }
+        public int MaxPointsTwo(Point[] points)
+        {
+            if (points == null)
+            {
+                return 0;
+            }
+            if (points.Length < 3)
+            {
+                return points.Length;
+            }
+            var max = 0;
+            var slopePointsCount = new Dictionary<decimal, int>();
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                slopePointsCount.Clear();
+                int sameX = 1;
+                int duplicates = 0;
+                for (int j = 0; j < points.Length; j++)
+                {
+                    if (j != i)
+                    {
+                        decimal dx = points[j].x - points[i].x;
+                        decimal dy = points[j].y - points[i].y;
+                        if (dx == 0 && dy == 0)        
+                        {
+                            //Same points
+                            duplicates++;
+                        }
+
+                        if (dx == 0)
+                        {
+                            sameX++;
+                            continue;
+                        }
+
+                        decimal slope = dy / dx;
+
+                        if (slopePointsCount.ContainsKey(slope))
+                        {
+                            slopePointsCount[slope]++;
+                        }
+                        else
+                        {
+                            slopePointsCount.Add(slope, 2);
+                        }
+
+                        max = Math.Max(max, slopePointsCount[slope] + duplicates);
+                    }
+                }
+
+                max = Math.Max(max, sameX);
+            }
+
+            return max;
+
+        }
     }
 }

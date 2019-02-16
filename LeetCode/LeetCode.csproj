@@ -63,6 +63,7 @@
     <Compile Include="DataModel\NestedInteger.cs" />
     <Compile Include="DataModel\NumArray.cs" />
     <Compile Include="DataModel\NumMatrix.cs" />
+    <Compile Include="DataModel\Point.cs" />
     <Compile Include="DataModel\SegmentTree.cs" />
     <Compile Include="DataModel\Trie.cs" />
     <Compile Include="DataModel\TrieNode.cs" />

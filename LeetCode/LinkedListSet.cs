@@ -663,8 +663,8 @@ namespace LeetCode
             {
                 if (head.next.random != null)
                 {
-                    // OriginalNode.random.next is its copy
-                    // Replace CopiedNode's Random to the copy
+                    // OriginalNode.random.next is the copy of OriginalNode.random 
+                    // Replace Copied node.random with the copy
                     head.next.random = head.random.next;
                 }
 
