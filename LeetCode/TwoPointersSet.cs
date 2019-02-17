@@ -14,8 +14,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var a = new[] { 1, 3, -1, -3, 5, 3, 6, 7 };
-            var t = LengthOfLongestSubstringTwoDistinct("a");
+            string s = "cbaebabacd", p = "abc";
+
+            var r = FindAnagrams(s, p);
         }
 
         /// <summary>
@@ -581,6 +582,50 @@ namespace LeetCode
                 r++;
                 result = Math.Max(result, r - l);
             }
+            return result;
+        }
+
+        public IList<int> FindAnagrams(string s, string p)
+        {
+            List<int> result = new List<int>();
+            if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(p))
+            {
+                return result;
+            }
+
+            int l = 0;
+            int r = 0;
+            int len = s.Length;
+
+            int[] map = new int[256];
+            int[] window = new int[256];
+            int anagramLength = p.Length;
+            foreach (var c in p)
+            {
+                map[c]++;
+            }
+            while (l < len)
+            {
+                while (r < len && r < l + anagramLength)
+                {
+                    if (window[s[r]] > map[s[r]] - 1)
+                    {
+                        break;
+                    }
+
+                    window[s[r]]++;
+                    r++;
+                }
+
+                if (r - l == anagramLength - 1)
+                {
+                    result.Add(l);
+                }
+
+                window[s[l]]--;
+                l++;
+            }
+
             return result;
         }
     }
