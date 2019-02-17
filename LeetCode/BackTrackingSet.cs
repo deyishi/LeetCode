@@ -10,7 +10,7 @@ using NUnit.Framework.Constraints;
 
 namespace LeetCode
 {
-    public class BackTracking
+    public class BackTrackingSet
     {
         [Test]
         public void Test()

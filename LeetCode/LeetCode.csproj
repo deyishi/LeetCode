@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArraySet.cs" />
-    <Compile Include="BackTracking.cs" />
+    <Compile Include="BackTrackingSet.cs" />
     <Compile Include="BinarySearchSet.cs" />
     <Compile Include="BitManipulationSet.cs" />
     <Compile Include="BreadthFirstSearchSet.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="TwoPointersSet.cs" />
     <Compile Include="UnionFindSet.cs" />
     <Compile Include="LinkedListSet.cs" />
-    <Compile Include="MergeSort.cs" />
+    <Compile Include="Nine Chapter\MergeSort.cs" />
     <Compile Include="PracticeSet1.cs" />
     <Compile Include="PracticeSet2.cs" />
     <Compile Include="PracticeSet3.cs" />
