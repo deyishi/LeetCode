@@ -94,7 +94,6 @@
     <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
     <Compile Include="UnionFindSet.cs" />
-    <Compile Include="WindowConceptPractice.cs" />
     <Compile Include="LinkedListSet.cs" />
     <Compile Include="MergeSort.cs" />
     <Compile Include="PracticeSet1.cs" />

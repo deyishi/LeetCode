@@ -424,7 +424,13 @@ Heap
 02/17/2019
 76. Minimum Window Substring *
 30. Substring with Concatenation of All Words*
-159. Longest Substring with At Most Two Distinct Characters
-438. Find All Anagrams in a String
-340. Longest Substring with At Most K Distinct Characters
 239. Sliding Window Maximum
+159. Longest Substring with At Most Two Distinct Characters
+340. Longest Substring with At Most K Distinct Characters
+438. Find All Anagrams in a String
+
+
+02/18/2019
+567. Permutation in String
+632. Smallest Range
+727. Minimum Window Subsequence
