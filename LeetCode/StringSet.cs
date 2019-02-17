@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.Nine_Chapter;
 using NUnit.Framework;
 using NUnit.Framework.Api;
 
@@ -19,7 +20,7 @@ namespace LeetCode
             var a = "abcde";
             var b = "caebd";
 
-            var r = IsScramble(a, b);
+            var r = Read(new char[4], 3);
         }
 
         public int LongestValidParentheses(string s)
@@ -603,6 +604,62 @@ namespace LeetCode
 
             _scrambleMap.Add(key, false);
             return false;
+        }
+
+        public int Read(char[] buf, int n)
+        {
+            int index = 0;
+            char[] r4 = new char[4];
+            int c = 4;
+            while (c == 4 && index < n)
+            {
+                c = Read4(r4);
+                for (int i = 0; i < c && index < n; i++)
+                {
+                    buf[index++] = r4[i];
+                }
+            }
+
+            return index;
+        }
+
+
+        private int bp = 0;
+        private int bl = 0;
+        private char[] buff = new char[4];
+      
+        public int ReadTwo(char[] buf, int n)
+        {
+            // buff pointer: index of outputted char in current Read4
+            // buff len: len of current Read4, if 0 no more reading.
+            // index: index of populated outputted char array.
+            // buff pointer is incremented at the same time as index.
+            // Keep doing Read4 until we finished reading file or reached n.
+            // Whatever is read is gone. 'abc', calling read 3 returns 'abc' then calling read 1 returns nothing.
+            // At read 3, bi is at 3 and len is at 3. At read 1, we call Read4 again since we have consumed all the read chars and need to read more from the file.
+            int i = 0;
+            while (i < n)
+            {
+                if (bp == bl)
+                {
+                    // reset buff pointer
+                    bp = 0;
+                    bl = Read4(buff);
+                    if (bl == 0)
+                    {
+                        break;
+                    }
+                }
+
+                buf[i++] = buff[bp++];
+            }
+
+            return i;
+        }
+
+        private int Read4(char[] r4)
+        {
+            return 4;
         }
     }
 }
