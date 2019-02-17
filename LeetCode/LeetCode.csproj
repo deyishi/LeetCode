@@ -77,6 +77,7 @@
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\LRUCache.cs" />
     <Compile Include="Design\Vector2D.cs" />
+    <Compile Include="Design\WordDistance.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />
     <Compile Include="GreedySet.cs" />
     <Compile Include="HashTableSet.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Nine Chapter\L7.cs" />
     <Compile Include="Nine Chapter\TreeProblems.cs" />
     <Compile Include="Nine Chapter\QuickSort.cs" />
+    <Compile Include="SortSet.cs" />
     <Compile Include="StackSet.cs" />
     <Compile Include="StringSet.cs" />
     <Compile Include="TwoPointersSet.cs" />
