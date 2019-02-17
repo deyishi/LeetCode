@@ -1,0 +1,430 @@
+11/18/2018
+160. Intersection of Two Linked Lists
+203. Remove Linked List Elements
+206. Reverse Linked List
+234. Palindrome Linked List
+707. Design Linked List
+
+11/19/2018
+876. Middle of the Linked List
+19. Remove Nth Node From End of List
+22. Generate Parentheses
+
+11/20/2018
+23. Merge k Sorted Lists
+Merge Sort
+24. Swap Nodes in Pairs
+144.	Binary Tree Preorder Traversal
+
+11/22/2018
+25. Reverse Nodes in k-Group
+
+11/23/2018
+33. Search in Rotated Sorted Array
+29. Divide Two Integers
+34. Find First and Last Position of Element in Sorted Array
+
+11/24/2018
+153. Find Minimum in Rotated Sorted Array
+
+11/25/2018
+30. Substring with Concatenation of All Words
+155. Min Stack
+157. Read N Characters Given Read4
+168. Excel Sheet Column Title
+170. Two Sum III - Data structure design
+172. Factorial Trailing Zeroes
+
+11/26/2018
+36. Valid Sudoku
+
+11/26/2018
+39. Combination Sum 
+40. Combination Sum II
+
+11/27/2018
+46. Permutations
+
+11/28/2018
+304. Range Sum Query 2D - Immutable
+306. Additive Number
+47. Permutations II
+
+12/3/2018
+48. Rotate Image
+43. Multiply Strings
+49. Group Anagrams
+50. Pow(x, n)
+
+12/4/2018
+78. Subsets
+90. Subsets II 
+784. Letter Case Permutation
+QuickSort
+
+12/5/2018
+409. Longest Palindrome
+28. Implement strStr()
+125. Valid Palindrome
+5. Longest Palindromic Substring
+
+12/6/2018
+266. Palindrome Permutation
+516. Longest Palindromic Subsequence
+647. Palindromic Substrings
+
+12/7/2018
+35. Search Insert Position
+278. First Bad Version
+
+12/8/2018
+572. Subtree of Another Tree
+257. Binary Tree Paths
+33. Search in Rotated Sorted Array
+81. Search in Rotated Sorted Array II
+153. Find Minimum in Rotated Sorted Array
+852. Peak Index in a Mountain Array
+
+12/9/2018
+34. Find First and Last Position of Element in Sorted Array
+162. Find Peak Element
+658. Find K Closest Elements
+
+12/9/2018
+69. Sqrt(x)
+167. Two Sum II - Input array is sorted
+35. Search Insert Position
+
+12/16/2018
+270 Closest Binary Search Tree Value
+349 Intersection of Two Arrays
+604 Window Sum
+56  Two Sum
+609 Two Sum - Less than or equal to target
+587 Two Sum -  Unique pairs
+533 Two Sum -  Closest to target
+443	Two Sum -  Greater than target
+744 Find Smallest Letter Greater Than Target
+283. Move Zeroes
+
+12/17/2018
+QuickSort
+75. Sort Colors
+15. 3Sum
+
+12/18/2018 (153)
+257. Binary Tree Paths
+572. Subtree of Another Tree
+
+12/19/2018 (156)
+114. Flatten Binary Tree to Linked List
+235. Lowest Common Ancestor of a Binary Search Tree
+236. Lowest Common Ancestor of a Binary Tree
+
+12/20/2018
+95. Unique Binary Search Trees II
+98. Validate Binary Search Tree
+230. Kth Smallest Element in a BST
+102. Binary Tree Level Order Traversal
+103. Binary Tree Zigzag Level Order Traversal
+
+12/22/2018
+145. Binary Tree Postorder Traversal
+105. Construct Binary Tree from Preorder and Inorder Traversal
+106. Construct Binary Tree from Inorder and Postorder Traversal
+113. Path Sum II
+
+12/22/2018
+261. Graph Valid Tree
+133. Clone Graph
+
+12/25/2018
+200. Number of Islands
+127. Word Ladder
+598. Zombie in Matrix
+130. Surrounded Regions
+
+12/26/2018
+99. Recover Binary Search Tree
+207. Course Schedule
+210. Course Schedule II
+
+12/27/2018
+DFS
+Subsets
+Combination Sum
+131. Palindrome Partitioning
+
+01/01/2019
+51. N-Queens
+52. N-Queens II
+
+01/02/2019
+54. Spiral Matrix
+59. Spiral Matrix II
+
+01/02/2019
+126. Word Ladder II
+
+01/04/2019
+3. Longest Substring Without Repeating Characters
+
+01/05/2019
+206. Reverse Linked List
+92. Reverse Linked List II
+234. Palindrome Linked List
+21. Merge Two Sorted Lists
+25. Reverse Nodes in k-Group
+24. Swap Nodes in Pairs
+
+01/06/2019
+61. Rotate List
+86. Partition List
+143. Reorder List
+138. Copy List with Random Pointer
+142. Linked List Cycle II
+
+01/07/2019
+56. Merge Intervals
+62. Unique Paths
+63. Unique Paths II
+148. Sort List
+64. Minimum Path Sum
+71. Simplify Path
+73. Set Matrix Zeros
+74. Search a 2D Matrix
+
+01/08/2019
+77. Combinations
+79. Word Search
+82. Remove Duplicates from Sorted List II
+
+01/09/2019
+89. Gray Code
+91. Decode Ways
+
+01/10/2019
+93. Restore IP Addresses
+116. Populating Next Right Pointers in Each Node
+117. Populating Next Right Pointers in Each Node II
+
+01/11/2019
+120. Triangle
+129. Sum Root to Leaf Numbers
+137. Single Number II
+
+01/12/2019
+139. Word Break
+140. Word Break II
+
+01/13/2019
+209. Minimum Size Subarray Sum
+215. Kth Largest Element in an Array
+3. Longest Substring Without Repeating Characters
+30. Substring with Concatenation of All Words
+76. Minimum Window Substring
+340. Longest Substring with At Most K Distinct 
+378. Kth Smallest Element in a Sorted Matrix
+
+01/14/2019
+57. Insert Interval
+32. Longest Valid Parentheses
+147. Insertion Sort List
+150. Evaluate Reverse Polish Notation
+
+01/15/2019
+151. Reverse Words in a String
+152. Maximum Product Subarray
+156. Binary Tree Upside Down
+
+01/16/2019
+161. One Edit Distance
+163. Missing Ranges
+165. Compare Version Numbers
+166. Fraction to Recurring Decimal
+611. Valid Triangle Number
+259. 3Sum Smaller
+16. 3Sum Closest
+
+01/17/2019
+173. Binary Search Tree Iterator
+190. Reverse Bits
+191. Number of 1 Bits
+228. Summary Ranges
+609. Find Duplicate File in System
+539. Minimum Time Difference
+
+01/18/2019
+179. Largest Number
+186. Reverse Words in a String II
+187. Repeated DNA Sequences
+
+01/19/2019
+199. Binary Tree Right Side View
+37. Sudoku Solver
+42. Trapping Rain Water
+4. Median of Two Sorted Arrays
+201. Bitwise AND of Numbers Range
+
+01/20/2019
+75. Sort Colors
+Sort K Colors
+236. Lowest Common Ancestor of a Binary Tree
+208. Implement Trie (Prefix Tree)
+
+01/21/2019
+198. House Robber
+213. House Robber II
+337. House Robber III
+706. Design HashMap
+
+01/22/2019
+216. Combination Sum III
+221. Maximal Square	
+222. Count Complete Tree Nodes
+Heap
+146. LRU Cache
+
+01/23/2019
+10. Regular Expression Matching
+44. Wildcard Matching
+658. Find K Closest Elements
+
+01/24/2019
+65. Valid Number
+223. Rectangle Area
+227. Basic Calculator II
+229. Majority Element II
+238. Product of Array Except Self
+
+01/25/2019
+243. Shortest Word Distance
+244. Shortest Word Distance II
+245. Shortest Word Distance III
+241. Different Ways to Add Parentheses
+240. Search a 2D Matrix II
+
+01/27/2019
+68. Text Justification
+263. Ugly Number
+204. Count Primes
+
+01/28/2019
+246. Strobogrammatic Number
+247. Strobogrammatic Number II
+249. Group Shifted Strings
+250. Count Univalue Subtrees
+251. Flatten 2D Vector
+
+01/29/2019
+252. Meeting Rooms
+253. Meeting Rooms II
+205. Isomorphic Strings
+264. Ugly Number II
+313. Super Ugly Number
+290. Word Pattern
+225. Implement Stack using Queues
+
+01/30/2019
+231. Power of Two
+326. Power of Three
+342. Power of Four
+232. Implement Queue using Stacks
+256. Paint House
+
+01/31/2019
+276. Paint Fence
+293. Flip Game
+703. Kth Largest Element in a Stream
+
+02/01/2019
+72. Edit Distance
+254. Factor Combinations
+255. Verify Preorder Sequence in Binary Search Tree
+303. Range Sum Query - Immutable
+
+02/03/2019
+260. Single Number III
+267. Palindrome Permutation II
+277. Find the Celebrity
+271. Encode and Decode Strings
+279. Perfect Squares
+280. Wiggle Sort
+
+02/04/2019
+281. Zigzag Iterator
+285. Inorder Successor in BST
+84. Largest Rectangle in Histogram
+
+02/05/2019
+85. Maximal Rectangle
+87. Scramble String
+286. Walls and Gates
+
+02/06/2019
+287. Find the Duplicate Number
+288. Unique Word Abbreviation
+289. Game of Life
+
+02/07/2019
+294. Flip Game II
+298. Binary Tree Longest Consecutive Sequence
+
+02/08/2019
+300. Longest Increasing Subsequence
+
+02/09/2019
+304. Range Sum Query 2D - Immutable
+306. Additive Number
+307. Range Sum Query - Mutable
+
+02/10/2019
+309. Best Time to Buy and Sell Stock with Cooldown
+310. Minimum Height Trees
+97. Interleaving String
+
+02/11/2019
+115. Distinct Subsequences
+311. Sparse Matrix Multiplication
+314. Binary Tree Vertical Order Traversal
+318. Maximum Product of Word Lengths
+319. Bulb Switcher
+672. Bulb Switcher II
+
+02/12/2019
+124. Binary Tree Maximum Path Sum
+339. Nested List Weight Sum
+364. Nested List Weight Sum II
+320. Generalized Abbreviation
+
+02/13/2019
+322. Coin Change
+324. Wiggle Sort II
+132. Palindrome Partitioning II
+323. Number of Connected Components in an Undirected Graph
+
+02/14/2019
+200. Number of Islands * 
+325. Maximum Size Subarray Sum Equals k
+
+02/15/2019
+328. Odd Even Linked List
+331. Verify Preorder Serialization of a Binary Tree
+332. Reconstruct Itinerary
+135. Candy
+153. Find Minimum in Rotated Sorted Array *
+138. Copy List with Random Pointer *
+
+02/16/2019
+149. Max Points on a Line
+154. Find Minimum in Rotated Sorted Array II
+158. Read N Characters Given Read4 II - Call multiple times
+3. Longest Substring Without Repeating Characters *
+
+02/17/2019
+76. Minimum Window Substring *
+30. Substring with Concatenation of All Words*
+159. Longest Substring with At Most Two Distinct Characters
+438. Find All Anagrams in a String
+340. Longest Substring with At Most K Distinct Characters
+239. Sliding Window Maximum

@@ -17,10 +17,11 @@ namespace LeetCode
         public void Test()
         {
 
-            var a = "abcde";
-            var b = "caebd";
 
-            var r = Read(new char[4], 3);
+            var s = "ADOBECODEBANC";
+            var t = "ABC";
+
+            var r = MinWindow(s, t);
         }
 
         public int LongestValidParentheses(string s)
@@ -657,9 +658,120 @@ namespace LeetCode
             return i;
         }
 
+
         private int Read4(char[] r4)
         {
             return 4;
+        }
+
+        public int LengthOfLongestSubstringTwoDistinct(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 0;
+            }
+
+            var result = 0;
+            var map = new int[256];
+            var j = 0;
+            var count = 0;
+            var duplicateTwice = new int[256];
+            for (var i = 0; i < s.Length; i++) {
+
+                while (j < s.Length)
+                {
+                    if (map[s[j]] > 0)
+                    {
+                        duplicateTwice[s[j]]++;
+                        count++;
+                        if (count > 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    map[s[j]]++;
+                    j++;
+                }
+
+                result = Math.Max(result, j - i);
+                map[s[i]]--;
+                if (duplicateTwice[s[i]] > 0)
+                {
+                    duplicateTwice[s[i]]--;
+                    count--;
+                }
+            }
+
+            return result;
+        }
+
+        public string MinWindow(string s, string t)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return "";
+            }
+
+            int[] tMap = new int[256];
+            int l = 0;
+            int r = 0;
+            int len = s.Length;
+            int tCharCount = 0;
+            int wCharCount = 0;
+            foreach (char c in t)
+            {
+                tMap[c]++;
+                if (tMap[c] == 1)
+                {
+                    tCharCount++;
+                }
+            }
+
+            int[] wMap = new int[256];
+
+            int resultStart = -1;
+            int resultEnd = -1;
+            while (l < len)
+            {
+                // Create current window
+                while (r < len && wCharCount < tCharCount)
+                {
+                    wMap[s[r]]++;
+                    if (wMap[s[r]] == tMap[s[r]])
+                    {
+                        wCharCount++;
+                    }
+
+                    r++;
+                }
+
+                // Check if current window meet condition and update result
+                if (wCharCount == tCharCount)
+                {
+                    if (resultEnd == -1 || r-l < resultEnd - resultStart)
+                    {
+                        resultStart = l;
+                        resultEnd = r;
+                    }
+                }
+
+                // Move to next window
+                wMap[s[l]]--;
+                if (wMap[s[l]] != tMap[s[l]])
+                {
+                    wCharCount--;
+                }
+
+                l++;
+            }
+
+            if (resultEnd == -1)
+            {
+                return "";
+            }
+
+            return s.Substring(resultStart, resultEnd - resultStart);
         }
     }
 }

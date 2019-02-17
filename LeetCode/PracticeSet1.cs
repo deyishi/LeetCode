@@ -449,19 +449,19 @@ namespace LeetCode
 
             int[] charMap = new int[256];
             int j = 0;
-            int result = 0;
+            int result = int.MinValue;
             for (int i = 0; i < s.Length; i++)
             {
-               
-                while (j < s.Length && charMap[j] < 1)
+
+                while (j < s.Length && charMap[s[j]] < 1)
                 {
+                    charMap[s[j]]++;
                     j++;
-                    charMap[j]++;
                 }
 
-                result = Math.Max(result, j - i + 1);
+                result = Math.Max(result, j - i);
                 // Move to next window, clear current window's first char.
-                charMap[i]--;
+                charMap[s[i]]--;
 
             }
 

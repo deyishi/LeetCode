@@ -76,62 +76,69 @@ namespace LeetCode
         /// <returns></returns>
         public string MinWindow(string s, string t)
         {
-            if (string.IsNullOrEmpty(t))
+            if (string.IsNullOrEmpty(s))
             {
                 return "";
             }
 
-            var map = new int[256];
-            var targetMap = new int[256];
-            var found = 0;
-            var target = 0;
-            foreach (var c in t)
+            int[] tMap = new int[256];
+            int l = 0;
+            int r = 0;
+            int len = s.Length;
+            int tCharCount = 0;
+            int wCharCount = 0;
+            foreach (char c in t)
             {
-                targetMap[c]++;
-                if (targetMap[c] == 1)
+                tMap[c]++;
+                if (tMap[c] == 1)
                 {
-                    target++;
+                    tCharCount++;
                 }
             }
 
-            int ansStartIndex = -1, ansEndIndex = -1;
+            int[] wMap = new int[256];
 
-            int r = 0;
-
-            for (var l = 0; l < s.Length; l++)
+            int resultStart = -1;
+            int resultEnd = -1;
+            while (l < len)
             {
-                while (r < s.Length && found < target)
+                // Create current window
+                while (r < len && wCharCount < tCharCount)
                 {
-                    map[s[r]]++;
-                    if (map[s[r]] == targetMap[s[r]])
+                    wMap[s[r]]++;
+                    if (wMap[s[r]] == tMap[s[r]])
                     {
-                        found++;
+                        wCharCount++;
                     }
                     r++;
                 }
 
-                if (found == target)
+                // Check if current window meet condition and update result
+                if (wCharCount == tCharCount)
                 {
-                    if (ansStartIndex == -1 || r - l < ansEndIndex - ansStartIndex)
+                    if (resultEnd == -1 || r - l < resultEnd - resultStart)
                     {
-                        ansEndIndex = r;
-                        ansStartIndex = l;
+                        resultStart = l;
+                        resultEnd = r;
                     }
                 }
 
-                map[s[l]]--;
-                if (map[s[l]] == targetMap[s[l]] - 1)
+                // Move to next window
+                wMap[s[l]]--;
+                if (wMap[s[l]] == tMap[s[l]] - 1)
                 {
-                    found--;
+                    wCharCount--;
                 }
+
+                l++;
             }
 
-            if (ansStartIndex == -1)
+            if (resultEnd == -1)
             {
                 return "";
             }
 
-            return s.Substring(ansStartIndex, ansEndIndex - ansStartIndex);
+            return s.Substring(resultStart, resultEnd - resultStart);
         }
 
         [Test]
