@@ -15,7 +15,7 @@ namespace LeetCode
         public void Test()
         {
             var a = new[] { 1, 3, -1, -3, 5, 3, 6, 7 };
-            var t = MaxSlidingWindow(a, 3);
+            var t = LengthOfLongestSubstringTwoDistinct("a");
         }
 
         /// <summary>
@@ -139,51 +139,6 @@ namespace LeetCode
             return s.Substring(resultStart, resultEnd - resultStart);
         }
 
-        /// <summary>
-        /// Char counter
-        /// Loop through s and set right index and update counter, at every right index check counter if this (l to r) went over, if so reduce l and update counter.
-        /// Record result.
-        /// </summary>
-        /// <param name="s"></param>
-        /// <param name="k"></param>
-        /// <returns></returns>
-        public int LengthOfLongestSubstringKDistinct(string s, int k)
-        {
-            if (string.IsNullOrEmpty(s) || k == 0)
-            {
-                return 0;
-            }
-
-            var map = new int[256];
-            var l = 0;
-            var distinct = 0;
-            var result = int.MinValue;
-
-            for (var r = 0; r<s.Length;r++) {
-                if (map[s[r]] == 0)
-                {
-                    distinct++;
-                }
-
-                map[s[r]]++;
-
-                while (distinct > k)
-                {
-                    map[s[l]]--;
-                    if (map[s[l]] == 0)
-                    {
-                        distinct--;
-                    }
-
-                    l++;
-                }
-
-                result = Math.Max(result, r - l + 1);
-            }
-
-            return result;
-        }
-
         //259. 3Sum Smaller
         //Sort array.
         //Loop through array, for each number user two pointers to find a pair that adds to current number is less than target.
@@ -198,11 +153,11 @@ namespace LeetCode
 
             Array.Sort(nums);
             var n = nums.Length;
-            for (var i = 0; i < n-2; i++)
+            for (var i = 0; i < n - 2; i++)
             {
 
-                var l = i+1;
-                var r = n-1;
+                var l = i + 1;
+                var r = n - 1;
                 while (l < r)
                 {
                     if (nums[l] + nums[r] + nums[i] < target)
@@ -288,13 +243,13 @@ namespace LeetCode
             while (l <= r)
             {
                 //Find one doesn't belong to left.
-                while (l <= r && nums[l] <k)
+                while (l <= r && nums[l] < k)
                 {
                     l++;
                 }
 
                 //Find the one doesn't belong to right among the ones doesn't belong to left..
-                while (l<=r && nums[r] >= k)
+                while (l <= r && nums[r] >= k)
                 {
                     r--;
                 }
@@ -393,7 +348,7 @@ namespace LeetCode
             SortKColorsHelper(nums, 0, nums.Length - 1, 1, k);
         }
 
-        public void SortKColorsHelper(int [] nums, int start, int end, int colorFrom, int colorTo)
+        public void SortKColorsHelper(int[] nums, int start, int end, int colorFrom, int colorTo)
         {
             if (colorFrom == colorTo)
             {
@@ -436,7 +391,7 @@ namespace LeetCode
             nums[i] = nums[j];
             nums[j] = temp;
         }
-       
+
         public IList<int> FindSubstring(string s, string[] words)
         {
             var result = new List<int>();
@@ -523,7 +478,7 @@ namespace LeetCode
             int index = 0;
             while (l < len)
             {
-                while (list.Count > 0 && list[0] < l-k+1)
+                while (list.Count > 0 && list[0] < l - k + 1)
                 {
                     list.RemoveAt(0);
                 }
@@ -535,7 +490,7 @@ namespace LeetCode
 
                 list.Add(l);
 
-                if (l >= k -1)
+                if (l >= k - 1)
                 {
                     result[index++] = nums[list[0]];
                 }
@@ -543,6 +498,89 @@ namespace LeetCode
                 l++;
             }
 
+            return result;
+        }
+
+        public int LengthOfLongestSubstringTwoDistinct(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 0;
+            }
+
+            int distinct = 0;
+            int l = 0;
+            int r = 0;
+            int len = s.Length;
+            int[] map = new int[256];
+            int result = 0;
+            while (r < len)
+            {
+                if (map[s[r]] == 0)
+                {
+                    distinct++;
+                }
+
+                map[s[r]]++;
+
+                while (distinct > 2)
+                {
+                    map[s[l]]--;
+                    if (map[s[l]] == 0)
+                    {
+                        distinct--;
+                    }
+                    l++;
+                }
+                r++;
+                result = Math.Max(result, r - l);
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// Char counter
+        /// Loop through s and set right index and update counter, at every right index check counter if this (l to r) went over, if so reduce l and update counter.
+        /// Record result.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int LengthOfLongestSubstringKDistinct(string s, int k)
+        {
+            if (string.IsNullOrEmpty(s) || k == 0)
+            {
+                return 0;
+            }
+
+            int[] map = new int[256];
+            int r = 0;
+            int l = 0;
+            int len = s.Length;
+            int distinct = 0;
+            int result = 0;
+            while (r < len)
+            {
+                if (map[s[r]] == 0)
+                {
+                    distinct++;
+                }
+
+                map[s[r]]++;
+
+                while (distinct > k)
+                {
+
+                    map[s[l]]--;
+                    if (map[s[l]] == 0)
+                    {
+                        distinct--;
+                    }
+                    l++;
+                }
+                r++;
+                result = Math.Max(result, r - l);
+            }
             return result;
         }
     }
