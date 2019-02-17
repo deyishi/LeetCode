@@ -442,23 +442,26 @@ namespace LeetCode
 
         public int LengthOfLongestSubstring(string s)
         {
-            if (s?.Length < 1)
+            if (string.IsNullOrEmpty(s))
             {
                 return 0;
             }
 
-            var result = 0;
-            var uniqueSubstring = "";
-            for (var i = 0; i < s.Length; i++)
+            int[] charMap = new int[256];
+            int j = 0;
+            int result = 0;
+            for (int i = 0; i < s.Length; i++)
             {
-                var repeatedCharIndex = uniqueSubstring.IndexOf(s[i]) + 1;
-                if (repeatedCharIndex > 0)
+               
+                while (j < s.Length && charMap[j] < 1)
                 {
-                    uniqueSubstring =
-                        uniqueSubstring.Substring(repeatedCharIndex, uniqueSubstring.Length - repeatedCharIndex);
+                    j++;
+                    charMap[j]++;
                 }
-                uniqueSubstring += s[i];
-                result = Math.Max(result, uniqueSubstring.Length);
+
+                result = Math.Max(result, j - i + 1);
+                // Move to next window, clear current window's first char.
+                charMap[i]--;
 
             }
 
