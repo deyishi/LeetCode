@@ -6,3 +6,7 @@ Add O(logK), O(klogk)
 277. Find the Celebrity
 Find a candidate who knows nobody.
 Check the candidate knows nobody and everybody knows him.
+
+185. Department Top Three Salaries
+Inner Join Employee with Department
+Select employees whose salaries are lower than no more than 3 people in that same department.
