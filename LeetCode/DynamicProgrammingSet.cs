@@ -847,5 +847,41 @@ namespace LeetCode
 
             return cut[len - 1];
         }
+
+        public int CalculateMinimumHP(int[][] dungeon)
+        {
+            int m = dungeon.Length;
+            int n = dungeon[0].Length;
+
+            int[,] hp = new int[m, n];
+            for (var i = m - 1; i >= 0; i--)
+            {
+                for (int j = n - 1; j >= 0; j--)
+                {
+                    if (i == m - 1 && j == n - 1)
+                    {
+                        // Last room, we need at least 1 health. Doesn't matter if it is positive.
+                        hp[i, j] = Math.Max(1, 1 - dungeon[i][j]);
+                    }
+                    else if (i == m - 1)
+                    {
+                        // Can only go left.
+                        hp[i, j] = Math.Max(1, hp[i, j + 1] - dungeon[i][j]);
+                    }
+                    else if (j == n - 1)
+                    {
+                        // Can only go up
+                        hp[i, j] = Math.Max(1, hp[i + 1, j] - dungeon[i][j]);
+                    }
+                    else
+                    {
+                        // Can go either way, pick the one cost less HP.
+                        hp[i, j] = Math.Max(1, Math.Min(hp[i + 1, j], hp[i, j + 1]) - dungeon[i][j]);
+                    }
+                }
+            }
+
+            return hp[0, 0];
+        }
     }
 }
