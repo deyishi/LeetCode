@@ -14,9 +14,11 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            string s = "nzp#o#g", p = "b#nzp#o#g";
-
-            var r = BackspaceCompare(s, p);
+            var c = new []
+            {
+                'h', 'e', 'l', 'l', 'o'
+            };
+            ReverseString(c);
         }
 
         /// <summary>
@@ -741,6 +743,86 @@ namespace LeetCode
             }
 
             return true;
+        }
+
+        public void ReverseString(char[] s)
+        {
+            int l = 0;
+            int r = s.Length - 1;
+            while (l < r)
+            {
+                char temp = s[l];
+                s[l] = s[r];
+                s[r] = temp;
+                l++;
+                r--;
+            }
+        }
+
+        public string ReverseVowels(string s)
+        {
+            int l = 0;
+            int r = s.Length - 1;
+            char[] vowels = "aeiouAEIOU".ToCharArray();
+            char[] a = s.ToCharArray();
+            while (l < r)
+            {
+                while (!vowels.Contains(a[l]) && l < r)
+                {
+                    l++;
+                }
+
+                while (!vowels.Contains(a[r]) && l < r)
+                {
+                    r--;
+                }
+
+                if (l < r)
+                {
+                    char temp = a[l];
+                    a[l] = a[r];
+                    a[r] = temp;
+                }
+
+                l++;
+                r--;
+            }
+
+            return new string(a);
+        }
+
+        public string ReverseStr(string s, int k)
+        {
+            char[] a = s.ToCharArray();
+            for (int i = 0; i < s.Length; i += 2 *k)
+            {
+                int start = i;
+                int end = Math.Min(start + k - 1, s.Length - 1); 
+                while (start < end)
+                {
+                    char tmp = a[start];
+                    a[start++] = a[end];
+                    a[end--] = tmp;
+                }
+            }
+
+            return new string(a);
+        }
+
+        public string ReverseWords(string s)
+        {
+            var words = s.Split(' ');
+            var sb = new StringBuilder();
+            foreach (var word in words)
+            {
+               var reverse = word.ToCharArray();
+               Array.Reverse(reverse);
+               sb.Append(new string(reverse));
+                sb.Append(' ');
+            }
+
+            sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
         }
     }
 }

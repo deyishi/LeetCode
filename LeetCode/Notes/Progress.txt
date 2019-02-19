@@ -440,5 +440,7 @@ Heap
 02/19/2019
 567. Permutation in String
 844. Backspace String Compare
-632. Smallest Range
-727. Minimum Window Subsequence
+344. Reverse String
+345. Reverse Vowels of a String
+541. Reverse String II
+557. Reverse Words in a String III
