@@ -439,5 +439,6 @@ Heap
 
 02/19/2019
 567. Permutation in String
+844. Backspace String Compare
 632. Smallest Range
 727. Minimum Window Subsequence

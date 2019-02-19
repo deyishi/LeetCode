@@ -14,9 +14,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            string s = "cbaebabacd", p = "abc";
+            string s = "nzp#o#g", p = "b#nzp#o#g";
 
-            var r = FindAnagrams(s, p);
+            var r = BackspaceCompare(s, p);
         }
 
         /// <summary>
@@ -677,6 +677,69 @@ namespace LeetCode
             }
 
             return false;
+        }
+
+        public bool BackspaceCompare(string s, string t)
+        {
+            int i = s.Length - 1;
+            int j = t.Length - 1;
+            int skipS = 0;
+            int skipT = 0;
+
+            while (i >= 0 || j >= 0)
+            {
+                // Find s after remove last back space and see a char.
+                while (i >= 0)
+                {
+                    if (s[i] == '#')
+                    {
+                        skipS++;
+                        i--;
+                    }
+                    else if (skipS > 0)
+                    {
+                        skipS--;
+                        i--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                while (j >= 0)
+                {
+                    if (t[j] == '#')
+                    {
+                        skipT++;
+                        j--;
+                    }
+                    else if (skipT > 0)
+                    {
+                        skipT--;
+                        j--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+
+                if (i >= 0 && j >= 0 && s[i] != t[j])
+                {
+                    return false;
+                }
+                // They both run out.
+                if ((i >= 0) != (j >= 0))
+                {
+                    return false;
+                }
+                i--;
+                j--;
+            }
+
+            return true;
         }
     }
 }
