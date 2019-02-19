@@ -435,6 +435,9 @@ Heap
 02/18/2019
 174. Dungeon Game
 185. Department Top Three Salaries
+449. Serialize and Deserialize BST
+
+02/19/2019
 567. Permutation in String
 632. Smallest Range
 727. Minimum Window Subsequence
