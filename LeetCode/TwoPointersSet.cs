@@ -628,5 +628,55 @@ namespace LeetCode
 
             return result;
         }
+
+        public bool CheckInclusion(string s1, string s2)
+        {
+            // String permutation is a anagram. Need to check all the windows in s2 contains the chars in s1 regardless of order.
+            if (string.IsNullOrEmpty(s1))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(s2))
+            {
+                return true;
+            }
+
+            // s2 only contain a-z 26 letters.
+            int[] map = new int[26];
+            int[] window = new int[26];
+            foreach (var c in s1)
+            {
+                map[c - 'a']++;
+            }
+
+            int l = 0; // window left index
+            int r = 0; // window right index
+            int len = s2.Length;
+            int windowLen = s1.Length;
+            while (l < len)
+            {
+                while (r < len && r < l + windowLen)
+                {
+                    // Current window has extra char.
+                    if (window[s2[r] - 'a'] > map[s2[r] - 'a'] - 1)
+                    {
+                        break;
+                    }
+                    window[s2[r] - 'a']++;
+                    r++;
+                }
+
+                if (r - l == windowLen)
+                {
+                    return true;
+                }
+
+                window[s2[l] - 'a']--;
+                l++;
+            }
+
+            return false;
+        }
     }
 }
