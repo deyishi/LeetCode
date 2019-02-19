@@ -726,12 +726,13 @@ namespace LeetCode
                 }
 
 
+                // -1 here means both are empty.
                 if (i >= 0 && j >= 0 && s[i] != t[j])
                 {
                     return false;
                 }
                 // They both run out.
-                if ((i >= 0) != (j >= 0))
+                if (i == -1 ^ j == -1)
                 {
                     return false;
                 }
