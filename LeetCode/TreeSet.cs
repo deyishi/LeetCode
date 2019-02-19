@@ -177,7 +177,7 @@ namespace LeetCode
                     return false;
                 }
 
-                count +=1;
+                count += 1;
                 return true;
             }
 
@@ -249,7 +249,7 @@ namespace LeetCode
                 return;
             }
 
-            if (target == root.val )
+            if (target == root.val)
             {
                 curr++;
             }
@@ -259,7 +259,7 @@ namespace LeetCode
             }
 
             result = Math.Max(result, curr);
-            LongestConsecutiveHelper(root.left, root.val+1, curr, ref result);
+            LongestConsecutiveHelper(root.left, root.val + 1, curr, ref result);
             LongestConsecutiveHelper(root.right, root.val + 1, curr, ref result);
         }
 
@@ -306,7 +306,8 @@ namespace LeetCode
             }
 
             // Find end
-            foreach (var node in graph) {
+            foreach (var node in graph)
+            {
                 if (node.Value.Count == 1)
                 {
                     leaves.Add(node.Key);
@@ -408,7 +409,7 @@ namespace LeetCode
 
         private int MaxPathDown(TreeNode root)
         {
-            if (root == null )
+            if (root == null)
             {
                 return 0;
             }
@@ -451,6 +452,83 @@ namespace LeetCode
 
             return diff == 0;
         }
+
+
+    }
+
+    public class Codec
+    {
+
+        // Encodes a tree to a single string.
+        public string Serialize(TreeNode root)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (root == null)
+            {
+                return sb.ToString();
+            }
+
+            // Pre order traversal
+            Stack<TreeNode> stack = new Stack<TreeNode>();
+            stack.Push(root);
+            while (stack.Count > 0)
+            {
+                TreeNode node = stack.Pop();
+                sb.Append(node.val);
+                sb.Append(",");
+
+                if (node.right != null)
+                {
+                    stack.Push(node.right);
+                }
+
+                if (node.left != null)
+                {
+                    stack.Push(node.left);
+                }
+            }
+
+            // Remove last ,
+            return sb.ToString().TrimEnd(',');
+        }
+
+        // Decodes your encoded data to tree.
+        public TreeNode Deserialize(string data)
+        {
+            if (string.IsNullOrEmpty(data))
+            {
+                return null;
+            }
+
+            var nodes = data.Split(',');
+
+            Queue<int> q = new Queue<int>();
+            foreach (var n in nodes)
+            {
+                q.Enqueue(int.Parse(n));
+            }
+
+            return DeserializePreOrderTree(q);
+        }
+
+        private TreeNode DeserializePreOrderTree(Queue<int> queue)
+        {
+            if (queue.Count == 0)
+            {
+                return null;
+            }
+
+            TreeNode root = new TreeNode(queue.Dequeue());
+            var leftSubtree = new Queue<int>();
+            while (queue.Count > 0 && queue.Peek() < root.val)
+            {
+                leftSubtree.Enqueue(queue.Dequeue());
+            }
+
+            root.left = DeserializePreOrderTree(leftSubtree);
+            root.right = DeserializePreOrderTree(queue);
+            return root;
+        }
     }
 
     // 173. Binary Search Tree Iterator
@@ -488,8 +566,4 @@ namespace LeetCode
             }
         }
     }
-
-
-
-
 }

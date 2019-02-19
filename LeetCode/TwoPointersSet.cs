@@ -617,7 +617,7 @@ namespace LeetCode
                     r++;
                 }
 
-                if (r - l == anagramLength - 1)
+                if (r - l == anagramLength)
                 {
                     result.Add(l);
                 }

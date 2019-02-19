@@ -433,6 +433,8 @@ Heap
 
 
 02/18/2019
+174. Dungeon Game
+185. Department Top Three Salaries
 567. Permutation in String
 632. Smallest Range
 727. Minimum Window Subsequence
