@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -28,8 +29,11 @@ namespace LeetCode
             s[8] = new[] { '.', '.', '.', '.', '8', '.', '.', '7', '9' };
 
 
+            var f = new [,]{{ 's','e','e','n','e','w'},{ 't','m','r','i','v','a'},{ 'o','b','s','i','b','d'},{ 'w','m','y','s','e','n'},{ 'l','t','s','n','s','a'},{ 'i','e','z','l','g','n'}
+            };
+            var w = new []{"bend", "benda"};
             var a = "120122436";
-            var r = IsAdditiveNumber(a);
+            var r = FindWords(f, w);
         }
 
         public IList<IList<int>> Combine(int n, int k)
@@ -73,48 +77,43 @@ namespace LeetCode
                 return true;
             }
 
-            var r = board.GetLength(0);
-            var c = board.GetLength(1);
-            for (int rowIndex = 0; rowIndex < r; rowIndex++)
+            int m = board.GetLength(0);
+            int n = board.GetLength(1);
+            for (int i = 0; i < m; i++)
             {
-                for (int colIndex = 0; colIndex < c; colIndex++)
+                for (int j = 0; j < n; j++)
                 {
-                    if (board[rowIndex,colIndex] == word[0] && WordSearchHelper(board, rowIndex, colIndex, word, 0))
+                    if (SearchBoard(board, i, j, word, 0))
                     {
                         return true;
                     }
                 }
             }
+
             return false;
         }
 
-        private bool WordSearchHelper(char[,] board, int rowIndex, int colIndex, string word, int i)
+        private bool SearchBoard(char[,] board, int i, int j, string word, int l)
         {
-            if (i == word.Length)
+            if (word.Length == l)
             {
                 return true;
             }
 
-            // Tile that doesn't exist.
-            if (rowIndex < 0 || colIndex < 0 || rowIndex >= board.GetLength(0) || colIndex >= board.GetLength(1) || board[rowIndex, colIndex] != word[i])
+            if (i < 0 || i >= board.GetLength(0) || j < 0 || j >= board.GetLength(1) || board[i, j] != word[l])
             {
                 return false;
             }
 
-            // Mark current tile visited.
-            board[rowIndex, colIndex] = '#';
-
-            //Do recursive search. up, down, left and right.
-            var exist = WordSearchHelper(board, rowIndex, colIndex + 1, word, i + 1)
-                        || WordSearchHelper(board, rowIndex, colIndex - 1, word, i + 1)
-                        || WordSearchHelper(board, rowIndex + 1, colIndex, word, i + 1)
-                        || WordSearchHelper(board, rowIndex - 1, colIndex, word, i + 1);
-
-            //Unmark tile.
-            board[rowIndex, colIndex] = word[i];
-
+            board[i, j] = '#';
+            bool exist = SearchBoard(board, i + 1, j, word, l + 1)
+                         || SearchBoard(board, i - 1, j, word, l + 1)
+                         || SearchBoard(board, i, j + 1, word, l + 1)
+                         || SearchBoard(board, i, j - 1, word, l + 1);
+            board[i, j] = word[l];
             return exist;
         }
+
 
         public void SolveSudoku(char[][] board)
         {
@@ -492,6 +491,82 @@ namespace LeetCode
             }
 
             return IsValidAdditiveNumber(n2, sum, start + sum.ToString().Length, nums);
+        }
+
+        public IList<string> FindWords(char[,] board, string[] words)
+        {
+            var result = new List<string>();
+            var trie = BuildTrie(words);
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    FindWordsDFS(board, i, j, trie, result);
+                }
+            }
+            return result;
+        }
+
+        private void FindWordsDFS(char[,] board, int i, int j, TrieNode trie, List<string> result)
+        {
+            var curr = board[i, j];
+            if (curr == '#' || !trie.Children.ContainsKey(curr))
+            {
+                return;
+            }
+
+            var next = trie.Children[curr];
+            if (next.IsWordEnd)
+            {
+                //Found one 
+                result.Add(next.Word);
+                next.IsWordEnd = false;
+            }
+
+            board[i, j] = '#';
+            if (i > 0)
+            {
+                FindWordsDFS(board, i - 1, j, next, result);
+            }
+            if (i < board.GetLength(0) - 1)
+            {
+                FindWordsDFS(board, i + 1, j, next, result);
+            }
+            if (j > 0)
+            {
+                FindWordsDFS(board, i, j-1, next, result);
+            }
+            if (j < board.GetLength(1) - 1)
+            {
+                FindWordsDFS(board, i, j + 1, next, result);
+            }
+
+            board[i, j] = curr;
+
+        }
+
+
+        private TrieNode BuildTrie(string[] words)
+        {
+            var root = new TrieNode();
+            foreach (var w in words)
+            {
+                var curr = root;
+                foreach (var c in w)
+                {
+                    if (!curr.Children.ContainsKey(c))
+                    {
+                        curr.Children.Add(c, new TrieNode());
+                    }
+
+                    curr = curr.Children[c];
+                }
+
+                curr.IsWordEnd = true;
+                curr.Word = w;
+            }
+
+            return root;
         }
     }
 }

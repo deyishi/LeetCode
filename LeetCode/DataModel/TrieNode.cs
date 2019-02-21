@@ -14,5 +14,7 @@ namespace LeetCode.DataModel
         {
             Children = new Dictionary<char, TrieNode>();
         }
+
+        public string Word { get; set; }
     }
 }
