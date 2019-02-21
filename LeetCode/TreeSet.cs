@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using LeetCode.DataModel;
@@ -529,6 +530,58 @@ namespace LeetCode
             root.right = DeserializePreOrderTree(queue);
             return root;
         }
+
+        public int LargestBSTSubtree(TreeNode root)
+        {
+            
+            var t= LargestBSTSubtreeHelper(root);
+            return t.Size;
+        }
+
+        private LargestBSTSubtreeNodeProperty LargestBSTSubtreeHelper(TreeNode root)
+        {
+            if (root == null)
+            {
+                return new LargestBSTSubtreeNodeProperty();
+            }
+
+           
+            var left = LargestBSTSubtreeHelper(root.left);
+            var right = LargestBSTSubtreeHelper(root.right);
+
+            var n = new LargestBSTSubtreeNodeProperty();
+            if (!left.IsValid || !right.IsValid || root.val <= left.Max || root.val >= right.Min)
+            {
+                n.IsValid = false;
+                n.Size = Math.Max(left.Size, right.Size);
+                return n;
+            }
+
+            n.IsValid = true;
+            n.Size = right.Size + left.Size + 1;
+
+            n.Min = root.left == null ? root.val : left.Min;
+            n.Max = root.right == null ? root.val : right.Max;
+
+            return n;
+        }
+    }
+
+    public class LargestBSTSubtreeNodeProperty
+    {
+        public bool IsValid { get; set; }
+        public int Size { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+
+        public LargestBSTSubtreeNodeProperty()
+        {
+            IsValid = true;
+            Size = 0;
+            Min = int.MaxValue;
+            Max = int.MinValue;
+        }
+
     }
 
     // 173. Binary Search Tree Iterator

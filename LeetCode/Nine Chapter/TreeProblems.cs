@@ -168,38 +168,27 @@ namespace LeetCode.Nine_Chapter
             result.Add(root.val);
         }
 
-        public bool IsValidBST(TreeNode root)
+        public bool IsValidBst(TreeNode root)
         {
-            if (root == null)
-            {
-                return true;
-            }
-
-            var stack = new Stack<TreeNode>();
-            var curr = root;
+            //Iterative in-order traversal with tracking pre node.
             TreeNode pre = null;
-            while (true)
+            var stack = new Stack<TreeNode>();
+            while (root != null || stack.Count > 0)
             {
-                if (curr != null)
+                while (root!=null)
                 {
-                    stack.Push(curr);
-                    curr = curr.left;
+                    stack.Push(root);
+                    root = root.left;
                 }
-                else
-                {
-                    if (!stack.Any())
-                    {
-                        break;
-                    }
-                    curr = stack.Pop();
-                    if (pre != null && curr.val <= pre.val)
-                    {
-                        return false;
-                    }
 
-                    pre = curr;
-                    curr = curr.right;
+                var cur = stack.Pop();
+                if (pre != null && cur.val <= pre.val)
+                {
+                    return false;
                 }
+
+                pre = cur;
+                root = cur.right;
             }
 
             return true;
