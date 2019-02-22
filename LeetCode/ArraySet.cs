@@ -729,6 +729,85 @@ namespace LeetCode
 
             return result;
         }
+
+        public IList<string> TopKFrequent(string[] words, int k)
+        {
+            Dictionary<string, int> map = new Dictionary<string, int>();
+            foreach (var w in words)
+            {
+                if (!map.ContainsKey(w))
+                {
+                    map.Add(w, 0);
+                }
+
+                map[w]++;
+            }
+
+            TrieNode[] bucket = new TrieNode[words.Length + 1];
+            foreach (var key in map.Keys)
+            {
+                var f = map[key];
+                if (bucket[f] == null)
+                {
+                    bucket[f] = new TrieNode();
+                }
+
+                AddWordToTrie(bucket[f], key);
+            }
+
+            int index = words.Length - 1;
+            var result = new List<string>();
+            while (index > 0 && result.Count < k)
+            {
+                if (bucket[index] != null)
+                {
+                    AddToResultFromTrie(result, bucket[index], k);
+                }
+            }
+
+            return result;
+        }
+
+        private void AddToResultFromTrie(List<string> result, TrieNode trieNode, int k)
+        {
+            if (trieNode == null)
+            {
+                return;
+            }
+
+            if (trieNode.IsWordEnd)
+            {
+                result.Add(trieNode.Word);
+                trieNode.IsWordEnd = false;
+            }
+
+            if (result.Count == k)
+            {
+                return;
+            }
+
+            foreach (var node in trieNode.Children.Values)
+            {
+                AddToResultFromTrie(result, node, k);
+            }
+
+        }
+
+        private void AddWordToTrie(TrieNode root, string key)
+        {
+            var curr = root;
+            foreach (var c in key)
+            {
+                if (!curr.Children.ContainsKey(c))
+                {
+                    curr.Children.Add(c, new TrieNode());
+                }
+                curr = curr.Children[c];
+            }
+
+            curr.IsWordEnd = true;
+            curr.Word = key;
+        }
     }
 }
 
