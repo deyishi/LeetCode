@@ -76,6 +76,7 @@
     <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\LRUCache.cs" />
+    <Compile Include="Design\NestedIterator.cs" />
     <Compile Include="Design\Vector2D.cs" />
     <Compile Include="Design\WordDistance.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />

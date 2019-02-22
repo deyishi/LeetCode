@@ -13,8 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "abacc";
-            var r = MinCut(s);
+            var s = "bb";
+            var r = LongestPalindrome(s);
         }
 
         /// <summary>
@@ -892,6 +892,48 @@ namespace LeetCode
                 result[i] = result[i / 2] + i % 2;
             }
             return result;
+        }
+
+        public string LongestPalindrome(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return "";
+            }
+
+            bool[,] dp = new bool[s.Length, s.Length];
+            for (int i = 0; i < s.Length; i++)
+            {
+                dp[i, i] = true;
+            }
+
+            int start = 0;
+            int len = 1;
+            for (int i = 0; i < s.Length-1;i++)
+            {
+                dp[i, i + 1] = s[i] == s[i + 1];
+                if (dp[i, i + 1])
+                {
+                    start = i;
+                    len = 2;
+                }
+            }
+
+            for (int i = 2; i < s.Length; i++) {
+                for (int j = 0; j < s.Length-i;j++) {
+                    if (s[j] == s[j+i] && dp[j+1, j+i-1])
+                    {
+                        dp[j, j + i] = true;
+                        if (i+1 > len)
+                        {
+                            start = j;
+                            len = i + 1;
+                        }
+                    }
+                }
+            }
+
+            return s.Substring(start, len);
         }
 
     }
