@@ -892,7 +892,7 @@ namespace LeetCode
                 result[i] = result[i / 2] + i % 2;
             }
             return result;
-
         }
+
     }
 }

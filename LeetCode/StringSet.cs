@@ -18,10 +18,10 @@ namespace LeetCode
         {
 
 
-            var s = "ADOBECODEBANC";
+            var s = "ABACCAADA";
             var t = "ABC";
 
-            //var r = MinWindow(s, t);
+            var r = RemoveChar(s.ToCharArray(), 'A');
         }
 
         public int LongestValidParentheses(string s)
@@ -663,6 +663,27 @@ namespace LeetCode
         {
             return 4;
         }
+
+        public char[] RemoveChar(char[] s, char c)
+        {
+            int cIndex = 0;
+            for (var i = 0; i < s.Length; i++) {
+                if (s[i] != c)
+                {
+                    var temp = s[cIndex];
+                    s[cIndex] = s[i];
+                    s[i] = temp;
+                    cIndex++;
+                }
+            }
+
+            while (cIndex < s.Length)
+            {
+                s[cIndex++] = '0';
+            }
+            return s;
+        }
+
 
     }
 }
