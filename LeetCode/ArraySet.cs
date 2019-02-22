@@ -15,7 +15,7 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[] { 2, 1, 5, 6, 2, 3 };
+            var n = new[] {1,2 };
             var s = 2 & 1;
 
             for (var i = 0; i < 4; i ++)
@@ -30,7 +30,7 @@ namespace LeetCode
             m[2] = new[] {1, 1, 1};
             m[3] = new[] {0, 0, 0};
 
-            GameOfLife(m);
+            var r = TopKFrequent(n, 2);
         }
 
 
@@ -688,6 +688,46 @@ namespace LeetCode
                 //&1 = 1 odd
                 nums[i] = (i & 1) == 1 ? temp[end--] : temp[medianIndex--];
             }
+        }
+
+        public IList<int> TopKFrequent(int[] nums, int k)
+        {
+            Dictionary<int,int> f = new Dictionary<int, int>();
+            for (var i = 0; i < nums.Length;i++) {
+                if (f.ContainsKey(nums[i]))
+                {
+                    f[nums[i]]++;
+                }
+                else
+                {
+                    f.Add(nums[i], 0);
+                }
+            }
+
+            List<int>[] n = new List<int>[nums.Length];
+            foreach (var key in f.Keys)
+            {
+                var v = f[key];
+                if (n[v] == null)
+                {
+                    n[v] = new List<int>();
+                }
+                n[v].Add(key);
+            }
+
+            int index = nums.Length-1;
+            var result = new List<int>();
+            while (index >= 0 && result.Count < k)
+            {
+                if (n[index] != null)
+                {
+                    result.AddRange(n[index]);
+                }
+
+                index--;
+            }
+
+            return result;
         }
     }
 }
