@@ -56,8 +56,9 @@
     <Compile Include="DataModel\Codec.cs" />
     <Compile Include="DataModel\Constants.cs" />
     <Compile Include="DataModel\Coordinate.cs" />
+    <Compile Include="DataModel\MaxHeap.cs" />
     <Compile Include="DataModel\MyHashMap.cs" />
-    <Compile Include="DataModel\MyHeap.cs" />
+    <Compile Include="DataModel\MinHeap.cs" />
     <Compile Include="DataModel\MyQueue.cs" />
     <Compile Include="DataModel\MyStack.cs" />
     <Compile Include="DataModel\NestedInteger.cs" />

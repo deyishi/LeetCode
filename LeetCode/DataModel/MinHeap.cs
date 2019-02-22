@@ -11,13 +11,13 @@ namespace LeetCode.DataModel
     class MyHeapTest
     {
         [Test]
-        public void METHOD()
+        public void Test()
         {
-            var heap = new MyHeap();
-            heap.Push(10);
-            heap.Push(3);
+            var heap = new MinHeap<char>();
+            heap.Push('a');
+            heap.Push('c');
 
-            heap.Peek();
+            var t = heap.Peek();
         }
     }
 
@@ -26,104 +26,103 @@ namespace LeetCode.DataModel
     //Push: ensure array size, insert value at n[size], do while loop to check n[size] and its parent, if smaller bubble up, size = parent size.
     //Pop: return value at n[0], do while loop to check n[0] and its left and right children for smaller one, if smaller bubble down, size = smaller size.
     //Peek: n[0]
-    public class MyHeap
+    public class MinHeap<T> where T : IComparable<T>
     {
-        private int _size;
-        private int _capacity = 10;
-        private int[] _items;
-        public MyHeap()
+        private int size;
+        private int capacity;
+        private T[] items;
+
+        public MinHeap()
         {
-            _size = 0;
-            _capacity = 10;
-            _items = new int[_capacity];
+            size = 0;
+            capacity = 10;
+            items = new T[capacity];
         }
 
-        public int Pop()
+        public T Pop()
         {
-            if (_size == 0)
+            if (size == 0)
             {
                 throw new InvalidOperationException();
             }
 
-            var result = _items[0];
+            T result = items[0];
 
-            _items[0] = _items[_size - 1];
-            _size--;
+            items[0] = items[size - 1];
+            size--;
             HeapifyDown();
             return result;
         }
 
-
-        public void Push(int value)
+        public void Push(T value)
         {
             EnsureExtraCapacity();
-            _items[_size] = value;
-            _size++;
+            items[size] = value;
+            size++;
             HeapifyUp();
         }
 
-        public int Peek()
+        public T Peek()
         {
-            if (_size == 0)
+            if (size == 0)
             {
                 throw new InvalidOperationException();
             }
 
-            return _items[0];
+            return items[0];
         }
 
         private void HeapifyUp()
         {
-            int index = _size - 1;
-            while (HasParent(index) && GetParent(index) > _items[index])
+            int index = size - 1;
+            while (HasParent(index) && GetParent(index).CompareTo(items[index]) > 0)
             {
                 Swap(GetParentIndex(index), index);
                 index = GetParentIndex(index);
             }
         }
 
-
         private void HeapifyDown()
         {
             int index = 0;
             while (HasLeftChild(index))
             {
-                int smallerChildIndex = GetLeftChildIndex(index);
+                int biggerChild = GetLeftChildIndex(index);
 
-                if (HasRightChild(index) && GetRightChild(index) < GetLeftChild(index))
+                if (HasRightChild(index) && GetRightChild(index).CompareTo(GetLeftChild(index)) < 0)
                 {
-                    smallerChildIndex = GetRightChildIndex(index);
+                    biggerChild = GetRightChildIndex(index);
                 }
 
-                if (_items[index] < _items[smallerChildIndex])
+                if (items[index].CompareTo(items[biggerChild]) < 0)
                 {
                     break;
                 }
 
-                Swap(smallerChildIndex, index);
-                index = smallerChildIndex;
+                Swap(biggerChild, index);
+                index = biggerChild;
             }
+
         }
 
-
-
-        private int GetRightChild(int index)
+        private T GetRightChild(int index)
         {
-            return _items[(index * 2) + 2];
+            return items[(index * 2) + 2];
         }
 
         private bool HasRightChild(int index)
         {
-            return (index * 2) + 2 < _size;
+            return (index * 2) + 2 < size;
         }
+
         private int GetRightChildIndex(int index)
         {
             return (index * 2) + 2;
         }
 
-        private int GetLeftChild(int index)
+        private T GetLeftChild(int index)
         {
-            return _items[(index * 2) + 1];
+            return items[(index * 2) + 1];
         }
 
         private int GetLeftChildIndex(int index)
@@ -133,7 +132,7 @@ namespace LeetCode.DataModel
 
         private bool HasLeftChild(int index)
         {
-            return (index * 2) + 1 < _size;
+            return (index * 2) + 1 < size;
         }
 
         private bool HasParent(int index)
@@ -142,9 +141,9 @@ namespace LeetCode.DataModel
         }
 
 
-        private int GetParent(int index)
+        private T GetParent(int index)
         {
-            return _items[(index - 1) / 2];
+            return items[(index - 1) / 2];
         }
 
         private int GetParentIndex(int index)
@@ -155,24 +154,25 @@ namespace LeetCode.DataModel
 
         public void EnsureExtraCapacity()
         {
-            if (_size == _capacity)
+            if (size == capacity)
             {
-                var temp = new int[_capacity * 2];
+                var temp = new T[capacity * 2];
                 var i = 0;
-                foreach (var item in _items)
+                foreach (var item in items)
                 {
                     temp[i++] = item;
                 }
-                _items = temp;
-                _capacity *= 2;
+
+                items = temp;
+                capacity *= 2;
             }
         }
 
         public void Swap(int i, int j)
         {
-            var temp = _items[i];
-            _items[i] = _items[j];
-            _items[j] = temp;
+            var temp = items[i];
+            items[i] = items[j];
+            items[j] = temp;
         }
     }
 }

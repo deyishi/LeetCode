@@ -763,6 +763,8 @@ namespace LeetCode
                 {
                     AddToResultFromTrie(result, bucket[index], k);
                 }
+
+                index--;
             }
 
             return result;
@@ -786,7 +788,8 @@ namespace LeetCode
                 return;
             }
 
-            foreach (var node in trieNode.Children.Values)
+            var t = trieNode.Children.OrderBy(x => x.Key).Select(x => x.Value);
+            foreach (var node in t)
             {
                 AddToResultFromTrie(result, node, k);
             }

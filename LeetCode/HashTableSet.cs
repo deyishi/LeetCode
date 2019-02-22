@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeetCode.DataModel;
 
 namespace LeetCode
 {
@@ -20,9 +21,9 @@ namespace LeetCode
             [Test]
             public void Test()
             {
-                string a = "anagram", t = "nagaram";
+                string a = "aaabbbb";
 
-                var r = IsAnagram(a, t);
+                var r = FrequencySortWithHeap(a);
             }
             public IList<IList<string>> FindDuplicate(string[] paths)
             {
@@ -176,6 +177,109 @@ namespace LeetCode
 
                 return true;
             }
+
+            public string FrequencySort(string s)
+            {
+                if (string.IsNullOrEmpty(s))
+                {
+                    return "";
+                }
+
+
+                var map = new Dictionary<char, int>();
+                foreach (var c in s)
+                {
+                    if (!map.ContainsKey(c))
+                    {
+                        map.Add(c, 0);
+                    }
+
+                    map[c]++;
+                }
+
+                List<char>[] bucket = new List<char>[s.Length + 1];
+                foreach (var key in map.Keys)
+                {
+                    var v = map[key];
+                    if (bucket[v] == null)
+                    {
+                        bucket[v] = new List<char>();
+                    }
+                    bucket[v].Add(key);
+                }
+
+                var sb = new StringBuilder();
+                var index = s.Length;
+
+                while (index > 0)
+                {
+                    if (bucket[index] != null)
+                    {
+                        foreach (char c in bucket[index])
+                        {
+                            for (int i = 0; i < map[c]; i++)
+                            {
+                                sb.Append(c);
+                            }
+                        }
+
+                    }
+
+                    index--;
+                }
+
+                return sb.ToString();
+            }
+
+            public string FrequencySortWithHeap(string s)
+            {
+                var map =new Dictionary<char,int>();
+                foreach (var c in s)
+                {
+                    if (!map.ContainsKey(c))
+                    {
+                        map.Add(c,0);
+                    }
+                    map[c]++;
+                }
+
+                var heap = new MaxHeap<CharNode>();
+                foreach (var i in map.Keys)
+                {
+                    heap.Push(new CharNode
+                    {
+                        Value = i,
+                        Frequency = map[i]
+                    });
+                }
+
+                var sb = new StringBuilder();
+                while (heap.Any())
+                {
+                    var node = heap.Pop();
+                    for (var i = 0; i < node.Frequency; i++)
+                    {
+                        sb.Append(node.Value);
+                    }
+                }
+
+                return sb.ToString();
+            }
         }
+
+        public class CharNode : IComparable<CharNode>
+        {
+            public char Value { get; set; }
+            public int Frequency { get; set; }
+
+            public int CompareTo(CharNode other)
+            {
+                var r = Frequency.CompareTo(other.Frequency);
+                return r == 0 ? 0 - Value.CompareTo(other.Value) : r;
+            }
+        }
+
+
+
     }
 }
