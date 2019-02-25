@@ -461,3 +461,6 @@ Heap
 347. Top K Frequent Elements
 451. Sort Characters By Frequency
 692. Top K Frequent Words
+
+02/25/2019
+214. Shortest Palindrome (KMP)

@@ -18,10 +18,10 @@ namespace LeetCode
         {
 
 
-            var s = "ABACCAADA";
+            var s = "adcba";
             var t = "ABC";
 
-            var r = RemoveChar(s.ToCharArray(), 'A');
+            var r = ShortestPalindrome(s);
         }
 
         public int LongestValidParentheses(string s)
@@ -682,6 +682,34 @@ namespace LeetCode
                 s[cIndex++] = '0';
             }
             return s;
+        }
+
+        public string ShortestPalindrome(string s)
+        {
+
+            // Find break point when s is not a palindrome. "aab", position 2, since aa is palindrome.
+            // "aacbcaaa", position 7, since "aacbcaa" is palindrome.
+            int j = 0;
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (s[i] == s[j])
+                {
+                    j++;
+                }
+            }
+
+            if (j == s.Length)
+            {
+                return s;
+            }
+
+            string suffix = s.Substring(j);
+            var suffixArray = suffix.ToCharArray();
+            Array.Reverse(suffixArray);
+            string prefix = new string(suffixArray);
+            string mid = ShortestPalindrome(s.Substring(0, j));
+            string ans = prefix + mid + suffix;
+            return ans;
         }
 
 

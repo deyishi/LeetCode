@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\KMP.cs" />
     <Compile Include="ArraySet.cs" />
     <Compile Include="BackTrackingSet.cs" />
     <Compile Include="BinarySearchSet.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\LRUCache.cs" />
+    <Compile Include="Design\MovingAverage.cs" />
     <Compile Include="Design\NestedIterator.cs" />
     <Compile Include="Design\Vector2D.cs" />
     <Compile Include="Design\WordDistance.cs" />
