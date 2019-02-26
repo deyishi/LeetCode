@@ -466,3 +466,9 @@ Heap
 214. Shortest Palindrome (KMP)
 346. Moving Average from Data Stream
 348. Design Tic-Tac-Toe
+355. Design Twitter
+
+02/25/2019
+218. The Skyline Problem
+224. Basic Calculator
+233. Number of Digit One

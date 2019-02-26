@@ -15,22 +15,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[] {1,2 };
-            var s = 2 & 1;
+            var n = new[,] { { 6765, 184288, 53874 }, { 13769, 607194, 451649 }, { 43325, 568099, 982005 }, { 47356, 933141, 123943 }, { 59810, 561434, 119381 }, { 75382, 594625, 738524 }, { 111895, 617442, 587304 }, { 143767, 869128, 471633 }, { 195676, 285251, 107127 }, { 218793, 772827, 229219 }, { 316837, 802148, 899966 }, { 329669, 790525, 416754 }, { 364886, 882642, 535852 }, { 368825, 651379, 6209 }, { 382318, 992082, 300642 }, { 397203, 478094, 436894 }, { 436174, 442141, 612149 }, { 502967, 704582, 918199 }, { 503084, 561197, 625737 }, { 533311, 958802, 705998 }, { 565945, 674881, 149834 }, { 615397, 704261, 746064 }, { 624917, 909316, 831007 }, { 788731, 924868, 633726 }, { 791965, 912123, 438310 } };
+            var r = GetSkyline(n);
 
-            for (var i = 0; i < 4; i ++)
-            {
-                Debug.WriteLine(i & 1);
-            }
-
-
-            var m = new int[4][];
-            m[0] = new[] {0, 1, 0};
-            m[1] = new[] {0, 0, 1};
-            m[2] = new[] {1, 1, 1};
-            m[3] = new[] {0, 0, 0};
-
-            var r = TopKFrequent(n, 2);
         }
 
 
@@ -811,6 +798,98 @@ namespace LeetCode
             curr.IsWordEnd = true;
             curr.Word = key;
         }
+
+        public IList<int[]> GetSkyline(int[,] buildings)
+        {
+            List<int[]> result = new List<int[]>();
+            if (buildings== null || buildings.GetLength(0) == 0 || buildings.GetLength(1) == 0)
+            {
+                return result;
+            }
+            SkyLinePoint[] points = new SkyLinePoint[buildings.GetLength(0) * 2];
+            // Convert building left edge, right edge and height into points.
+            int index = 0;
+            for (var i = 0; i < buildings.GetLength(0); i++)
+            {
+                var x = buildings[i, 0];
+                var x2 = buildings[i, 1];
+                var y = buildings[i, 2];
+                points[index++] = new SkyLinePoint(x, y, true);
+                points[index++] = new SkyLinePoint(x2, y, false);
+            }
+
+            Array.Sort(points);
+
+            MaxHeap<int> heap = new MaxHeap<int>();
+            heap.Push(0);
+            int prevMax = 0;
+            foreach (var point in points)
+            {
+              
+                if (point.IsStart)
+                {
+                    heap.Push(point.Y);
+                  
+                    int curMaxVal = heap.Peek();
+                    if (curMaxVal > prevMax)
+                    {
+                        result.Add(new[] { point.X, point.Y});
+                        prevMax = curMaxVal;
+                    }
+                }
+                else
+                {
+                    heap.Remove(point.Y);
+                    int curMaxVal = heap.Peek();
+                    if (curMaxVal < prevMax)
+                    {
+                        result.Add(new[] { point.X, curMaxVal });
+                        prevMax = curMaxVal;
+                    }
+                }
+            }
+
+            return result;
+        }
+    }
+}
+
+public class SkyLinePoint : IComparable<SkyLinePoint>
+{
+    public SkyLinePoint(int x, int y, bool isStart)
+    {
+        X = x;
+        Y = y;
+        IsStart = isStart;
+    }
+
+    public int X { get; set; }
+    public int Y { get; set; }
+    public bool IsStart { get; set; }
+
+    public int CompareTo(SkyLinePoint other)
+    {
+        if (X != other.X)
+        {
+            return X - other.X;
+        }
+
+        if (IsStart && other.IsStart)
+        {
+            // Start at the same point.
+            // Look at higher building before lower building. Higher building shadows lower building.
+            return other.Y - Y;
+        }
+
+        if (!IsStart && !other.IsStart)
+        {
+            // End at the same point.
+            // Look at lower building before higher building. Higher building shadows lower building.
+            return Y - other.Y;
+        }
+
+        // Start point is looked before end point.
+        return IsStart ? -1 : 1;
     }
 }
 

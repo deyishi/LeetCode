@@ -65,6 +65,21 @@ namespace LeetCode.DataModel
             return items[0];
         }
 
+        public void Remove(T item)
+        {
+            if (size == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var list = items.ToList();
+            list.Remove(item);
+            items = list.ToArray();
+            size--;
+            HeapifyUp();
+            HeapifyDown();
+        }
+
         private void HeapifyUp()
         {
             int index = size - 1;
