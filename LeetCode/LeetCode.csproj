@@ -81,6 +81,7 @@
     <Compile Include="Design\MovingAverage.cs" />
     <Compile Include="Design\NestedIterator.cs" />
     <Compile Include="Design\TicTacToe.cs" />
+    <Compile Include="Design\Twitter.cs" />
     <Compile Include="Design\Vector2D.cs" />
     <Compile Include="Design\WordDistance.cs" />
     <Compile Include="DynamicProgrammingSet.cs" />

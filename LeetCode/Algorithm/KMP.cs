@@ -12,14 +12,24 @@ namespace LeetCode.Algorithm
         [Test]
         public void Test()
         {
-            var a = "ababc";
-
-            var r = FindLPS(a);
+            var a = "hello";
+            var b = "ll";
+            var r = KMPSearch(a, b);
         }
 
-        public void KMPSearch(string target, string pattern)
+        public int KMPSearch(string target, string pattern)
         {
-            
+            var result = new List<int>();
+            if (target.Length < pattern.Length)
+            {
+                return -1;
+            }
+
+            if (string.IsNullOrEmpty(pattern))
+            {
+                return 0;
+            }
+
             int m = target.Length;
             int n = pattern.Length;
             int i = 0;
@@ -35,6 +45,7 @@ namespace LeetCode.Algorithm
 
                 if (j == n)
                 {
+                    result.Add(i - j);
                     j = lps[j - 1];
                 }
                 else if(i < m && target[i] != pattern[j])
@@ -49,6 +60,8 @@ namespace LeetCode.Algorithm
                     }
                 }
             }
+
+            return result.Any() ? result.First() : -1;
         }
 
         /// <summary>
