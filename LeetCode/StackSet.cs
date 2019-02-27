@@ -62,26 +62,73 @@ namespace LeetCode
             return s.Pop();
         }
 
-
-        //227. Basic Calculator II
-        //Scan the string from left to right, when see * or /, calculate the result and push to stack, else push numbers with sign to stack.After finishing all * and /, we do + and - operation.
-        //    Need to handle multiple digits number, num = num * 10 + c - '0'
-        //Need to keep track of signs
         public int Calculate(string s)
         {
-            Stack<int> stack = new Stack<int>();
-            char sign = '+';
-            int num = 0;
+            var stack = new Stack<int>();
+            int result = 0;
+            int number = 0;
+            int sign = 1;
             for (int i = 0; i < s.Length; i++)
             {
                 char c = s[i];
                 if (char.IsDigit(c))
                 {
-                    // Handle multiple digits number
+                    number = number * 10 + c - '0';
+                }
+                else if(c == '+')
+                {
+                    result += sign * number;
+                    number = 0;
+                    sign = 1;
+                }
+                else if(c == '-')
+                {
+                    result += sign * number;
+                    number = 0;
+                    sign = -1;
+                }else if (c == '(')
+                {
+                    stack.Push(result);
+                    stack.Push(sign);
+                    sign = 1;
+                    result = 0;
+                }
+                else if(c == ')')
+                {
+                    result += sign * number;
+                    number = 0;
+                    result *= stack.Pop();
+                    result += stack.Pop();
+                }
+            }
+
+            if (number != 0)
+            {
+                result += sign * number;
+            }
+
+            return result;
+        }
+
+        //227. Basic Calculator II
+        //Scan the string from left to right, when see * or /, calculate the result and push to stack, else push numbers with sign to stack.After finishing all * and /, we do + and - operation.
+        //Need to handle multiple digits number, num = num * 10 + c - '0'
+        //Need to keep track of signs
+        public int CalculateTwo(string s)
+        {
+            var num = 0;
+            var stack = new Stack<int>();
+            char sign = '+';
+            for (var i = 0; i < s.Length; i++)
+            {
+
+                char c = s[i];
+                if (char.IsDigit(c))
+                {
                     num = num * 10 + c - '0';
                 }
-                // Store + or - number in the stack and only do calculation on * or /
-                if (c != ' ' && !char.IsDigit(c) || i + 1 == s.Length)
+
+                if (c != ' ' && !char.IsDigit(c) || i == s.Length - 1)
                 {
                     if (sign == '+')
                     {
@@ -91,26 +138,27 @@ namespace LeetCode
                     {
                         stack.Push(-num);
                     }
-                    else if (sign == '/')
-                    {
-                        stack.Push(stack.Pop() / num);
-                    }
                     else if (sign == '*')
                     {
                         stack.Push(stack.Pop() * num);
                     }
+                    else
+                    {
+                        stack.Push(stack.Pop() / num);
+                    }
+
                     sign = c;
                     num = 0;
                 }
             }
 
-            // Handle - or + operation
-            int res = 0;
+            var r = 0;
             while (stack.Any())
             {
-                res += stack.Pop();
+                r += stack.Pop();
             }
-            return res;
+
+            return r;
         }
     }
 
