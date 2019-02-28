@@ -851,6 +851,70 @@ namespace LeetCode
 
             return result;
         }
+
+        public int[] Intersect(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums2 == null || nums1.Length == 0 || nums2.Length == 0)
+            {
+                return new int[0];
+            }
+
+            Dictionary<int, int> map = new Dictionary<int, int>();
+
+            foreach (var num in nums1)
+            {
+                if (!map.ContainsKey(num))
+                {
+                    map.Add(num, 0);
+                }
+
+                map[num]++;
+            }
+
+            var result = new List<int>();
+            foreach (var t in nums2)
+            {
+                if (map.ContainsKey(t) && map[t] > 0)
+                {
+                    result.Add(t);
+                    map[t]--;
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public int[] IntersectTwo(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums2 == null || nums1.Length == 0 || nums2.Length == 0)
+            {
+                return new int[0];
+            }
+            Array.Sort(nums1);
+            Array.Sort(nums2);
+
+            var result = new List<int>();
+            int i = 0;
+            int j = 0;
+            while (i < nums1.Length && j < nums2.Length)
+            {
+                if (nums1[i] == nums2[j])
+                {
+                    result.Add(nums1[i]);
+                    i++;
+                    j++;
+                }
+                else if (nums1[i] < nums2[j])
+                {
+                    i++;
+                }else
+                {
+                    j++;
+                }
+            }
+
+            return result.ToArray();
+        }
     }
 }
 
