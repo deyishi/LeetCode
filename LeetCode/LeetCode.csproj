@@ -77,6 +77,7 @@
     <Compile Include="DataModel\TreeNode.cs" />
     <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
+    <Compile Include="Design\ConsistentHashing.cs" />
     <Compile Include="Design\LRUCache.cs" />
     <Compile Include="Design\MovingAverage.cs" />
     <Compile Include="Design\NestedIterator.cs" />
