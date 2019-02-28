@@ -13,8 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "3+2*2";
-            var r = Calculate(s);
+            var s = "2*(5+5*2)/3+(6/2+8)";
+            var r = CalculateThree(s);
         }
         /// <summary>
         /// Add all none operators to a stack.
@@ -71,37 +71,46 @@ namespace LeetCode
             for (int i = 0; i < s.Length; i++)
             {
                 char c = s[i];
+                // Digit, take count of 2 digits number
                 if (char.IsDigit(c))
                 {
                     number = number * 10 + c - '0';
-                }
-                else if(c == '+')
+                }else if ( c == '-')
                 {
-                    result += sign * number;
-                    number = 0;
-                    sign = 1;
-                }
-                else if(c == '-')
-                {
+                    // +, add previous number and start a new number with positive sign
                     result += sign * number;
                     number = 0;
                     sign = -1;
-                }else if (c == '(')
+                }
+                else if (c == '+')
                 {
+                    // -, add previous number and start a new number with negative sign
+                    result += sign * number;
+                    number = 0;
+                    sign = 1;
+                }
+                else if(c == '(') { 
+                    // Push current result and sign to stack. set result = 0 for calculating a new result inside ().
                     stack.Push(result);
                     stack.Push(sign);
-                    sign = 1;
+                    sign = 0;
                     result = 0;
                 }
                 else if(c == ')')
                 {
+                    // Calculate the pair before )
                     result += sign * number;
                     number = 0;
+
+                    // Value in () times sign before (). 
                     result *= stack.Pop();
+
+                    // Add value in () to value before ()
                     result += stack.Pop();
                 }
             }
 
+            // Add last digit
             if (number != 0)
             {
                 result += sign * number;
@@ -110,6 +119,77 @@ namespace LeetCode
             return result;
         }
 
+
+        public int CalculateThree(string s)
+        {
+            int o1 = 1;
+            int l1 = 0;
+            int o2 = 1;
+            int l2 = 1;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                char c = s[i];
+                // Digit, take count of 2 digits number
+                if (char.IsDigit(c))
+                {
+                    int num = c - '0';
+                    while (i + 1 < s.Length && char.IsDigit(s[i+1]))
+                    {
+                        i++;
+                        num = num * 10 + s[i] - '0';
+                    }
+
+                    // If no level two operation, l2 will be current number.
+                    l2 = o2 == 1 ? l2 * num : l2 / num;
+                }
+                else if (c == '-' || c == '+')
+                {
+                    // If no level two operation, l2 will be previous number.
+                    l1 = l1 + o1 * l2;
+                    o1 = c == '-' ? -1 : 1;
+                    // Reset l2 and o2, so next number will be recorded as previous number.
+                    l2 = 1;
+                    o2 = 1;
+                }
+                else if (c == '*' || c == '/')
+                {
+                    o2 = c == '/' ? -1 : 1;
+                }
+                else if (c == '(')
+                {
+                    int start = i + 1;
+                    int count = 0;
+                    while (i < s.Length)
+                    {
+                        if (s[i] == '(')
+                        {
+                            count++;
+                        }
+
+                        if (s[i] == ')')
+                        {
+                            count--;
+                        }
+
+                        if (count == 0)
+                        {
+                            break;
+                        }
+
+                        i++;
+                    }
+
+                    int num = CalculateThree(s.Substring(start, i - start));
+
+                    l2 = o2 == 1 ? l2 * num : l2 / num;
+                }
+            }
+
+
+
+            return l1 + o1 * l2;
+        }
         //227. Basic Calculator II
         //Scan the string from left to right, when see * or /, calculate the result and push to stack, else push numbers with sign to stack.After finishing all * and /, we do + and - operation.
         //Need to handle multiple digits number, num = num * 10 + c - '0'
