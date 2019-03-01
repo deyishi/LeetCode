@@ -16,7 +16,7 @@ namespace LeetCode
             var num1 = 1;
             var num2 = 3;
 
-            var r = FindStrobogrammatic(4);
+            var r = StrobogrammaticInRange("50", "100");
         }
 
         public string Multiply(string num1, string num2)
@@ -32,8 +32,9 @@ namespace LeetCode
 
             var result = new int[resultDigits];
 
-            for (var i = n1Digits-1; i>= 0; i--) {
-                for (var j = n2Digits-1; j >=0;j--)
+            for (var i = n1Digits - 1; i >= 0; i--)
+            {
+                for (var j = n2Digits - 1; j >= 0; j--)
                 {
                     var product = (num1[i] - '0') * (num2[j] - '0');
 
@@ -82,7 +83,7 @@ namespace LeetCode
         {
             for (var i = 0; i < matrix.GetLength(0); i++)
             {
-                for (var j = i; j < matrix.GetLength(1);j++)
+                for (var j = i; j < matrix.GetLength(1); j++)
                 {
                     var temp = matrix[i, j];
                     matrix[i, j] = matrix[j, i];
@@ -92,7 +93,7 @@ namespace LeetCode
 
             for (var i = 0; i < matrix.GetLength(0); i++)
             {
-                for (var j = 0; j < matrix.GetLength(1)/2; j++)
+                for (var j = 0; j < matrix.GetLength(1) / 2; j++)
                 {
                     var temp = matrix[i, j];
                     matrix[i, j] = matrix[i, matrix.GetLength(1) - 1 - j];
@@ -104,7 +105,7 @@ namespace LeetCode
         [Test]
         public void GroupAnagrams()
         {
-            var s = new[] {"eat", "tea", "tan", "ate", "nat", "bat"};
+            var s = new[] { "eat", "tea", "tan", "ate", "nat", "bat" };
 
             var r = GroupAnagrams(s);
         }
@@ -130,7 +131,7 @@ namespace LeetCode
                 }
                 else
                 {
-                    map.Add(sorted, new List<string> {s});
+                    map.Add(sorted, new List<string> { s });
                 }
             }
 
@@ -175,7 +176,7 @@ namespace LeetCode
         [Test]
         public void Subsets()
         {
-            var n = new[] {1, 2, 3};
+            var n = new[] { 1, 2, 3 };
             var r = Subsets(n);
         }
 
@@ -194,7 +195,7 @@ namespace LeetCode
         private void SubsetsHelper(int[] nums, List<IList<int>> result, List<int> curr, int i)
         {
             result.Add(new List<int>(curr));
-            for (var j = i; j<nums.Length;j++)
+            for (var j = i; j < nums.Length; j++)
             {
                 curr.Add(nums[j]);
                 SubsetsHelper(nums, result, curr, j + 1);
@@ -205,7 +206,7 @@ namespace LeetCode
         [Test]
         public void SubsetsWithDup()
         {
-            var n = new int[] {1, 2, 2};
+            var n = new int[] { 1, 2, 2 };
 
             var r = SubsetsWithDup(n);
 
@@ -289,8 +290,8 @@ namespace LeetCode
             res.Append((numerator < 0) ^ (denominator < 0) ? "-" : "");
 
             //Handle overflow
-            long num = Math.Abs( numerator);
-            long den = Math.Abs( denominator);
+            long num = Math.Abs(numerator);
+            long den = Math.Abs(denominator);
 
             res.Append(num / den);
             num %= den;
@@ -302,7 +303,7 @@ namespace LeetCode
 
             res.Append(".");
 
-            var map = new Dictionary<long, int> {{num, res.Length}};
+            var map = new Dictionary<long, int> { { num, res.Length } };
 
             while (num != 0)
             {
@@ -335,7 +336,7 @@ namespace LeetCode
         //A---C  E---G
         public int ComputeArea(int A, int B, int C, int D, int E, int F, int G, int H)
         {
-            long r1 = (C - A) * (D -B);
+            long r1 = (C - A) * (D - B);
             long r2 = (G - E) * (H - F);
 
             long heightStart = Math.Max(A, E);
@@ -346,12 +347,12 @@ namespace LeetCode
             long w = widthEnd - widthStart;
             long overlap = 0;
             // overlap
-            if (h > 0  && w > 0)
+            if (h > 0 && w > 0)
             {
                 overlap = h * w;
             }
 
-            return (int) (r1 + r2 - overlap);
+            return (int)(r1 + r2 - overlap);
         }
 
         // Divisible by 2, 3, 5
@@ -371,14 +372,15 @@ namespace LeetCode
             var notPrime = new bool[n];
 
             var count = 0;
-            for (var i = 2; i < n; i++) {
+            for (var i = 2; i < n; i++)
+            {
                 if (!notPrime[i])
                 {
                     count++;
                     //Remove all the numbers within n that are multiple of current number.
                     for (var j = 2; j * i < n; j++)
                     {
-                        notPrime[i*j] = true;
+                        notPrime[i * j] = true;
                     }
                 }
             }
@@ -389,7 +391,7 @@ namespace LeetCode
         public bool IsStrobogrammatic(string num)
         {
             var i = 0;
-            var j = num.Length -1;
+            var j = num.Length - 1;
             while (i < num.Length && j >= 0)
             {
                 if (!"00 11 88 696".Contains(num[i] + "" + num[j]))
@@ -415,13 +417,13 @@ namespace LeetCode
             // Even ending
             if (n == 0)
             {
-                return new List<string> {""};
+                return new List<string> { "" };
             }
 
             // Odd ending
             if (n == 1)
             {
-                return new List<string>{"0", "1", "8"};
+                return new List<string> { "0", "1", "8" };
             }
 
             var list = FindStrobogrammaticHelper(n - 2, m);
@@ -455,7 +457,7 @@ namespace LeetCode
             int p2 = 0, p3 = 0, p5 = 0;
 
             dp[0] = 1;
-            for (var i = 1; i < n;i++)
+            for (var i = 1; i < n; i++)
             {
                 dp[i] = Math.Min(dp[p2] * 2, Math.Min(dp[p3] * 3, dp[p5] * 5));
 
@@ -605,7 +607,7 @@ namespace LeetCode
                     {
                         decimal dx = points[j].x - points[i].x;
                         decimal dy = points[j].y - points[i].y;
-                        if (dx == 0 && dy == 0)        
+                        if (dx == 0 && dy == 0)
                         {
                             //Same points
                             duplicates++;
@@ -638,6 +640,7 @@ namespace LeetCode
             return max;
 
         }
+
         public int IntegerBreak(int n)
         {
             if (n == 2)
@@ -659,6 +662,78 @@ namespace LeetCode
             }
 
             return n * product;
+        }
+
+        public int CountDigitOne(int n)
+        {
+            long count = 0;
+            for (long k = 1; k <= n; k *= 10)
+            {
+                long r = n / k;
+                long m = n % k;
+                // sum up the count of ones on every place k
+                count += (r + 8) / 10 * k + (r % 10 == 1 ? m + 1 : 0);
+            }
+
+            return (int)count;
+        }
+
+        public int StrobogrammaticInRange(string low, string high)
+        {
+            if (low == null || high == null || low.Length > high.Length
+                || (low.Length == high.Length && String.Compare(low, high, StringComparison.Ordinal) > 0))
+            {
+                return 0;
+            }
+
+            var pairs = new[,]
+            {
+                {'0', '0'}, {'1', '1'}, {'6', '9'}, {'8', '8'}, {'9', '6'}
+            };
+
+            int count = 0;
+            for (int i = low.Length; i <= high.Length; i++)
+            {
+                count += StrobogrammaticDFS(low, high, new char[i], 0, i - 1, pairs);
+            }
+
+            return count;
+        }
+
+        private int StrobogrammaticDFS(string low, string high, char[] ch, int left, int right, char[,] pairs)
+        {
+
+            if (left > right)
+            {
+                string s = new string(ch);
+                if ((ch.Length == low.Length && s.CompareTo(low) < 0)
+                    || (ch.Length == high.Length && s.CompareTo(high) > 0))
+                {
+                    return 0;
+                }
+
+                return 1;
+            }
+
+            int count = 0;
+            for (int i = 0; i < pairs.GetLength(0); i++)
+            {
+                ch[left] = pairs[i, 0];
+                ch[right] = pairs[i, 1];
+                if (ch.Length != 1 && ch[0] == '0')
+                {
+                    continue;
+                }
+
+                if (left == right && (pairs[i, 0] == '6' || pairs[i, 0] == '9'))
+                {
+                    continue;
+                }
+
+                count += StrobogrammaticDFS(low, high, ch, left + 1, right - 1, pairs);
+            }
+
+            return count;
         }
     }
 }
