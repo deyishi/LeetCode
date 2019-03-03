@@ -485,3 +485,10 @@ Heap
 02/28/2019
 350. Intersection of Two Arrays II
 248. Strobogrammatic Number III
+
+03/01/2019
+262. Trips and Users
+265. Paint House II
+
+03/03/2019
+359. Logger Rate Limiter

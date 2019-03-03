@@ -936,5 +936,39 @@ namespace LeetCode
             return s.Substring(start, len);
         }
 
+        public int MinCostII(int[,] costs)
+        {
+            if (costs == null || costs.GetLength(0) == 0 || costs.GetLength(1) == 0)
+            {
+                return 0;
+            }
+
+            for (var i = 1; i < costs.GetLength(0); i++)
+            {
+                for (var j = 0; j < costs.GetLength(1); j++)
+                {
+                    // Check the cost of starting the house with each color 
+                    var min = int.MaxValue;
+                    for (var k = 0; k < costs.GetLength(1); k++)
+                    {
+                        if (k != j)
+                        {
+                            min = Math.Min(min, costs[i - 1, k]);
+                        }
+                    }
+                    costs[i, j] += min;
+                }
+            }
+            int n = costs.GetLength(0) - 1;
+
+            var result = int.MaxValue;
+            for (int i = 0; i < costs.GetLength(1); i++)
+            {
+                result = Math.Min(result, costs[n, i]);
+            }
+
+            return result;
+        }
+
     }
 }

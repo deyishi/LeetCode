@@ -692,48 +692,56 @@ namespace LeetCode
             };
 
             int count = 0;
+
             for (int i = low.Length; i <= high.Length; i++)
             {
-                count += StrobogrammaticDFS(low, high, new char[i], 0, i - 1, pairs);
+                count += StrobogrammaticDFS(long.Parse(low), long.Parse(high), new char[i], 0, i - 1, pairs);
             }
 
             return count;
         }
 
-        private int StrobogrammaticDFS(string low, string high, char[] ch, int left, int right, char[,] pairs)
-        {
 
+        private int StrobogrammaticDFS(long low, long high, char[] path, int left, int right, char[,] pairs)
+        {
+            // Base case when cannot add pairs left > right
             if (left > right)
             {
-                string s = new string(ch);
-                if ((ch.Length == low.Length && s.CompareTo(low) < 0)
-                    || (ch.Length == high.Length && s.CompareTo(high) > 0))
+                //check if in range
+                long num = long.Parse(new string(path));
+
+                if (num < low || num > high)
                 {
                     return 0;
                 }
-
                 return 1;
             }
 
-            int count = 0;
-            for (int i = 0; i < pairs.GetLength(0); i++)
+            var count = 0;
+
+            for (var i =0; i < pairs.GetLength(0); i++)
             {
-                ch[left] = pairs[i, 0];
-                ch[right] = pairs[i, 1];
-                if (ch.Length != 1 && ch[0] == '0')
+                // Form strobogrammatic number by appending the mid two number
+                path[left] = pairs[i, 0];
+                path[right] = pairs[i, 1];
+
+                // cannot start 0
+                if (path.Length != 1 && path[0] == '0')
                 {
                     continue;
                 }
 
-                if (left == right && (pairs[i, 0] == '6' || pairs[i, 0] == '9'))
+                // odd digits number cannot have 6 or 9 in the mid. left == right will only happen for odd digits.
+                if (left == right && (path[left] == '6' || path[left] == '9'))
                 {
                     continue;
                 }
 
-                count += StrobogrammaticDFS(low, high, ch, left + 1, right - 1, pairs);
+                count += StrobogrammaticDFS(low, high, path, left + 1, right - 1, pairs);
             }
 
             return count;
+
         }
     }
 }
