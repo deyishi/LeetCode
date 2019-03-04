@@ -14,12 +14,9 @@ namespace LeetCode
         public void Test()
         {
 
-            var t = 16 & 15;
-            var n = new int[] { 1, 2, 2, 2, 2, 2, 2, 2 };
-            var b = 1101;
-
-            t = (6) & -6;
-            //var r = ReverseBits(b);
+            var t = ~7;
+            var n = t & ~(t - 1);
+            var r = GetSum(5,6);
         }
         /// <summary>
         ///  once: store the number in one
@@ -215,6 +212,18 @@ namespace LeetCode
             }
 
             return max;
+        }
+
+        public int GetSum(int a, int b)
+        {
+            while (b != 0)
+            {
+                var add = (a & b) << 1; // take care carry
+                a = a ^ b; // take care 0, 1 
+                b = add;
+            }
+
+            return a;
         }
     }
 }
