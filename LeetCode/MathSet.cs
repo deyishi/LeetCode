@@ -16,7 +16,7 @@ namespace LeetCode
             var num1 = 1;
             var num2 = 3;
 
-            var r = StrobogrammaticInRange("50", "100");
+            var r = FindNthDigit(77);
         }
 
         public string Multiply(string num1, string num2)
@@ -719,7 +719,7 @@ namespace LeetCode
 
             var count = 0;
 
-            for (var i =0; i < pairs.GetLength(0); i++)
+            for (var i = 0; i < pairs.GetLength(0); i++)
             {
                 // Form strobogrammatic number by appending the mid two number
                 path[left] = pairs[i, 0];
@@ -741,7 +741,24 @@ namespace LeetCode
             }
 
             return count;
+        }
 
+        public int FindNthDigit(int m)
+        {
+            long n = m; // convert int to long 
+            long start = 1, len = 1, count = 9;
+
+            while (n > len * count)
+            {
+                n = n - len * count;
+                len++;
+                count = count * 10;
+                start = start * 10;
+            }
+
+            start = start + (n - 1) / len;
+            String s = start.ToString();
+            return s[(int) ((n - 1) % len)] - '0';
         }
     }
 }

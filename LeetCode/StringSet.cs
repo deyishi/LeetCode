@@ -733,6 +733,42 @@ namespace LeetCode
             return true;
         }
 
+        public int FirstUniqChar(string s)
+        {
+            var map = new int[26];
+            for (var i = 0; i < s.Length; i ++)
+            {
+                map[s[i] - 'a']++;
+            }
 
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (map[s[i] - 'a'] == 1)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+        public char FindTheDifference(string s, string t)
+        {
+            int[] map = new int[26];
+            foreach (var c in s)
+            {
+                map[c - 'a']++;
+            }
+
+            foreach (var c in t)
+            {
+                map[c - 'a']--;
+                if (map[c-'a'] < 0)
+                {
+                    return c;
+                }
+            }
+
+            throw new Exception();
+        }
     }
 }
