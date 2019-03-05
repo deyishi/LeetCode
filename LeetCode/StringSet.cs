@@ -21,7 +21,7 @@ namespace LeetCode
             var s = "adcba";
             var t = "ABC";
 
-            var r = ShortestPalindrome(s);
+            var r = CanConstruct("a", "b");
         }
 
         public int LongestValidParentheses(string s)
@@ -710,6 +710,27 @@ namespace LeetCode
             string mid = ShortestPalindrome(s.Substring(0, j));
             string ans = prefix + mid + suffix;
             return ans;
+        }
+
+        public bool CanConstruct(string ransomNote, string magazine)
+        {
+            int[] available = new int[26];
+
+            foreach (var c in magazine)
+            {
+                available[c - 'a']++;
+            }
+
+            foreach (var c in ransomNote)
+            {
+                available[c - 'a']--;
+                if (available[c - 'a'] < 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 

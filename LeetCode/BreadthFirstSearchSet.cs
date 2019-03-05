@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeetCode.DataModel;
+using NUnit.Framework;
 
 namespace LeetCode
 {
     public class BreadthFirstSearchSet
     {
+        [Test]
+        public void Test()
+        {
+            var r = NumberOfPatterns(2, 2);
+        }
+
         public int NumIslands(char[,] grid)
         {
             var m = grid.GetLength(0);
