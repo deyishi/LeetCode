@@ -493,3 +493,7 @@ Heap
 03/03/2019
 359. Logger Rate Limiter
 371. Sum of Two Integers
+374. Guess Number Higher or Lower
+
+03/04/2019
+351. Android Unlock Patterns
