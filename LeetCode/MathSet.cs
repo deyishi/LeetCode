@@ -13,10 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var num1 = 1;
-            var num2 = 3;
-
-            var r = FindNthDigit(77);
+            var a = new int[,] {{-15, 1}, {10, 1}, {9, 0}, {-14, 0}};
+            var r = IsReflected(a);
         }
 
         public string Multiply(string num1, string num2)
@@ -759,6 +757,33 @@ namespace LeetCode
             start = start + (n - 1) / len;
             String s = start.ToString();
             return s[(int) ((n - 1) % len)] - '0';
+        }
+
+        public bool IsReflected(int[,] points)
+        {
+            int max = int.MinValue;
+            int min = int.MaxValue;
+            HashSet<string> set = new HashSet<string>();
+
+            for (int i = 0; i <  points.GetLength(0);i++)
+            {
+                max = Math.Max(max, points[i, 0]);
+                min = Math.Min(min, points[i, 0]);
+
+                set.Add(points[i, 0] + "A" + points[i, 1]);
+            }
+
+            var sum = max + min;
+            for (int i = 0; i < points.GetLength(0); i++)
+            {
+                var str = sum - points[i, 0] + "A" + points[i, 1];
+                if (!set.Contains(str))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
