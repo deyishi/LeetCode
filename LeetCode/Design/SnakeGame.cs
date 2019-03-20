@@ -14,10 +14,16 @@ namespace LeetCode.Design
         [Test]
         public void Test()
         {
-            var g = new SnakeGame(3, 2, new int[,] {{1, 2}, {0, 1}});
+            var g = new SnakeGame(3, 3, new int[,] {{2, 0}, {0, 0}, {0, 2}, {2, 2}});
 
-            var m = g.Move("R");
+            var m = g.Move("D");
             m = g.Move("D");
+            m = g.Move("R");
+            m = g.Move("U");
+            m = g.Move("U");
+            m = g.Move("L");
+            m = g.Move("D");
+            m = g.Move("R");
             m = g.Move("R");
         }
     }
@@ -74,15 +80,15 @@ namespace LeetCode.Design
             if (cur.x < 0 || cur.x >= rows || cur.y < 0 || cur.y >= cols) return -1;
 
             // Check if head is crashed against body.
-            var head = snake.First.Next;
-            while (head != null)
+            var index = 0;
+            foreach (var pos in snake)
             {
-                if (head.Value.IsEqual(cur))
+                if (pos.IsEqual(cur) && index != 0)
                 {
                     return -1;
                 }
 
-                head = head.Next;
+                index++;
             }
 
             // Move head
@@ -101,6 +107,7 @@ namespace LeetCode.Design
             // Move tail.
             while (snake.Count > len + 1)
             {
+                Console.WriteLine(snake.Last.Value.x +" " + snake.Last.Value.y);
                 snake.RemoveLast();
             }
 

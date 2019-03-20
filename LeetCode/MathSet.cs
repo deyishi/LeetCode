@@ -785,5 +785,49 @@ namespace LeetCode
 
             return true;
         }
+
+        public int[] SortTransformedArray(int[] nums, int a, int b, int c)
+        {
+            var res = new int[nums.Length];
+            int l = 0;
+            int r = nums.Length - 1;
+            int index = a >= 0 ? nums.Length - 1 : 0;
+            while (l <= r)
+            {
+                var lValue = CalQuad(nums[l], a, b, c);
+                var rValue = CalQuad(nums[r], a, b, c);
+                if (a >= 0)
+                {
+                    res[index--] = Math.Max(lValue, rValue);
+                    if (lValue > rValue)
+                    {
+                        l++;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+                else
+                {
+                    res[index++] = Math.Min(lValue, rValue);
+                    if (lValue > rValue)
+                    {
+                        r--;
+                    }
+                    else
+                    {
+                        l++;
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public int CalQuad(int x, int a, int b, int c)
+        {
+            return a * x * x + b * x + c;
+        }
     }
 }
