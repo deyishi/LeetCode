@@ -82,6 +82,7 @@
     <Compile Include="Design\LRUCache.cs" />
     <Compile Include="Design\MovingAverage.cs" />
     <Compile Include="Design\NestedIterator.cs" />
+    <Compile Include="Design\SnakeGame.cs" />
     <Compile Include="Design\TicTacToe.cs" />
     <Compile Include="Design\Twitter.cs" />
     <Compile Include="Design\Vector2D.cs" />
