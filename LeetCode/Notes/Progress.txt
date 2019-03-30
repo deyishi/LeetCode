@@ -506,3 +506,6 @@ Heap
 353. Design Snake Game
 356. Line Reflection
 360. Sort Transformed Array
+
+03/29/2019
+361. Bomb Enemy

@@ -13,8 +13,13 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "bb";
-            var r = LongestPalindrome(s);
+            var s = new char[][]
+            {
+                {'0', 'E', '0', '0'},
+                {'E', '0', 'W', 'E'},
+                {'0', 'E', '0', '0'}
+            };
+            var r = MaxKilledEnemies(s);
         }
 
         /// <summary>
@@ -394,9 +399,9 @@ namespace LeetCode
 
             for (var i = 1; i < dp.GetLength(1); i++)
             {
-                if (p[i-1] == '*')
+                if (p[i - 1] == '*')
                 {
-                    dp[0,i] = dp[0,i - 1];
+                    dp[0, i] = dp[0, i - 1];
                 }
                 else
                 {
@@ -439,7 +444,7 @@ namespace LeetCode
             int lastG = costs[0, 1];
             int lastB = costs[0, 2];
 
-            for (int i = 1; i < costs.GetLength(0); i ++)
+            for (int i = 1; i < costs.GetLength(0); i++)
             {
                 int currentR = Math.Min(lastB, lastG) + costs[i, 0];
                 int currentG = Math.Min(lastB, lastR) + costs[i, 1];
@@ -481,8 +486,8 @@ namespace LeetCode
         public int MinDistance(string word1, string word2)
         {
             //DP starts at 0 to include empty staring case. So we use word length + 1.
-            var n = word1.Length +1;
-            var m = word2.Length +1;
+            var n = word1.Length + 1;
+            var m = word2.Length + 1;
 
             //Handle word1 or word2 empty. 
             var dp = new int[n, m];
@@ -494,13 +499,15 @@ namespace LeetCode
 
             for (int i = 1; i < m; i++)
             {
-                dp[0,i] = i;
+                dp[0, i] = i;
             }
 
-         
-            for (var i = 1; i < n;i++) {
-                for (var j = 1; j < m; j++) {
-                    if (word1[i-1] == word2[j-1])
+
+            for (var i = 1; i < n; i++)
+            {
+                for (var j = 1; j < m; j++)
+                {
+                    if (word1[i - 1] == word2[j - 1])
                     {
                         // No action needed if same.
                         dp[i, j] = dp[i - 1, j - 1];
@@ -580,9 +587,9 @@ namespace LeetCode
             for (var i = 0; i < m; i++)
             {
                 var rb = n - 1;
-                for (int j = n-1; j >= 0; j--)
+                for (int j = n - 1; j >= 0; j--)
                 {
-                    if (matrix[i,j] == '1')
+                    if (matrix[i, j] == '1')
                     {
                         heights[j]++;
                         right[j] = Math.Min(right[j], rb);
@@ -596,7 +603,8 @@ namespace LeetCode
                 }
 
                 var lb = 0;
-                for (var j = 0; j < n;j++) {
+                for (var j = 0; j < n; j++)
+                {
                     if (matrix[i, j] == '1')
                     {
                         left[j] = Math.Max(left[j], lb);
@@ -647,7 +655,7 @@ namespace LeetCode
             var profit = 0;
             for (var i = 1; i < prices.Length; i++)
             {
-                if (prices[i] > prices[i-1])
+                if (prices[i] > prices[i - 1])
                 {
                     profit += prices[i] - prices[i - 1];
                 }
@@ -667,8 +675,9 @@ namespace LeetCode
             var dp = new int[k, prices.Length];
 
 
-            for (var t = 1; t < k; t++) {
-                for (var d = 1; d<prices.Length;d++)
+            for (var t = 1; t < k; t++)
+            {
+                for (var d = 1; d < prices.Length; d++)
                 {
 
                     var noTransaction = dp[t, d - 1];
@@ -683,7 +692,7 @@ namespace LeetCode
                 }
             }
 
-            return dp[k-1, prices.Length-1];
+            return dp[k - 1, prices.Length - 1];
         }
 
         public int StockThreeOptimized(int[] prices)
@@ -781,11 +790,11 @@ namespace LeetCode
             {
                 for (int j = 1; j <= s.Length; j++)
                 {
-                    if (t[i-1] == s[j-1])
+                    if (t[i - 1] == s[j - 1])
                     {
                         // Case rab and rabb, dp[i-1, j-1] count subsequence using [ra] -> [rab], then [b] -> [b] at later index
                         // dp[i,j-1] count subsequence using [rab] -> [rab], then remove b at later index..
-                        dp[i, j] = dp[i-1, j-1] + dp[i, j-1];
+                        dp[i, j] = dp[i - 1, j - 1] + dp[i, j - 1];
                     }
                     else
                     {
@@ -830,14 +839,14 @@ namespace LeetCode
             var pal = new bool[len, len];
 
             var cut = new int[len];
-            for (var i = 0; i < len;i++)
+            for (var i = 0; i < len; i++)
             {
                 int min = i;
                 for (var j = 0; j <= i; j++)
                 {
-                    if (s[j] == s[i] && (j + 1 > i - 1 || pal[j + 1,i - 1]))
+                    if (s[j] == s[i] && (j + 1 > i - 1 || pal[j + 1, i - 1]))
                     {
-                        pal[j,i] = true;
+                        pal[j, i] = true;
                         min = j == 0 ? 0 : Math.Min(min, cut[j - 1] + 1);
                     }
                 }
@@ -909,7 +918,7 @@ namespace LeetCode
 
             int start = 0;
             int len = 1;
-            for (int i = 0; i < s.Length-1;i++)
+            for (int i = 0; i < s.Length - 1; i++)
             {
                 dp[i, i + 1] = s[i] == s[i + 1];
                 if (dp[i, i + 1])
@@ -919,12 +928,14 @@ namespace LeetCode
                 }
             }
 
-            for (int i = 2; i < s.Length; i++) {
-                for (int j = 0; j < s.Length-i;j++) {
-                    if (s[j] == s[j+i] && dp[j+1, j+i-1])
+            for (int i = 2; i < s.Length; i++)
+            {
+                for (int j = 0; j < s.Length - i; j++)
+                {
+                    if (s[j] == s[j + i] && dp[j + 1, j + i - 1])
                     {
                         dp[j, j + i] = true;
-                        if (i+1 > len)
+                        if (i + 1 > len)
                         {
                             start = j;
                             len = i + 1;
@@ -967,6 +978,53 @@ namespace LeetCode
                 result = Math.Min(result, costs[n, i]);
             }
 
+            return result;
+        }
+
+        public int MaxKilledEnemies(char[][] grid)
+        {
+            if (grid == null || grid.Length == 0 || grid[0].Length == 0) return 0;
+            var result = 0;
+            var rows = grid.Length;
+            var cols = grid[0].Length;
+            var colKills = new int[cols];
+            var rowKills = 0;
+            for (var r = 0; r < rows; r++)
+            {
+                for (var c = 0; c < cols; c++)
+                {
+                    // Reset row kill and col kill when a wall is encountered.
+                    if (c == 0 || grid[r][c - 1] == 'W')
+                    {
+                        rowKills = 0;
+                        for (int k = c; k < cols && grid[r][k] != 'W'; k++)
+                        {
+                            if (grid[r][k] == 'E')
+                            {
+                                rowKills++;
+                            }
+                        }
+                    }
+
+                    if (r == 0 || grid[r - 1][c] == 'W')
+                    {
+                        colKills[c] = 0;
+                        for (int k = r; k < rows && grid[k][c] != 'W'; k++)
+                        {
+                            if (grid[k][c] == 'E')
+                            {
+                                colKills[c]++;
+                            }
+                        }
+                    }
+
+                    if (grid[r][c] == '0')
+                    {
+                        result = Math.Max(result, rowKills + colKills[c]);
+                    }
+
+                }
+            }
             return result;
         }
 
