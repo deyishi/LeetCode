@@ -14,7 +14,7 @@ namespace LeetCode
         public void Test()
         {
             var a = new int[,] {{-15, 1}, {10, 1}, {9, 0}, {-14, 0}};
-            var r = IsReflected(a);
+            var r = GCD(3,5);
         }
 
         public string Multiply(string num1, string num2)
@@ -828,6 +828,27 @@ namespace LeetCode
         public int CalQuad(int x, int a, int b, int c)
         {
             return a * x * x + b * x + c;
+        }
+
+        public bool CanMeasureWater(int x, int y, int z)
+        {
+            //limit brought by the statement that water is finally in one or both buckets
+            if (x + y < z) return false;
+            //case x or y is zero
+            if (x == z || y == z || x + y == z) return true;
+
+            return z % GCD(x, y) == 0;
+        }
+
+        public int GCD(int a, int b)
+        {
+            while (b != 0)
+            {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
         }
     }
 }
