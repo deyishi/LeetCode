@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -14,9 +15,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var t = "9,#";
-            var r = IsValidSerialization(t);
+            var t = new int[] {1, 2, 3, 4, 5}.ToTree();
+            var r = FindLeaves(t);
         }
+
 
         public IList<int> PreorderTraversal(TreeNode root)
         {
@@ -452,6 +454,31 @@ namespace LeetCode
             }
 
             return diff == 0;
+        }
+        public IList<IList<int>> FindLeaves(TreeNode root)
+        {
+            var result = new List<IList<int>>();
+            FindLeavesHelper(root, result);
+            return result;
+        }
+
+        public int FindLeavesHelper(TreeNode node, List<IList<int>> result)
+        {
+            if (node == null)
+            {
+                return -1;
+            }
+
+            int level = 1 + Math.Max(FindLeavesHelper(node.left, result), FindLeavesHelper(node.right, result));
+            if (result.Count < level + 1)
+            {
+                result.Add(new List<int>());
+            }
+
+            result[level].Add(node.val);
+
+            return level;
+
         }
 
 
