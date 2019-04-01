@@ -13,13 +13,7 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = new char[][]
-            {
-                {'0', 'E', '0', '0'},
-                {'E', '0', 'W', 'E'},
-                {'0', 'E', '0', '0'}
-            };
-            var r = MaxKilledEnemies(s);
+   
         }
 
         /// <summary>

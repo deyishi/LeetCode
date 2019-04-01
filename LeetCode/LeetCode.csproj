@@ -78,6 +78,7 @@
     <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\ConsistentHashing.cs" />
+    <Compile Include="Design\HitCounter.cs" />
     <Compile Include="Design\Logger.cs" />
     <Compile Include="Design\LRUCache.cs" />
     <Compile Include="Design\MovingAverage.cs" />

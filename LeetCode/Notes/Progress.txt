@@ -509,3 +509,6 @@ Heap
 
 03/29/2019
 361. Bomb Enemy
+
+04/01/2019
+362. Design Hit Counter
