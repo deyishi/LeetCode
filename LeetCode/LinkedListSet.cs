@@ -685,5 +685,45 @@ namespace LeetCode
                 head = head.next.next;
             }
         }
+
+        public void ReorderList(ListNode head)
+        {
+            if (head == null || head.next == null) return;
+
+            //Find mid 
+            ListNode preMid = head;
+            ListNode end = head;
+            while (end.next != null && end.next.next != null)
+            {
+                preMid = preMid.next;
+                end = end.next.next;
+            }
+
+            //Reverse the second half
+            ListNode curr = preMid.next;
+            ListNode prev = null;
+            while (curr != null)
+            {
+                ListNode next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            preMid.next = prev;
+
+            // Start reorder 
+            ListNode p1 = head;
+            ListNode p2 = preMid.next;
+            while (p1 != preMid)
+            {
+                preMid.next = p2.next; // Save p2 next
+                p2.next = p1.next; // Update p2 next
+                p1.next = p2; // Update p1 next
+                p1 = p2.next; // Move p1
+                p2 = preMid.next; // Move p2.
+            }
+
+        }
     }
 }
