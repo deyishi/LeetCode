@@ -125,9 +125,7 @@
     <Content Include="Notes\Progress.txt" />
     <Content Include="Notes\Notes.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Daily\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

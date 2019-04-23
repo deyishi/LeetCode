@@ -13,13 +13,14 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var r = NumberOfPatterns(2, 2);
+            var n = new [] { new[]{1, 1, 0, 0, 1}, new[] { 1, 0, 0, 0, 0}, new[] { 1, 1, 0, 0, 1}, new[] { 0, 1, 0, 1, 1}};
+            var r = NumIslands(n);
         }
 
-        public int NumIslands(char[,] grid)
+        public int NumIslands(int[][] grid)
         {
-            var m = grid.GetLength(0);
-            var n = grid.GetLength(1);
+            var m = grid.Length;
+            var n = grid[0].Length;
             var directions = new[,]
             {
                 {1, 0}, {-1, 0}, {0, 1}, {0, -1}
@@ -30,7 +31,7 @@ namespace LeetCode
             {
                 for (int c = 0; c < n; c++)
                 {
-                    if (!visited[r, c] && grid[r, c] == '1')
+                    if (!visited[r, c] && grid[r][c] == 1)
                     {
                         MarkVisited(grid, r, c, visited, directions);
                         count++;
@@ -42,7 +43,7 @@ namespace LeetCode
             return count;
         }
 
-        private void MarkVisited(char[,] grid, int r, int c, bool[,] visited, int[,] directions)
+        private void MarkVisited(int[][] grid, int r, int c, bool[,] visited, int[,] directions)
         {
 
             visited[r, c] = true;
@@ -50,7 +51,7 @@ namespace LeetCode
             {
                 var nr = r + directions[i, 0];
                 var nc = c + directions[i, 1];
-                if (nr >= 0 && nc >= 0 && nr < grid.GetLength(0) && nc < grid.GetLength(1) && !visited[nr, nc] && grid[nr, nc] == '1')
+                if (nr >= 0 && nc >= 0 && nr < grid.GetLength(0) && nc < grid.GetLength(1) && !visited[nr, nc] && grid[nr][nc] == 1)
                 {
                     MarkVisited(grid, nr, nc, visited, directions);
                 }

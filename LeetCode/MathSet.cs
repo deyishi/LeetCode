@@ -13,8 +13,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var a = new int[,] {{-15, 1}, {10, 1}, {9, 0}, {-14, 0}};
-            var r = GCD(3,5);
+            var a = new int[,] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+            Rotate(a);
         }
 
         public string Multiply(string num1, string num2)
@@ -57,28 +57,10 @@ namespace LeetCode
             return sb.Length == 0 ? "0" : sb.ToString();
         }
 
-        [Test]
-        public void Rotate()
-        {
-            var m = new[,]
-            {
-                {
-                    1,2,3
-                },
-                {
-                    4,5,6
-                },
-                {
-                    7,8,9
-                }
-            };
-
-            Rotate(m);
-        }
-
-
         public void Rotate(int[,] matrix)
         {
+
+            // Reverse left to right
             for (var i = 0; i < matrix.GetLength(0); i++)
             {
                 for (var j = i; j < matrix.GetLength(1); j++)

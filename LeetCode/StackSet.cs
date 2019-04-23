@@ -240,6 +240,40 @@ namespace LeetCode
 
             return r;
         }
+        public int[] ExclusiveTime(int n, IList<string> logs)
+        {
+            int[] res = new int[n];
+            if(n == 0 || logs==null || !logs.Any())
+            {
+                return res;
+            }
+
+            Stack<int> callStack = new Stack<int>();
+            int prev = 0;
+            foreach (var log in logs)
+            {
+                string[] parts = log.Split(':');
+                if (!callStack.Any())
+                {
+                    res[callStack.Peek()] += int.Parse(parts[2]) - prev;
+                }
+
+                prev = int.Parse(parts[2]);
+                if (parts[1] == "start")
+                {
+                    callStack.Push(int.Parse(parts[0]));
+                }
+                else
+                {
+                    // Handle function start at 1 and end 1.
+                    res[callStack.Pop()]++;
+                    prev++;
+                }
+            }
+
+            return res;
+        }
+
     }
 
     public class MinStack
