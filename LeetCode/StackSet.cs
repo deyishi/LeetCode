@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -13,8 +15,8 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var s = "2*(5+5*2)/3+(6/2+8)";
-            var r = CalculateThree(s);
+            var s = "1";
+            var r = Calculate(s);
         }
         /// <summary>
         /// Add all none operators to a stack.
@@ -64,56 +66,47 @@ namespace LeetCode
 
         public int Calculate(string s)
         {
-            var stack = new Stack<int>();
-            int result = 0;
-            int number = 0;
+            Stack<int> stack = new Stack<int>(); // For numbers in parentheses 
+            int num = 0;
             int sign = 1;
-            for (int i = 0; i < s.Length; i++)
+            int result = 0;
+            foreach (char c in s)
             {
-                char c = s[i];
-                // Digit, take count of 2 digits number
                 if (char.IsDigit(c))
                 {
-                    number = number * 10 + c - '0';
-                }else if ( c == '-')
+                    num = num * 10 + c - '0';
+                }else if (c == '-')
                 {
-                    // +, add previous number and start a new number with positive sign
-                    result += sign * number;
-                    number = 0;
+                    result += sign * num;
+                    num = 0;
                     sign = -1;
                 }
                 else if (c == '+')
                 {
-                    // -, add previous number and start a new number with negative sign
-                    result += sign * number;
-                    number = 0;
+                    result += sign * num;
+                    num = 0;
                     sign = 1;
                 }
-                else if(c == '(') { 
-                    // Push current result and sign to stack. set result = 0 for calculating a new result inside ().
-                    stack.Push(result);
-                    stack.Push(sign);
-                    sign = 0;
-                    result = 0;
+                else if(c == '(')
+                {
+                   stack.Push(result);
+                   stack.Push(sign);
+                   result = 0;
+                   sign = 1;
                 }
                 else if(c == ')')
                 {
-                    // Calculate the pair before )
-                    result += sign * number;
-                    number = 0;
+                    result += sign * num;
+                    num = 0;
 
-                    // Value in () times sign before (). 
-                    result *= stack.Pop();
-
-                    // Add value in () to value before ()
-                    result += stack.Pop();
+                    result *= stack.Pop(); //Sign before (
+                    result += stack.Pop(); // Sign will update after )
                 }
             }
 
-            // Add last digit
-            if (number != 0)
+            if (num != 0)
             {
-                result += sign * number;
+                result += sign * num;
             }
 
             return result;
@@ -272,6 +265,166 @@ namespace LeetCode
             }
 
             return res;
+        }
+
+        public bool Find132Pattern(int[] nums)
+        {
+            Stack<int> small = new Stack<int>();
+            Stack<int> large = new Stack<int>();
+            foreach (var n in nums)
+            {
+                if (!small.Any() ||  n <= small.Peek())
+                {
+                    small.Push(n);
+                }
+                else
+                {
+                    while (large.Any() && n >= large.Peek())
+                    {
+                        large.Pop();
+                    }
+
+                    int temp = small.Peek();
+                    while (small.Count > large.Count)
+                    {
+                        small.Pop();
+                    }
+
+                    if (small.Any() && n > small.Peek())
+                    {
+                        return true;
+                    }
+                    small.Push(temp);
+                    large.Push(n);
+                }
+            }
+
+            return false;
+        }
+
+        public int[] AsteroidCollision(int[] asteroids)
+        {
+
+            Stack<int> s = new Stack<int>();
+            for(int i = 0; i < asteroids.Length; i++)
+            {
+                int a = asteroids[i];
+                if (a > 0)
+                {
+                    s.Push(a);
+                }
+                else
+                {
+                    if (s.Count == 0 || s.Peek() < 0)
+                    {
+                        s.Push(a);
+                    }else if (Math.Abs(s.Peek()) <= Math.Abs(a))
+                    {
+                        // Remove destroyed negative asteroids.
+                        if (Math.Abs(s.Peek()) < Math.Abs(a))
+                        {
+                            i--;
+                        }
+
+                        s.Pop();
+                    }
+                }
+            }
+
+            Stack<int> rev = new Stack<int>();
+            while (s.Count != 0)
+            {
+                rev.Push(s.Pop());
+            }
+
+            return rev.ToArray();
+        }
+
+        public string CountOfAtoms(string formula)
+        {
+            int i = 0;
+            var map = CountOfAtomsHelper(formula, ref i);
+            string result = string.Empty;
+            foreach (var p in map.OrderBy(x=>x.Key))
+            {
+                result += p.Key;
+                if (p.Value > 1)
+                {
+                    result += p.Value;
+                }
+            }
+
+            return result;
+        }
+
+        public Dictionary<string, int> CountOfAtomsHelper(string s, ref int i)
+        {
+            Dictionary<string, int> map = new Dictionary<string, int>();
+
+            while (i != s.Length)
+            {
+                if (s[i] == '(')
+                {
+                    i++;
+                    var t = CountOfAtomsHelper(s, ref i);
+                    var count = GetCount(s, ref i);
+                    foreach (var p in t) {
+                        if (!map.ContainsKey(p.Key))
+                        {
+                            map.Add(p.Key, p.Value * count);
+                        }
+                        else
+                        {
+                            map[p.Key] += p.Value * count;
+                        }
+                    }
+                }else if (s[i] == ')')
+                {
+                    i++;
+                    return map;
+                }
+                else
+                {
+                    string name = GetAtomName(s, ref i);
+                    int n = GetCount(s, ref i);
+                    if (!map.ContainsKey(name))
+                    {
+                        map.Add(name, n);
+                    }
+                    else
+                    {
+                        map[name] += n;
+                    }
+                }
+            }
+
+            return map;
+        }
+
+        public string GetAtomName(string s, ref int i)
+        {
+            string name = string.Empty;
+
+            while (i < s.Length && char.IsLetter(s[i]) && (string.IsNullOrEmpty(name) || char.IsLower(s[i])))
+            {
+                name += s[i];
+                i++;
+            }
+
+            // return name when it is ( or another element.
+            return name;
+        }
+
+        public int GetCount(string s, ref int i)
+        {
+            string c = string.Empty;
+            while (i < s.Length && char.IsDigit(s[i]))
+            {
+                c += s[i++];
+            }
+
+            // H, the count is 1.
+            return string.IsNullOrEmpty(c) ? 1 : int.Parse(c);
         }
 
     }
