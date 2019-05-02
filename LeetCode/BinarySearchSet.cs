@@ -419,5 +419,79 @@ namespace LeetCode
             return nums[l];
 
         }
+
+        public int ReversePairs(int[] nums)
+        {
+            int n = nums.Count();
+            var data = new List<int>(nums);
+            data.Sort();
+
+            var bit = new BiTree(n);
+            int result = 0;
+            for (int i = 0; i < n; i++)
+            {
+                int num = nums[i];
+                long t = num * 2L;
+                // i is the total scanned elements currently, BIT query returns the count of elements which equal or less than 2 * num,
+                // so the subtraction is the count of ones greater than 2 * num.
+                result += (i - bit.Query(GetIndex(data, t)));
+                bit.Update(GetIndex(data, num), 1);
+            }
+
+            return result;
+        }
+
+        // Returns the right-most position if exists, otherwise returns floor index
+        private int GetIndex(List<int> data, long t)
+        {
+            int low = 0, mid = 0, high = data.Count - 1;
+            if (data[low] > t) return low;
+            if (data[high] <= t) return high + 1;
+
+            while (high - low > 1)
+            {
+                mid = (high - low) / 2 + low;
+                if (data[mid] > t) high = mid;
+                else low = mid;
+            }
+
+            // The BIT index starts from 1
+            return low + 1;
+        }
+    }
+
+    public class BiTree
+    {
+        private int[] data;
+        public BiTree(int n)
+        {
+            data = new int[n + 1];
+        }
+
+        public void Update(int i, int v)
+        {
+            while (i < data.Count())
+            {
+                data[i] += v;
+                i += GetLowBit(i);
+            }
+        }
+
+        public int Query(int i)
+        {
+            int sum = 0;
+            while (i > 0)
+            {
+                sum += data[i];
+                i -= GetLowBit(i);
+            }
+
+            return sum;
+        }
+
+        private int GetLowBit(int x)
+        {
+            return x & (-x);
+        }
     }
 }
