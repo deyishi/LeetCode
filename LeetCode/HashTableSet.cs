@@ -265,6 +265,43 @@ namespace LeetCode
 
                 return sb.ToString();
             }
+
+            public string GetHint(string secret, string guess)
+            {
+                if (string.IsNullOrEmpty(secret))
+                {
+                    return "0A0B";
+                }
+
+                int a = 0;
+                int b = 0;
+                int[] map = new int[10];
+                for (int i = 0; i < secret.Length; i++)
+                {
+                    var s = secret[i];
+                    var g = guess[i];
+                    if (s == g)
+                    {
+                        a++;
+                    }
+                    else
+                    {
+                        // Number is seen in secret and now is found in guess.
+                        if (map[s - '0']++ < 0)
+                        {
+                            b++;
+                        }
+
+                        // Number is seen in guess and now is found in secret.
+                        if (map[g - '0']-- > 0)
+                        {
+                            b++;
+                        }
+                    }
+                }
+
+                return a + "A" + b + "B";
+            }
         }
 
         public class CharNode : IComparable<CharNode>
