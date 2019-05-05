@@ -1022,5 +1022,73 @@ namespace LeetCode
             return result;
         }
 
+        /// <summary>
+        /// DP + Binary search
+        /// Odd (up): find the smallest value greater than self
+        /// Even (down): find the largest value less than self
+        /// Check how many start index satisfy above rules.
+        /// DP[i][0] up jump
+        /// DP[i][1] down jump
+        ///
+        /// Start from the (n-2)th element
+        /// Find a valid up jump index
+        /// Find a valid down jump index
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public int OddEvenJumps(int[] A)
+        {
+            int N = A.Length;
+            var starting = new bool[N];
+            var evenStarting = new bool[N];
+            starting[N - 1] = true;
+            evenStarting[N - 1] = true;
+            int count = 1;
+            for (int start = N - 2; start >= 0; start--)
+            {
+                int o = OddJump(start, A);
+                int e = EvenJump(start, A);
+                if (o != -1 && evenStarting[o])
+                {
+                    starting[start] = true;
+                    count++;
+                }
+                evenStarting[start] = (e != -1 && starting[e]);
+            }
+            return count;
+        }
+
+        public int OddJump(int i, int[] A)
+        {
+            int v = A[i];
+            int max = 100001;
+            int jmax = -1;
+            for (int j = i + 1; j < A.Length; j++)
+            {
+                if (A[j] >= v && A[j] < max)
+                {
+                    max = A[j];
+                    jmax = j;
+                }
+            }
+            return jmax;
+        }
+
+        public int EvenJump(int i, int[] A)
+        {
+            int v = A[i];
+            int min = -1;
+            int jmin = -1;
+            for (int j = i + 1; j < A.Length; j++)
+            {
+                if (A[j] <= v && A[j] > min)
+                {
+                    min = A[j];
+                    jmin = j;
+                }
+            }
+            return jmin;
+        }
+
     }
 }

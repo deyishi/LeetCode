@@ -302,6 +302,37 @@ namespace LeetCode
 
                 return a + "A" + b + "B";
             }
+
+            public int MinAreaRect(int[][] points)
+            {
+                if (points.Length < 4)
+                {
+                    return 0;
+                }
+
+                var set = new HashSet<int>();
+                foreach (var p in points)
+                {
+                    set.Add(p[0] * 40001 + p[1]);
+                }
+
+                var result = int.MaxValue;
+                for (var i = 0; i < points.Length; i++)
+                {
+                    var p1 = points[i];
+                    for (int j = i + 1; j < points.Length; j++)
+                    {
+                        var p2 = points[j];
+                        if (p1[0] != p2[0] && p1[1] != p2[1] && set.Contains(p1[0] * 40001 + p2[1]) && set.Contains(p2[0] * 40001 + p1[1]))
+                        {
+                            result = Math.Min(result, Math.Abs(p2[0] - p1[0]) * Math.Abs(p2[1] - p1[1]));
+
+                        }
+                    }
+                }
+
+                return result == int.MaxValue ? 0 : result;
+            }
         }
 
         public class CharNode : IComparable<CharNode>
