@@ -12,9 +12,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            int[] r = new int[] { 1, 3, 4, 5, 2 };
-
-            var c = Candy(r);
+            int[] r = new int[] {3,3,4 };
+            int [] m = new int[] {3,4,4};
+            var c = CanCompleteCircuit(r,m);
         }
 
 
@@ -50,6 +50,26 @@ namespace LeetCode
 
             return candyPerChild.Sum();
 
+        }
+
+        public int CanCompleteCircuit(int[] gas, int[] cost)
+        {
+            int start = 0;
+            int debt = 0;
+            int remain = 0;
+            for (int i = 0; i < gas.Length; i++)
+            {
+                remain += gas[i] - cost[i];
+                if (remain < 0)
+                {
+                    // Can reach next station, reset start. Record current total gas
+                    start = i + 1;
+                    debt += remain;
+                    remain = 0;
+                }
+            }
+
+            return remain + debt >= 0 ? start : -1;
         }
     }
 }
