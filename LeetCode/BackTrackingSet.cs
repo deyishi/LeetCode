@@ -568,5 +568,47 @@ namespace LeetCode
 
             return root;
         }
+
+        public string CrackSafe(int n, int k)
+        {
+            var strPwd = string.Join("", Enumerable.Repeat("0", n).ToArray());
+            StringBuilder sbPwd = new StringBuilder(strPwd);
+
+            var visitedComb = new HashSet<string> {strPwd};
+
+            int targetNumVisited = (int)Math.Pow(k, n);
+
+            CrackSafeAfter(sbPwd, visitedComb, targetNumVisited, n, k);
+
+            return sbPwd.ToString();
+        }
+
+        private bool CrackSafeAfter(StringBuilder pwd, HashSet<string> visitedComb, int targetNumVisited, int n, int k)
+        {
+            // Base case: all n-length combinations among digits 0..k-1 are visited. 
+            if (visitedComb.Count == targetNumVisited)
+            {
+                return true;
+            }
+
+            var lastDigits = pwd.ToString().Substring(pwd.Length - n + 1); // Last n-1 digits of pwd.
+            for (char ch = '0'; ch < '0' + k; ch++)
+            {
+                var newComb = lastDigits + ch;
+                if (!visitedComb.Contains(newComb))
+                {
+                    visitedComb.Add(newComb);
+                    pwd.Append(ch);
+                    if (CrackSafeAfter(pwd, visitedComb, targetNumVisited, n, k))
+                    {
+                        return true;
+                    }
+                    visitedComb.Remove(newComb);
+                    pwd.Remove(pwd.Length - 1, 1);
+                }
+            }
+
+            return false;
+        }
     }
 }
