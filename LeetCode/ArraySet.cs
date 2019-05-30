@@ -15,8 +15,9 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-            var n = new[,] { { 6765, 184288, 53874 }, { 13769, 607194, 451649 }, { 43325, 568099, 982005 }, { 47356, 933141, 123943 }, { 59810, 561434, 119381 }, { 75382, 594625, 738524 }, { 111895, 617442, 587304 }, { 143767, 869128, 471633 }, { 195676, 285251, 107127 }, { 218793, 772827, 229219 }, { 316837, 802148, 899966 }, { 329669, 790525, 416754 }, { 364886, 882642, 535852 }, { 368825, 651379, 6209 }, { 382318, 992082, 300642 }, { 397203, 478094, 436894 }, { 436174, 442141, 612149 }, { 502967, 704582, 918199 }, { 503084, 561197, 625737 }, { 533311, 958802, 705998 }, { 565945, 674881, 149834 }, { 615397, 704261, 746064 }, { 624917, 909316, 831007 }, { 788731, 924868, 633726 }, { 791965, 912123, 438310 } };
-            var r = GetSkyline(n);
+          var set = new HashSet<List<int>>();
+          set.Add(new List<int>{1});
+          set.Add(new List<int> { 1 });
 
         }
 
@@ -51,8 +52,9 @@ namespace LeetCode
                 }
 
                 // right to left
-                for (var i = right; i > left;i--) {
-                    result.Add(matrix[bot,i]);
+                for (var i = right; i > left; i--)
+                {
+                    result.Add(matrix[bot, i]);
                 }
 
                 // bot to top
@@ -69,13 +71,16 @@ namespace LeetCode
 
             if (left == right)
             {
-                for (var i = top; i < bot; i++) {
+                for (var i = top; i < bot; i++)
+                {
                     result.Add(matrix[i, left]);
                 }
-            }else if (top == bot)
+            }
+            else if (top == bot)
             {
-                for (var i = left; i < right;i++) {
-                    result.Add(matrix[top,i]);
+                for (var i = left; i < right; i++)
+                {
+                    result.Add(matrix[top, i]);
                 }
             }
 
@@ -113,7 +118,7 @@ namespace LeetCode
             }
             result.Add(newInterval);
             //i stops at the interval where start is > new interval end, not covered by intervals.
-            while (i<intervals.Count)
+            while (i < intervals.Count)
             {
                 result.Add(intervals[i]);
                 i++;
@@ -143,10 +148,11 @@ namespace LeetCode
 
             AddRange(lower, (long)nums[0] - 1, result);
 
-            for (var i = 1; i < nums.Length; i++) {
-                AddRange((long)nums[i-1]+1, (long)nums[i] -1, result);
+            for (var i = 1; i < nums.Length; i++)
+            {
+                AddRange((long)nums[i - 1] + 1, (long)nums[i] - 1, result);
             }
-            AddRange((long)nums[nums.Length -1] + 1, upper, result);
+            AddRange((long)nums[nums.Length - 1] + 1, upper, result);
 
             return result;
         }
@@ -186,17 +192,18 @@ namespace LeetCode
 
             // Use j to track the number after last merge end.
             var j = 0;
-            for (int i = 1; i < nums.Length; i++) {
-                if (nums[i-1]+1 == nums[i])
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (nums[i - 1] + 1 == nums[i])
                 {
                     continue;
                 }
-                AddRange(nums[j], nums[i-1], result);
+                AddRange(nums[j], nums[i - 1], result);
                 j = i;
             }
 
             //Create range from last merge end with last number.
-            AddRange(nums[j], nums[nums.Length -1], result);
+            AddRange(nums[j], nums[nums.Length - 1], result);
 
             return result;
         }
@@ -210,7 +217,7 @@ namespace LeetCode
             }
 
             // Comparator b - a sorting in descending order.
-            n.Sort((a, b) => (int) (long.Parse(b + a) - long.Parse(a + b)));
+            n.Sort((a, b) => (int)(long.Parse(b + a) - long.Parse(a + b)));
             StringBuilder sb = new StringBuilder();
             foreach (var x in n)
             {
@@ -257,14 +264,17 @@ namespace LeetCode
                 if (n == candidate1)
                 {
                     count1++;
-                }else if (n == candidate2)
+                }
+                else if (n == candidate2)
                 {
                     count2++;
-                }else if (count1 == 0)
+                }
+                else if (count1 == 0)
                 {
                     candidate1 = n;
                     count1 = 1;
-                }else if (count2 == 0)
+                }
+                else if (count2 == 0)
                 {
                     candidate2 = n;
                     count2 = 1;
@@ -285,7 +295,8 @@ namespace LeetCode
                 if (n == candidate1)
                 {
                     count1++;
-                }else if (n == candidate2)
+                }
+                else if (n == candidate2)
                 {
                     count2++;
                 }
@@ -322,7 +333,7 @@ namespace LeetCode
             }
 
             int right = 1;
-            for (int i = n-1; i >= 0; i--)
+            for (int i = n - 1; i >= 0; i--)
             {
                 result[i] *= right;
                 right *= nums[i];
@@ -397,7 +408,7 @@ namespace LeetCode
 
             for (int i = 1; i < intervals.Length; i++)
             {
-                if (intervals[i].start < intervals[i-1].end)
+                if (intervals[i].start < intervals[i - 1].end)
                 {
                     return false;
                 }
@@ -425,7 +436,7 @@ namespace LeetCode
             var rooms = 0;
             foreach (var s in start)
             {
-               
+
                 if (s < end[lastMeetingEndIndex])
                 {
                     // Add a room since current meeting starts before last meeting end.
@@ -443,11 +454,12 @@ namespace LeetCode
 
         public void WiggleSort(int[] nums)
         {
-            for (var i = 1; i < nums.Length; i ++) {
-                if ( i % 2 == 1)
+            for (var i = 1; i < nums.Length; i++)
+            {
+                if (i % 2 == 1)
                 {
                     // Even
-                    if (nums[i-1] > nums[i])
+                    if (nums[i - 1] > nums[i])
                     {
                         WiggleSortSwap(nums, i);
                     }
@@ -455,7 +467,7 @@ namespace LeetCode
                 else
                 {
                     //Odd
-                    if (nums[i-1] < nums[i])
+                    if (nums[i - 1] < nums[i])
                     {
                         WiggleSortSwap(nums, i);
                     }
@@ -669,7 +681,7 @@ namespace LeetCode
             Array.Sort(nums);
             var temp = new List<int>(nums);
             var medianIndex = (nums.Length + 1) / 2 - 1;
-            var end = nums.Length -1;
+            var end = nums.Length - 1;
             for (var i = 0; i < nums.Length; i++)
             {
                 //&1 = 1 odd
@@ -679,8 +691,9 @@ namespace LeetCode
 
         public IList<int> TopKFrequent(int[] nums, int k)
         {
-            Dictionary<int,int> f = new Dictionary<int, int>();
-            for (var i = 0; i < nums.Length;i++) {
+            Dictionary<int, int> f = new Dictionary<int, int>();
+            for (var i = 0; i < nums.Length; i++)
+            {
                 if (f.ContainsKey(nums[i]))
                 {
                     f[nums[i]]++;
@@ -702,7 +715,7 @@ namespace LeetCode
                 n[v].Add(key);
             }
 
-            int index = nums.Length-1;
+            int index = nums.Length - 1;
             var result = new List<int>();
             while (index >= 0 && result.Count < k)
             {
@@ -802,7 +815,7 @@ namespace LeetCode
         public IList<int[]> GetSkyline(int[,] buildings)
         {
             List<int[]> result = new List<int[]>();
-            if (buildings== null || buildings.GetLength(0) == 0 || buildings.GetLength(1) == 0)
+            if (buildings == null || buildings.GetLength(0) == 0 || buildings.GetLength(1) == 0)
             {
                 return result;
             }
@@ -825,15 +838,15 @@ namespace LeetCode
             int prevMax = 0;
             foreach (var point in points)
             {
-              
+
                 if (point.IsStart)
                 {
                     heap.Push(point.Y);
-                  
+
                     int curMaxVal = heap.Peek();
                     if (curMaxVal > prevMax)
                     {
-                        result.Add(new[] { point.X, point.Y});
+                        result.Add(new[] { point.X, point.Y });
                         prevMax = curMaxVal;
                     }
                 }
@@ -907,13 +920,155 @@ namespace LeetCode
                 else if (nums1[i] < nums2[j])
                 {
                     i++;
-                }else
+                }
+                else
                 {
                     j++;
                 }
             }
 
             return result.ToArray();
+        }
+        public int[] TwoSum(int[] nums, int target)
+        {
+            if (nums == null || nums.Length == 0)
+            {
+                return new[] { -1, -1 };
+            }
+
+            Dictionary<int, int> map = new Dictionary<int, int>();
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var num = nums[i];
+                var leftover = target - num;
+                if (map.ContainsKey(leftover))
+                {
+                    return new int[] { map[leftover], i };
+                }
+
+                if (!map.ContainsKey(num))
+                {
+                    map.Add(num, i);
+                }
+
+            }
+
+            return new[] { -1, -1 };
+        }
+
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            var result = new List<IList<int>>();
+            if (nums == null || nums.Length < 3)
+            {
+                return result;
+            }
+
+            // Sort then do binary search
+            Array.Sort(nums);
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] > 0)
+                {
+                    // First number can't be positive, since the number after it are all positive.
+                    return result;
+                }
+
+                if (i > 0 && nums[i] == nums[i - 1])
+                {
+                    // Skip duplicate, if 0 and 1 are the same, 1 will be skipped.
+                    continue;
+                }
+
+                var a = nums[i];
+                var left = i + 1;
+                var right = nums.Length - 1;
+                while (left < right)
+                {
+                    var b = nums[left];
+                    var c = nums[right];
+                    var sum = a + b + c;
+                    if (sum == 0)
+                    {
+                        result.Add(new List<int> { a, b, c });
+                        left++;
+                        right--;
+
+                        // Skip duplicate
+                        while (left < right && nums[left] == nums[left - 1])
+                        {
+                            left++;
+                        }
+
+                        while (right > left && nums[right] == nums[right + 1])
+                        {
+                            right--;
+                        }
+                    }
+                    else if (sum > 0)
+                    {
+                        right--;
+                    }
+                    else
+                    {
+                        left++;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            var result = new HashSet<IList<int>>();
+
+            if (nums == null || nums.Length < 4)
+            {
+                return result.ToList();
+            }
+
+            Array.Sort(nums);
+
+            for (var i = 0; i < nums.Length - 3; i++)
+            {
+                var a = nums[i];
+
+                if (a > target)
+                {
+                    return result.ToList();
+                }
+
+                for (int j = i+1; j < nums.Length-2; j++)
+                {
+                    var b = nums[j];
+ 
+                    var left = j + 1;
+                    var right = nums.Length - 1;
+                    while (left < right)
+                    {
+                        var c = nums[left];
+                        var d = nums[right];
+                        var total = a + b + c + d;
+                        if (target == total)
+                        {
+                            result.Add(new List<int> {a, b, c, d});
+
+                            left++;
+                            right--;
+                        }else if (total > target)
+                        {
+                            right--;
+                        }
+                        else
+                        {
+                            left++;
+                        }
+                    }
+                }
+            }
+
+            return result.ToList();
         }
     }
 }
@@ -955,6 +1110,8 @@ public class SkyLinePoint : IComparable<SkyLinePoint>
         // Start point is looked before end point.
         return IsStart ? -1 : 1;
     }
+
+  
 }
 
 public class Interval

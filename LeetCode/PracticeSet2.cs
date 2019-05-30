@@ -489,72 +489,6 @@ namespace LeetCode
             return result;
         }
 
-        [Test]
-        public void ThreeSum()
-        {
-            var n = new int[] {-1, 0, 1, 2, -1, -4};
-
-            var r = ThreeSum(n);
-        }
-        public IList<IList<int>> ThreeSum(int[] nums)
-        {
-            var result = new List<IList<int>>();
-            if (nums == null || nums.Length < 3)
-            {
-                return result;
-            }
-            Array.Sort(nums);
-
-            for (var i = 0; i < nums.Length; i++) {
-                if (nums[i] > 0)
-                {
-                    return result;
-                }
-
-                if (i > 0 && nums[i] == nums[i-1])
-                {
-                    continue;
-                }
-
-                var firstNum = nums[i];
-                var left = i + 1;
-                var right = nums.Length - 1;
-                while (left < right)
-                {
-                    var secondNum = nums[left];
-                    var thirdNum = nums[right];
-                    var currSum = firstNum + secondNum + thirdNum;
-                    if (currSum == 0)
-                    {
-                        result.Add(new List<int> {firstNum, secondNum, thirdNum});
-                        left++;
-                        right--;
-                        //skip duplicates
-                        while (left < right && nums[left] == nums[left-1])
-                        {
-                            left++;
-                        }
-                        while (right > left && nums[right] == nums[right+1])
-                        {
-                            right--;
-                        }
-                    }
-                    else if (currSum < 0)
-                    {
-                        left++;
-                    }
-                    else
-                    {
-                        right--;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-
-
         public int ThreeSumClosest(int[] nums, int target)
         {
 
@@ -591,14 +525,6 @@ namespace LeetCode
             return result;
         }
 
-        [Test]
-        public void FourSum()
-        {
-            var n = new[] {0,0,0,0};
-            var t = 0;
-
-            var r = FourSum(n, t);
-        }
 
         public IList<IList<int>> FourSum(int[] nums, int target)
         {

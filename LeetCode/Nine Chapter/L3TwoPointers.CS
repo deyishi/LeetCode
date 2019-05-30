@@ -37,49 +37,6 @@ namespace LeetCode.Nine_Chapter
             return result;
         }
 
-        [Test]
-        public void TwoSum()
-        {
-            var n = new int[] {3, 2, 4};
-            var r = TwoSum(n, 6);
-        }
-        public int[] TwoSum(int[] nums, int target)
-        {
-            if (nums == null || nums.Length < 2)
-            {
-                return null;
-            }
-
-            var start = 0;
-            var end = nums.Length - 1;
-            while (start <= end)
-            {
-                var sum = nums[start] + nums[end];
-
-
-                if (sum < target)
-                {
-                    start++;
-                }
-                else if (sum > target)
-                {
-                    end--;
-                }
-                else
-                {
-                    return new[] { start + 1, end  +1};
-                }
-            }
-
-            return null;
-        }
-
-        [Test]
-        public void TwoSumSetLessThan()
-        {
-            var a = new int[] {2, 7, 11, 15};
-            var r = TwoSumSetLessThan(a, 24);
-        }
         public int TwoSumSetLessThan(int[] nums, int target)
         {
             if (nums == null || nums.Length < 2)
@@ -333,73 +290,6 @@ namespace LeetCode.Nine_Chapter
             var temp = nums[i];
             nums[i] = nums[j];
             nums[j] = temp;
-        }
-
-        public IList<IList<int>> ThreeSum(int[] nums)
-        {
-            var result = new List<IList<int>>();
-            if (nums == null || nums.Length < 3)
-            {
-                return result;
-            }
-
-            Array.Sort(nums);
-            for (var i = 0; i <= nums.Length - 3; i++) {
-                // No need to continue since the rest of the numbers will be larger than 0.
-                if (nums[i] > 0)
-                {
-                    return result;
-                }
-
-                // Skip duplicate
-                if (i>0 && nums[i] == nums[i-1])
-                {
-                    continue;
-                }
-
-                var start = i + 1;
-                var end = nums.Length - 1;
-                while (start < end)
-                {
-                    var curr = nums[i] + nums[start] + nums[end];
-                    if (curr > 0)
-                    {
-                        end--;
-                    }else if (curr < 0)
-                    {
-                        start++;
-                    }
-                    else
-                    {
-                        result.Add(new List<int> {nums[i], nums[start], nums[end]});
-                        start++;
-                        end--;
-
-                        while (start < end && nums[start] == nums[start-1])
-                        {
-                            start++;
-                        }
-                        while (start < end && nums[end] == nums[end + 1])
-                        {
-                            end++;
-                        }
-
-                    }
-                }
-
-            }
-
-            return result;
-
-        }
-
-        [Test]
-        public void IsSubtree()
-        {
-            var t = new[] {3, 4, 5, 1, 2, 6, 7, 0}.ToTree();
-            var s = new[] { 4, 1, 2 }.ToTree();
-
-            var r = IsSubtree(t, s);
         }
 
         public bool IsSubtree(TreeNode s, TreeNode t)

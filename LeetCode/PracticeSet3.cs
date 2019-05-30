@@ -25,8 +25,8 @@ namespace LeetCode
             var negative = (dividend < 0) ^ (divisor < 0);
 
             //Limit
-            long lDividend = Math.Abs((long) dividend);
-            long lDivisor = Math.Abs((long) divisor);
+            long lDividend = Math.Abs((long)dividend);
+            long lDivisor = Math.Abs((long)divisor);
 
 
             // case 0 
@@ -42,7 +42,7 @@ namespace LeetCode
                 return negative ? int.MinValue : int.MaxValue;
             }
 
-            return negative ? (int) -result : (int) result;
+            return negative ? (int)-result : (int)result;
 
         }
 
@@ -68,7 +68,7 @@ namespace LeetCode
                 long multiple = 1;
                 while (sum << 1 <= lDividend)
                 {
-                    sum  <<= 1;
+                    sum <<= 1;
                     multiple <<= 1;
                 }
                 lDividend -= sum;
@@ -105,7 +105,7 @@ namespace LeetCode
         [Test]
         public void Search()
         {
-            var n = new[] {3, 1};
+            var n = new[] { 3, 1 };
             var r = Search(n, 1);
         }
         public int Search(int[] nums, int target)
@@ -191,7 +191,7 @@ namespace LeetCode
             {
                 // Start at A so we need n--;
                 n--;
-                result = (char) ('A' + n % 26) + result;
+                result = (char)('A' + n % 26) + result;
                 n /= 26;
             }
 
@@ -201,58 +201,6 @@ namespace LeetCode
         public string ConvertToTitleTwo(int n)
         {
             return n == 0 ? "" : ConvertToTitle(--n / 26) + (char)('A' + (n % 26));
-        }
-
-        [Test]
-        public void TwoSum()
-        {
-            var t = new TwoSum();
-
-            t.Add(3);
-            t.Add(5);
-
-            var r = t.Find(6);
-        }
-
-    }
-
-    public class TwoSum
-    {
-
-        private Dictionary<int, int> dict;
-        /** Initialize your data structure here. */
-        public TwoSum()
-        {
-            dict = new Dictionary<int, int>();
-        }
-
-        /** Add the number to an internal data structure.. */
-        public void Add(int number)
-        {
-            if (dict.ContainsKey(number))
-            {
-                dict[number]++;
-            }
-            else
-            {
-                dict.Add(number, 1);
-            }
-        }
-
-        /** Find if there exists any pair of numbers which sum is equal to the value. */
-        public bool Find(int value)
-        {
-            foreach (var num in dict.Keys)
-            {
-                var t = value - num;
-
-                if (t != num && dict.ContainsKey(t) ||  t == num  && dict[t] > 1)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public bool IsValidSudoku(char[,] board)
@@ -280,13 +228,6 @@ namespace LeetCode
             return true;
         }
 
-        [Test]
-        public void CombinationSum()
-        {
-           var n = new []{10, 1, 2, 7, 6, 1, 5};
-            var t = 8;
-            var r = CombinationSum(n, t);
-        }
         public IList<IList<int>> CombinationSum(int[] candidates, int target)
         {
             var result = new List<IList<int>>();
@@ -325,13 +266,6 @@ namespace LeetCode
             }
         }
 
-        [Test]
-        public void Permute()
-        {
-            var n = new[] {1, 2, 3, 4};
-            var r = PermuteTwo(n);
-        }
-
         public IList<IList<int>> Permute(int[] nums)
         {
             var result = new List<IList<int>>();
@@ -364,7 +298,6 @@ namespace LeetCode
                 curr.RemoveAt(curr.Count - 1);
             }
         }
-
 
         public IList<IList<int>> PermuteTwo(int[] nums)
         {
@@ -402,13 +335,6 @@ namespace LeetCode
             nums[n] = temp;
         }
 
-        [Test]
-        public void PermuteUnique()
-        {
-            var n = new int[] { 1,2,2};
-
-            var r = PermuteUnique(n);
-        }
         public IList<IList<int>> PermuteUnique(int[] nums)
         {
             var result = new List<IList<int>>();

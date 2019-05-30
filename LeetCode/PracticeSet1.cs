@@ -264,51 +264,6 @@ namespace LeetCode
             return result[numRows];
         }
 
-
-        [Test]
-        public void TwoSum()
-        {
-            var num = new[] {-1, 0};
-            var t = TwoSum(num,-1);
-        }
-
-        public int[] TwoSum(int[] numbers, int target)
-        {
-                if (numbers == null || numbers.Length < 2)
-                {
-                    return null;
-                }
-
-            var leftPointer = 0;
-            var rightPointer = numbers.Length - 1;
-            while (leftPointer <= rightPointer)
-            {
-                var curr = numbers[leftPointer] + numbers[rightPointer];
-                if (curr < target)
-                {
-                    leftPointer++;
-                }
-                else if(curr > target)
-                {
-                    rightPointer--;
-                }
-                else
-                {
-                    return new[] {leftPointer + 1, rightPointer + 1};
-                }
-            }
-
-            return null;
-        }
-
-
-        [Test]
-        public void MissingNumber()
-        {
-            var num = new int[3];
-            var r = MissingNumber(num);
-        }
-
         public int MissingNumber(int[] nums)
         {
             if (nums == null || nums.Length < 1)
