@@ -15,9 +15,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-          var set = new HashSet<List<int>>();
-          set.Add(new List<int>{1});
-          set.Add(new List<int> { 1 });
+            var t = FourSum(new int[]
+            {
+                0, 0, 0, 0
+            }, 0);
 
         }
 
@@ -1021,42 +1022,48 @@ namespace LeetCode
 
         public IList<IList<int>> FourSum(int[] nums, int target)
         {
-            var result = new HashSet<IList<int>>();
-
-            if (nums == null || nums.Length < 4)
-            {
-                return result.ToList();
-            }
-
+            var result = new List<IList<int>>();
             Array.Sort(nums);
 
             for (var i = 0; i < nums.Length - 3; i++)
             {
-                var a = nums[i];
-
-                if (a > target)
+                if (i != 0 && nums[i] == nums[i - 1])
                 {
-                    return result.ToList();
+                    continue;
                 }
 
-                for (int j = i+1; j < nums.Length-2; j++)
+
+                for (int j = i+1; j < nums.Length; j++)
                 {
-                    var b = nums[j];
- 
+
+                    if (j != i +1 && nums[j] == nums[j - 1])
+                    {
+                        continue;
+                    }
+
                     var left = j + 1;
                     var right = nums.Length - 1;
                     while (left < right)
                     {
-                        var c = nums[left];
-                        var d = nums[right];
-                        var total = a + b + c + d;
-                        if (target == total)
+                        var sum = nums[i] + nums[j] + nums[left] + nums[right];
+                        if (sum == target)
                         {
-                            result.Add(new List<int> {a, b, c, d});
-
+                            result.Add(new List<int> {nums[i], nums[j], nums[left], nums[right]});
                             left++;
                             right--;
-                        }else if (total > target)
+
+                            // Skip duplicate
+                            while (left < right && nums[left] == nums[left - 1])
+                            {
+                                left++;
+                            }
+
+                            while (right > left && nums[right] == nums[right + 1])
+                            {
+                                right--;
+                            }
+                        }
+                        else if (sum > target)
                         {
                             right--;
                         }
@@ -1067,9 +1074,9 @@ namespace LeetCode
                     }
                 }
             }
-
-            return result.ToList();
+            return result;
         }
+
     }
 }
 
