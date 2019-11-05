@@ -15,35 +15,32 @@ namespace LeetCode.Design
             var r = GenerateHash(3);
         }
 
-        public List<int[]> GenerateHash(int n)
+        public List<int[]> GenerateHash(int serverCount)
         {
-            var ret = new List<int[]>();
+            var initialServer = new[] { 0, 359, 1 };
 
-            var range = new[] {0, 359, 1};
-            ret.Add(range);
-            for (int i = 2; i <= n; i++)
+            var servers = new List<int[]> { initialServer };
+
+            for (int serverIndex = 2; serverIndex <= serverCount; serverIndex++)
             {
-                int maxRange = int.MinValue;
-                int index = -1;
-
-                // Find largest interval.
-                for (int j = 0; j < ret.Count; j++)
+                var maxCapacityServerIndex = 0;
+                for (int i = 1; i < servers.Count; i++)
                 {
-                    if (maxRange < ret[j][1] - ret[j][0])
+                    if (servers[i - 1][1] - servers[i - 1][0] < servers[i][1] - servers[i][0])
                     {
-                        maxRange = ret[j][1] - ret[j][0];
-                        index = j;
+                        maxCapacityServerIndex = i;
                     }
                 }
 
-                // Cut the largest interval in half. Assign the other half to new node.
-                int mid = (ret[index][1] + ret[index][0]) / 2;
-                int end = ret[index][1];
-                ret[index][1] = mid;
-                ret.Add(new []{ mid + 1, end, i });
+                var maxCapacityServerEndRange =
+                    (servers[maxCapacityServerIndex][1] - servers[maxCapacityServerIndex][0]) / 2;
+
+                var newServer = new[] { maxCapacityServerEndRange + 1, servers[maxCapacityServerIndex][1], serverIndex };
+                servers[maxCapacityServerIndex][1] = maxCapacityServerEndRange;
+                servers.Add(newServer);
             }
 
-            return ret;
+            return servers;
         }
     }
 }
