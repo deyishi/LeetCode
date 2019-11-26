@@ -15,7 +15,33 @@ namespace LeetCode
         {
             var a = new int[] {100, 4, 200, 1, 3, 2};
 
-            var r = LongestConsecutive(a);
+            var r = LongestConsecutive2(a);
+        }
+
+        public int LongestConsecutive2(int[] nums)
+        {
+            var map = new Dictionary<int, int>();
+            var result = 0;
+            foreach (var n in nums)
+            {
+                if (!map.ContainsKey(n))
+                {
+
+                    var leftBound = map.ContainsKey(n - 1) ? map[n - 1] : 0;
+                    var rightBound = map.ContainsKey(n + 1) ? map[n + 1] : 0;
+
+                    var curr = leftBound + rightBound + 1;
+                    map.Add(n, curr);
+
+                    result = Math.Max(result, curr);
+
+                    //Update two ends
+                    map[n - leftBound] = curr;
+                    map[n + rightBound]= curr;
+                }
+            }
+
+            return result;
         }
 
         public int LongestConsecutive(int[] nums)
