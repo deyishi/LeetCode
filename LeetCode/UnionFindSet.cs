@@ -98,6 +98,55 @@ namespace LeetCode
             return r;
         }
 
+        [Test]
+        public void EarliestAcq()
+        {
+            var stamps = new FriendStamp[]
+            {
+                new FriendStamp(20181201, 0, 3),
+                new FriendStamp(20190101, 0, 1),
+                new FriendStamp(20190104, 3, 4),
+                new FriendStamp(20190107, 2, 3),
+                new FriendStamp(20190211, 1, 5),
+                new FriendStamp(20190224, 2, 4),
+                new FriendStamp(20190312, 1, 2),
+                new FriendStamp(20190322, 4, 5),
+            };
+
+            var n = 6;
+            var r = EarliestAcq(stamps, 6);
+
+        }
+
+        public int EarliestAcq(FriendStamp[] stamps, int n)
+        {
+            var u = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                u[i] = i;
+            }
+            var circle = n;
+            var sort = stamps.OrderBy(x => x.Time);
+            foreach (var stamp in sort)
+            {
+                var root1 = Find(u, stamp.A);
+                var root2 = Find(u, stamp.B);
+                if (root1 != root2)
+                {
+                    u[root1] = root2;
+                    circle--;
+                }
+
+                if (circle ==1 )
+                {
+                    return stamp.Time;
+                }
+
+            }
+
+            return -1;
+        }
+
         public int Find(int[] a, int i)
         {
             while (a[i] != i)
@@ -107,5 +156,19 @@ namespace LeetCode
 
             return a[i];
         }
+    }
+
+    public class FriendStamp
+    {
+        public FriendStamp(int time, int a, int b)
+        {
+            Time = time;
+            A = a;
+            B = b;
+        }
+
+        public int Time { get; set; }
+        public int A { get; set; }
+        public int B { get; set; }
     }
 }
