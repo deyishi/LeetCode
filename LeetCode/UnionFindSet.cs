@@ -15,7 +15,63 @@ namespace LeetCode
         {
             var a = new int[] {100, 4, 200, 1, 3, 2};
 
-            var r = LongestConsecutive2(a);
+            int[][] edges = new int[][]{new []{1,2}, new []{1,3}, new []{2,4}};
+            var r = FindRedundantConnection(edges);
+        }
+
+        public int[] FindRedundantConnection(int[][] edges)
+        {
+            int[] set = new int[1001];
+            int[] rank = new int[1001];
+            for (int i = 0; i < set.Length; i++)
+            {
+                set[i] = i;
+            }
+
+            foreach (int[] edge in edges)
+            {
+                int x = edge[0];
+                int y = edge[1];
+                if (!Union(set, rank, x, y))
+                {
+                    return edge;
+                }
+            }
+            return null;
+        }
+
+        public bool Union(int[] set, int[] rank, int x, int y)
+        {
+            int xroot = FindRoot(set, x);
+            int yroot = FindRoot(set, y);
+            if (xroot == yroot)
+            {
+                return false; // 2,3 will return false
+            }
+
+            if (rank[xroot] == rank[yroot])
+            {
+                set[yroot] = xroot;
+                rank[xroot]++;
+            }
+            else if (rank[xroot] > rank[yroot])
+            {
+                set[yroot] = xroot;
+            }
+            else
+            {
+                set[xroot] = yroot;
+            }
+            return true;
+        }
+
+        public int FindRoot(int[] set, int x)
+        {
+            while (set[x] != x)
+            {
+                x = set[x];
+            }
+            return x;
         }
 
         public int LongestConsecutive2(int[] nums)

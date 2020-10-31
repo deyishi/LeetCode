@@ -13,7 +13,10 @@ namespace LeetCode
         [Test]
         public void Test()
         {
-   
+            int[] a = { 5, 7, 4, 2, 8, 1, 6 };
+
+            int k = 3;
+            var res = MaximizeSum(a, k);
         }
 
         /// <summary>
@@ -34,7 +37,8 @@ namespace LeetCode
             {
                 for (var i = 0; i < triangle[level].Count; i++)
                 {
-                    triangle[level][i] = Math.Min(triangle[level + 1][i], triangle[level + 1][i + 1]) + triangle[level][i];
+                    triangle[level][i] = Math.Min(triangle[level + 1][i], triangle[level + 1][i + 1]) +
+                                         triangle[level][i];
                 }
             }
 
@@ -63,6 +67,7 @@ namespace LeetCode
             {
                 set.Add(w);
             }
+
             var dp = new bool[s.Length + 1];
             dp[0] = true;
             // I is the substring length.
@@ -197,6 +202,7 @@ namespace LeetCode
 
             return Math.Max(evenSum, oddSum);
         }
+
         // Use dp to track i-2 + current (steal from i-2 house plus current) and i-1 (steal from previous house).
         public int RobTwo(int[] nums)
         {
@@ -263,6 +269,7 @@ namespace LeetCode
                 rob = notRob + nums[j];
                 notRob = temp;
             }
+
             return Math.Max(rob, notRob);
         }
 
@@ -525,6 +532,7 @@ namespace LeetCode
             {
                 dp[i] = int.MaxValue;
             }
+
             dp[0] = 0;
             for (var i = 1; i <= n; i++)
             {
@@ -894,6 +902,7 @@ namespace LeetCode
             {
                 result[i] = result[i / 2] + i % 2;
             }
+
             return result;
         }
 
@@ -961,9 +970,11 @@ namespace LeetCode
                             min = Math.Min(min, costs[i - 1, k]);
                         }
                     }
+
                     costs[i, j] += min;
                 }
             }
+
             int n = costs.GetLength(0) - 1;
 
             var result = int.MaxValue;
@@ -1019,6 +1030,7 @@ namespace LeetCode
 
                 }
             }
+
             return result;
         }
 
@@ -1053,8 +1065,10 @@ namespace LeetCode
                     starting[start] = true;
                     count++;
                 }
+
                 evenStarting[start] = (e != -1 && starting[e]);
             }
+
             return count;
         }
 
@@ -1071,6 +1085,7 @@ namespace LeetCode
                     jmax = j;
                 }
             }
+
             return jmax;
         }
 
@@ -1087,8 +1102,38 @@ namespace LeetCode
                     jmin = j;
                 }
             }
+
             return jmin;
         }
 
+        public int MaximizeSum(int[] a, int k)
+        {
+            int n = a.Length;
+            //Let dp[n][k] represents the max subarray sum with problem size n and number of subarray k
+            int[,] dp = new int[n + 1, k + 1];
+            for (int j = 0; j < n + 1; j++)
+            {
+                for (int i = 0; i < k + 1; i++)
+                {
+                    dp[j,i] = int.MinValue;
+                }
+            }
+
+            dp[0, 0] = 0;
+            for (int numOfSubArray = 1; numOfSubArray <= k; numOfSubArray++)
+            {
+                for (int problemSize = numOfSubArray; problemSize <= n; problemSize++)
+                {
+                    int lastSubArrayMin = int.MaxValue;
+                    for (int i = problemSize; i > 0; i--)
+                    {
+                        lastSubArrayMin = Math.Min(lastSubArrayMin, a[i - 1]);
+                        dp[problemSize, numOfSubArray] = Math.Max(dp[problemSize, numOfSubArray], dp[i - 1, numOfSubArray - 1] + lastSubArrayMin);
+                    }
+                }
+            }
+
+            return dp[n, k];
+        }
     }
 }
