@@ -75,6 +75,7 @@
     <Compile Include="DataModel\ListNode.cs" />
     <Compile Include="DataModel\MyLinkedList.cs" />
     <Compile Include="DataModel\TreeNode.cs" />
+    <Compile Include="DataModel\WordSquare.cs" />
     <Compile Include="DataModel\ZigzagIterator.cs" />
     <Compile Include="DepthFirstSearchSet.cs" />
     <Compile Include="Design\ConsistentHashing.cs" />
