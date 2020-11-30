@@ -16,7 +16,7 @@ namespace LeetCode
             int[] a = { 5, 7, 4, 2, 8, 1, 6 };
 
             int k = 3;
-            var res = MaxCoins(new int[] { 3, 1, 10 });
+            var res = CoinChange(5, new int[] { 1,2,5 });
         }
 
         /// <summary>
@@ -1184,6 +1184,21 @@ namespace LeetCode
             }
             v[l][r] = true;
             return dp[l][r];
+        }
+
+        public int CoinChange(int amount, int[] coins)
+        {
+            int[] dp = new int[amount + 1];
+            dp[0] = 1;
+            foreach (int coin in coins)
+            {
+                for (int i = coin; i <= amount; i++)
+                {
+                    dp[i] += dp[i - coin];
+
+                }
+            }
+            return dp[amount];
         }
     }
 }
