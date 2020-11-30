@@ -105,6 +105,10 @@
     <Compile Include="SortSet.cs" />
     <Compile Include="StackSet.cs" />
     <Compile Include="StringSet.cs" />
+    <Compile Include="System Design\Design Parking Lot\ParkingSpot.cs" />
+    <Compile Include="System Design\Design Parking Lot\ParkingLot.cs" />
+    <Compile Include="System Design\Design Parking Lot\ParkingTicket.cs" />
+    <Compile Include="System Design\Design Parking Lot\Vehicle.cs" />
     <Compile Include="TwoPointersSet.cs" />
     <Compile Include="UnionFindSet.cs" />
     <Compile Include="LinkedListSet.cs" />
@@ -125,6 +129,7 @@
   <ItemGroup>
     <Content Include="Notes\Progress.txt" />
     <Content Include="Notes\Notes.txt" />
+    <Content Include="System Design\Design Parking Lot\Note.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,35 @@
+﻿Design a parking lot
+Size of slot
+Rate per size 
+Number of entrance
+Number of floors
+Number of lot
+
+Class
+Parking Lot
+Spot
+Cars
+
+What should include in a ticket?
+	vehicle liscense plate,
+	time of entry,
+	parking spot id,
+	id for tracking
+
+Allacation of parking to user
+	Are there different types of parking?
+		Small, medium, large..
+	How is parking spot decided?
+		Are there different entrances?
+		Are there different floors?
+
+What is logic of generating price?
+	
+Scale:
+Number of parking spots in one parking lot
+number of floors * number of spots per floor
+
+ParkingLotService
+
+User go to parking service, either exit or enter.
+

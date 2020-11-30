@@ -16,7 +16,7 @@ namespace LeetCode
             int[] a = { 5, 7, 4, 2, 8, 1, 6 };
 
             int k = 3;
-            var res = MaximizeSum(a, k);
+            var res = MaxCoins(new int[] { 3, 1, 10 });
         }
 
         /// <summary>
@@ -1115,7 +1115,7 @@ namespace LeetCode
             {
                 for (int i = 0; i < k + 1; i++)
                 {
-                    dp[j,i] = int.MinValue;
+                    dp[j, i] = int.MinValue;
                 }
             }
 
@@ -1134,6 +1134,56 @@ namespace LeetCode
             }
 
             return dp[n, k];
+        }
+
+        public int MaxCoins(int[] nums)
+        {
+            int n = nums.Length;
+            int[][] dp = new int[n + 2][];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = new int[n + 2];
+            }
+
+            bool[][] v = new bool[n + 2][];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                v[i] = new bool[n + 2];
+            }
+
+            int[] arr = new int[n + 2];
+            for (int i = 1; i <= n; i++)
+            {
+                arr[i] = nums[i - 1];
+            }
+
+            arr[0] = 1;
+            arr[n + 1] = 1;
+
+
+            return MaxCoinsSearch(1, n, dp, v, arr);
+        }
+
+        public int MaxCoinsSearch(int l, int r, int[][] dp, bool[][] v, int[] arr)
+        {
+
+            if (v[l][r])
+            {
+                return dp[l][r];
+            }
+
+            dp[l][r] = 0;
+            for (int k = l; k <= r; k++)
+            {
+                int mid = arr[l - 1] * arr[k] * arr[r + 1];
+                int left = MaxCoinsSearch(l, k - 1, dp, v, arr);
+                int right = MaxCoinsSearch(k + 1, r, dp, v, arr);
+
+                dp[l][r] = Math.Max(dp[l][r], left + mid + right);
+
+            }
+            v[l][r] = true;
+            return dp[l][r];
         }
     }
 }
